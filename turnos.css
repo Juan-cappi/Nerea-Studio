@@ -1,0 +1,266 @@
+:root {
+    --color-fondo: #f4eee8;
+    --color-texto: #2c2520;
+    --color-primario: #5a4b41;
+    --color-blanco: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: rgba(244, 238, 232, 0.95);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--color-texto);
+    margin-left: 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+nav a.active {
+    color: var(--color-primario);
+    font-weight: bold;
+}
+
+/* Container */
+.container-turnos {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-size: 28px;
+    text-align: center;
+}
+
+.subtitulo {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #666;
+}
+
+/* Formulario selectores */
+.selectores-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.control-select {
+    display: flex;
+    flex-direction: column;
+}
+
+.control-select label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.control-select select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: var(--color-blanco);
+    border-radius: 4px;
+    font-size: 15px;
+    color: var(--color-texto);
+    outline: none;
+}
+
+/* Grilla de Agenda */
+.agenda-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: var(--color-blanco);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.calendario-dummy h3, .horarios-dummy h3 {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    color: var(--color-primario);
+    border-bottom: 1px solid var(--color-fondo);
+    padding-bottom: 8px;
+}
+
+/* Calendario */
+/* Grilla del calendario ajustada a 5 columnas (Martes a Sábado) */
+.grid-dias {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Reducido de 7 a 5 */
+    gap: 8px;
+    text-align: center;
+}
+
+.dia-nombre {
+    font-weight: bold;
+    font-size: 12px;
+    padding: 5px 0;
+    text-transform: uppercase;
+}
+
+.dia-numero {
+    padding: 10px 0;
+    background-color: var(--color-fondo);
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* REGLA CLAVE: Fuerza al día 1 a empezar en la cuarta columna (Viernes) 
+   dentro de nuestra grilla de 5 días comerciales */
+.inicio-mayo {
+    grid-column-start: 4;
+}
+
+.dia-numero:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.dia-numero.selected {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    font-weight: bold;
+}
+.dia-numero:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.dia-numero.selected {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    font-weight: bold;
+}
+
+.dia-numero.disabled {
+    background-color: transparent;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Horarios */
+.grid-horas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.hora-btn {
+    padding: 10px;
+    background-color: var(--color-fondo);
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.hora-btn:hover {
+    background-color: var(--color-texto);
+    color: var(--color-blanco);
+}
+
+.hora-btn.selected {
+    background-color: var(--color-texto);
+    color: var(--color-blanco);
+    font-weight: bold;
+}
+
+/* Botón Confirmar */
+.btn-confirmar-container {
+    grid-column: span 2;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-confirmar {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-confirmar:hover {
+    background-color: #443830;
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 40px 5%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 14px;
+    margin-top: 60px;
+}
+
+.footer-col {
+    margin-bottom: 20px;
+    min-width: 200px;
+}
+
+.footer-col h4 {
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    header { flex-direction: column; gap: 15px; }
+    nav a { margin: 0 10px; }
+    .selectores-group { grid-template-columns: 1fr; }
+    .agenda-block { grid-template-columns: 1fr; }
+    .btn-confirmar-container { grid-column: span 1; }
+}

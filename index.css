@@ -1,0 +1,201 @@
+:root {
+    --color-fondo: #f4eee8;
+    --color-texto: #2c2520;
+    --color-primario: #5a4b41;
+    --color-blanco: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: rgba(244, 238, 232, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--color-texto);
+    margin-left: 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
+nav a:hover, nav a.active {
+    color: var(--color-primario);
+    font-weight: bold;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 5%;
+    min-height: 70vh;
+}
+
+.hero-text {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.hero-text h1 {
+    font-size: 48px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    color: var(--color-primario);
+}
+
+.hero-text p {
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+.btn-reserva {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-reserva:hover {
+    background-color: #443830;
+}
+
+.hero-image {
+    flex: 1;
+    text-align: right;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Esencia y Pilares */
+.esencia {
+    padding: 80px 5%;
+    background-color: var(--color-blanco);
+    text-align: center;
+}
+
+.esencia h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.esencia-p {
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    font-size: 16px;
+}
+
+.pilares {
+    display: flex;                
+    justify-content: space-between; 
+    gap: 20px;                     
+    margin-top: 40px;
+    flex-wrap: wrap; 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.pilar-card1 {
+    padding: 30px;
+    background-color: var(--color-fondo);
+    border-radius: 10px;
+    text-align: left;
+    
+}
+
+.pilar-card2 {
+    padding: 30px;
+    background-color: var(--color-fondo);
+    border-radius: 6px;
+    text-align: center;
+}
+.pilar-card3 {
+    padding: 30px;
+    background-color: var(--color-fondo);
+    border-radius: 6px;
+    text-align: left;
+}
+.pilar-card h3 {
+    margin-bottom: 15px;
+    color: var(--color-primario);
+}
+
+.pilar-card1, .pilar-card2, .pilar-card3 {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 40px 5%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 14px;
+}
+
+.footer-col {
+    margin-bottom: 20px;
+    min-width: 200px;
+}
+
+.footer-col h4 {
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    header { flex-direction: column; gap: 15px; }
+    nav a { margin: 0 10px; }
+    .hero { flex-direction: column-reverse; text-align: center; padding-top: 20px; }
+    .hero-text { padding-right: 0; margin-top: 30px; }
+    .hero-text h1 { font-size: 36px; }
+}
