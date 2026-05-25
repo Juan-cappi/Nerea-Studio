@@ -4,33 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nerea Studio - Tu cabello, tu historia</title>
-    <link rel="stylesheet" href="index.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-
     <header>
         <div class="logo">Nerea</div>
         <nav>
-            <a href="index.html" class="active">Inicio</a>
+            <a href="{{ route('home') }}" class="active">Inicio</a>
             <a href="#">Servicios</a>
-            <a href="turnos.html">Turnos</a>
+            <a href="{{ route('turnos') }}">Turnos</a>
             <a href="#">Nosotros</a>
             <a href="#">Log In</a>
         </nav>
     </header>
-
     <main>
         <section class="hero">
             <div class="hero-text">
                 <h1>Nerea</h1>
                 <p>TU CABELLO, TU HISTORIA</p>
-                <a href="turnos.html" class="btn-reserva">Reserva tu turno</a>
+                <a href="{{ route('turnos') }}" class="btn-reserva">Reserva tu turno</a>
             </div>
             <div class="hero-image">
                 <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80" alt="Nerea Studio">
             </div>
         </section>
-
         <section class="esencia">
             <h2>Nuestra Esencia</h2>
                 <p class="esencia-p">EN NUESTRO SALÓN CREEMOS QUE CADA
@@ -55,16 +52,14 @@
                                                     DIAGNÓSTICO HASTA EL RESULTADO FINAL, PARA
                                                     QUE TE LLEVES NO SOLO UN CAMBIO, SINO
                                                     TAMBIÉN UNA SENSACIÓN..</p>
-                                                          
+        </section>
             <section class="pilar">
             <h2>Nuestros Pilares</h2>
             <div class="pilares">
-
                 <div class="pilar-card1">
                     <h3>Excelencia Técnica</h3>
                     <p>Expertos apasionados por la colorimetría y el corte de precisión.</p>
                 </div>
-
                 <div class="pilar-card2">
                     <h3>Entorno Consciente</h3>
                     <p>Un salón diseñado bajo una estética minimalista para brindarte calma y exclusividad.</p>
@@ -77,7 +72,6 @@
             </div>
         </section>
     </main>
-
     <footer>
         <div class="footer-col">
             <h4>Nerea Studio</h4>
@@ -91,6 +85,5 @@
             <p>nerea@email.com</p>
         </div>
     </footer>
-
 </body>
 </html>

@@ -159,7 +159,7 @@ nav a:hover, nav a.active {
     border-radius: 6px;
     text-align: left;
 }
-.pilar-card h3 {
+.pilar-card1 h3, .pilar-card2 h3, .pilar-card3 h3 {
     margin-bottom: 15px;
     color: var(--color-primario);
 }

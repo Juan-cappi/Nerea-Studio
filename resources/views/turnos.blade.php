@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserva tu Turno - Nerea Studio</title>
-    <link rel="stylesheet" href="turnos.css">
+    @vite(['resources/css/turnos.css', 'resources/js/turnos.js'])
 </head>
 <body>
 
     <header>
         <div class="logo">Nerea</div>
         <nav>
-            <a href="index.html">Inicio</a>
+            <a href="{{ route('home') }}">Inicio</a>
             <a href="#">Servicios</a>
-            <a href="turnos.html" class="active">Turnos</a>
+            <a href="{{ route('turnos') }}" class="active">Turnos</a>
             <a href="#">Nosotros</a>
             <a href="#">Log In</a>
         </nav>
@@ -152,7 +152,7 @@
 
             alert(`✨ ¡Turno Procesado! ✨\n\n✂️ Servicio: ${servicio}\n👩‍🦱 Estilista: ${profesional}\n📅 Fecha: ${diaSeleccionado} de Mayo\n⏰ Horario: ${horaSeleccionada} hs.\n\nAl presionar aceptar, proseguirás a la pantalla de Inicio.`);
             
-            window.location.href = "index.html";
+            window.location.href = "{{ route('home') }}";
         });
     </script>
 
