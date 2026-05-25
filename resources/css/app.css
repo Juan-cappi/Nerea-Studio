@@ -128,6 +128,13 @@ nav a:hover, nav a.active {
     font-size: 16px;
 }
 
+
+.pilar{
+    padding: 60px 5%;
+    background-color: var(--color-fondo);
+    border-radius: 10px;
+}
+
 .pilares {
     display: flex;                
     justify-content: space-between; 
@@ -143,7 +150,7 @@ nav a:hover, nav a.active {
     padding: 30px;
     background-color: var(--color-fondo);
     border-radius: 10px;
-    text-align: left;
+    text-align: center;
     
 }
 
@@ -157,7 +164,7 @@ nav a:hover, nav a.active {
     padding: 30px;
     background-color: var(--color-fondo);
     border-radius: 6px;
-    text-align: left;
+    text-align: center;
 }
 .pilar-card1 h3, .pilar-card2 h3, .pilar-card3 h3 {
     margin-bottom: 15px;

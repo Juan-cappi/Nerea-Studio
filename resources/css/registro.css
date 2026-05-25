@@ -1,0 +1,265 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+:root {
+    --cream:      #f5f0eb;
+    --warm-white: #fdfaf7;
+    --gold:       #c9a96e;
+    --gold-light: #e0c99a;
+    --text-dark:  #3a3530;
+    --text-mid:   #7a6f65;
+    --text-light: #b5a99a;
+    --border:     #e8e0d6;
+    --shadow:     rgba(58, 53, 48, 0.08);
+}
+ 
+body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+ 
+/* ── NAV ── */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+.logo-circle {
+    width: 48px; height: 48px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+.logo-circle span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gold);
+    font-weight: 600;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 300;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    transition: color .2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.btn-login {
+    display: flex; align-items: center; gap: 8px;
+    border: 1.5px solid var(--text-dark);
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    transition: all .2s;
+}
+.btn-login:hover { background: var(--text-dark); color: #fff; }
+ 
+/* ── MAIN LAYOUT ── */
+main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 89px);
+}
+ 
+/* Left: hero image */
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+.hero img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+}
+ 
+/* Right: form panel */
+.form-panel {
+    background: var(--warm-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 80px;
+}
+.form-card {
+    width: 100%;
+    max-width: 420px;
+}
+.form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 600;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 4px;
+}
+.form-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 36px;
+}
+ 
+/* ── INPUTS ── */
+.input-group {
+    position: relative;
+    margin-bottom: 16px;
+}
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-size: 16px;
+    pointer-events: none;
+}
+.input-group input {
+    width: 100%;
+    padding: 16px 16px 16px 46px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--warm-white);
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+.input-group input::placeholder { color: var(--text-light); }
+.input-group input:focus {
+    border-color: var(--gold-light);
+    box-shadow: 0 0 0 3px rgba(201,169,110,0.12);
+}
+.input-group.has-toggle input { padding-right: 80px; }
+.toggle-pass {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-light);
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+}
+.toggle-pass:hover { color: var(--gold); }
+ 
+/* Validation states */
+.input-group input.is-invalid { border-color: #e74c3c; }
+.input-group input.is-valid   { border-color: #27ae60; }
+ 
+/* ── ERRORS ── */
+.error-msg {
+    font-size: 12px;
+    color: #c0392b;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+ 
+/* ── SUBMIT BUTTON ── */
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    margin-top: 8px;
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-mid);
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all .25s;
+}
+.btn-submit:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #fff;
+}
+ 
+/* ── FOOTER LINKS ── */
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-light);
+    font-weight: 300;
+}
+.form-footer a {
+    color: var(--text-mid);
+    text-decoration: none;
+    transition: color .2s;
+}
+.form-footer a:hover { color: var(--gold); }
+ 
+/* ── DIVIDER ── */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 20px;
+}
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+.divider span {
+    font-size: 12px;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+ 
+/* ── SOCIAL BUTTONS ── */
+.social-btns {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+.social-btn {
+    width: 46px; height: 46px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    color: var(--text-mid);
+    font-size: 18px;
+    transition: all .2s;
+}
+.social-btn:hover { border-color: var(--gold); color: var(--gold); }
+ 
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    main { grid-template-columns: 1fr; }
+    .hero { display: none; }
+    .form-panel { padding: 40px 24px; }
+}

@@ -14,7 +14,7 @@
             <a href="#">Servicios</a>
             <a href="{{ route('turnos') }}">Turnos</a>
             <a href="#">Nosotros</a>
-            <a href="#">Log In</a>
+            <a href="{{ route('login') }}">Log In</a>
         </nav>
     </header>
     <main>
