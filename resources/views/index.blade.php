@@ -7,16 +7,18 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-    <header>
-        <div class="logo">Nerea</div>
-        <nav>
-            <a href="{{ route('home') }}" class="active">Inicio</a>
-            <a href="#">Servicios</a>
-            <a href="{{ route('turnos') }}">Turnos</a>
-            <a href="#">Nosotros</a>
-            <a href="{{ route('login') }}">Log In</a>
-        </nav>
-    </header>
+<header>
+        <a href="{{ url('/') }}" class="logo">
+        <div class="logo-circle"><span>N</span></div>
+    <nav>
+        </a>
+        <a href="{{ route('home') }}">Inicio</a>
+        <a href="#">Servicios</a>
+        <a href="{{ route('turnos') }}">Turnos</a>
+        <a href="#">Nosotros</a>
+        <a href="{{ route('login') }}">Log In</a>
+    </nav>
+</header>
     <main>
         <section class="hero">
             <div class="hero-text">
@@ -25,7 +27,7 @@
                 <a href="{{ route('turnos') }}" class="btn-reserva">Reserva tu turno</a>
             </div>
             <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80" alt="Nerea Studio">
+                <img src="{{ asset('Login.jpg') }}" alt="Nerea Estudio">
             </div>
         </section>
         <section class="esencia">

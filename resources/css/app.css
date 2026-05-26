@@ -3,6 +3,15 @@
     --color-texto: #2c2520;
     --color-primario: #5a4b41;
     --color-blanco: #ffffff;
+    --cream:      #f5f0eb;
+    --warm-white: #fdfaf7;
+    --gold:       #c9a96e;
+    --gold-light: #e0c99a;
+    --text-dark:  #3a3530;
+    --text-mid:   #7a6f65;
+    --text-light: #b5a99a;
+    --border:     #e8e0d6;
+    --shadow:     rgba(58, 53, 48, 0.08);
 }
 
 * {
@@ -23,7 +32,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 5%;
+    padding: 25px ;
     background-color: rgba(244, 238, 232, 0.95);
     position: sticky;
     top: 0;
@@ -31,10 +40,21 @@ header {
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+.logo-circle {
+    width: 48px; height: 48px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+.logo-circle span {
+    font-size: 18px;
+    color: var(--gold);
+    font-weight: 600;
 }
 
 nav a {

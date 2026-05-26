@@ -12,23 +12,19 @@
     --shadow:     rgba(58, 53, 48, 0.08);
 }
  
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-    font-family: 'Jost', sans-serif;
-    background: var(--cream);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
 }
- 
-/* ── NAV ── */
-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 60px;
-    background: var(--warm-white);
-    border-bottom: 1px solid var(--border);
-}
+
 .logo {
     display: flex;
     align-items: center;
@@ -42,36 +38,37 @@ nav {
     display: flex; align-items: center; justify-content: center;
 }
 .logo-circle span {
-    font-family: 'Cormorant Garamond', serif;
     font-size: 18px;
     color: var(--gold);
     font-weight: 600;
 }
-.nav-links { display: flex; gap: 40px; list-style: none; }
-.nav-links a {
+
+nav a {
     text-decoration: none;
-    color: var(--text-dark);
-    font-weight: 300;
-    font-size: 15px;
-    letter-spacing: 0.5px;
-    transition: color .2s;
-}
-.nav-links a:hover { color: var(--gold); }
-.btn-login {
-    display: flex; align-items: center; gap: 8px;
-    border: 1.5px solid var(--text-dark);
-    border-radius: 20px;
-    padding: 8px 20px;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-decoration: none;
-    color: var(--text-dark);
+    color: var(--color-texto);
+    margin-left: 20px;
+    font-size: 14px;
+    align-items: center;
+    text-align: center;
     text-transform: uppercase;
-    transition: all .2s;
+    letter-spacing: 1px;
+    transition: color 0.3s;
 }
-.btn-login:hover { background: var(--text-dark); color: #fff; }
- 
+
+nav a:hover, nav a.active {
+    color: var(--color-primario);
+    font-weight: bold;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px ;
+    background-color: rgba(244, 238, 232, 0.95);
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 /* ── MAIN LAYOUT ── */
 main {
     flex: 1;

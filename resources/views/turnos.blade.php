@@ -8,16 +8,18 @@
 </head>
 <body>
 
-    <header>
-        <div class="logo">Nerea</div>
-        <nav>
-            <a href="{{ route('home') }}">Inicio</a>
-            <a href="#">Servicios</a>
-            <a href="{{ route('turnos') }}" class="active">Turnos</a>
-            <a href="#">Nosotros</a>
-            <a href="{{ route('login') }}">Log In</a>
-        </nav>
-    </header>
+ <header>
+        <a href="{{ url('/') }}" class="logo">
+        <div class="logo-circle"><span>N</span></div>
+    <nav>
+        </a>
+        <a href="{{ route('home') }}">Inicio</a>
+        <a href="#">Servicios</a>
+        <a href="{{ route('turnos') }}">Turnos</a>
+        <a href="#">Nosotros</a>
+        <a href="{{ route('login') }}">Log In</a>
+    </nav>
+</header>
 
     <main class="container-turnos">
         <h1>Reserva tu Turno</h1>

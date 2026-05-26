@@ -10,21 +10,21 @@
 <body>
 
 <header>
-    <nav>
         <a href="{{ url('/') }}" class="logo">
-            <div class="logo-circle"><span>N</span></div>
+        <div class="logo-circle"><span>N</span></div>
+    <nav>
         </a>
         <a href="{{ route('home') }}">Inicio</a>
         <a href="#">Servicios</a>
         <a href="{{ route('turnos') }}">Turnos</a>
         <a href="#">Nosotros</a>
-        <a href="{{ route('register') }}">Registrate</a>
+        <a href="{{ route('login') }}">Log In</a>
     </nav>
 </header>
 
 <main>
     <div class="hero">
-        <img src="{{ asset('images/nerea-hero.jpg') }}" alt="Nerea Spa">
+        <img src="{{ asset('Login.jpg') }}" alt="Nerea Spa">
     </div>
 
     <div class="form-panel">
