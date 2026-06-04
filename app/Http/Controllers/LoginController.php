@@ -28,6 +28,13 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        $user = Auth::user();
+
+        return match($user->role){
+            'administrador'   => redirect()->route('admin.dashboard'),
+            'recepcionista'   => redirect()->route('recepcionista.dashboard'),
+            'cliente'         => redirect()->route('turnos'),
+            'default'         => redirect()->route('turnos'),
+        };
     }
 }

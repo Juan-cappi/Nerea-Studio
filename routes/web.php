@@ -26,9 +26,7 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->name('register.store');
 
-Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
-Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
-Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -41,5 +39,13 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
+
+Route::get('admin/dashboard', function(){
+    return view('admin.dashboard');
+})->middleware(['auth'])->name('admin.dashboard');
+
+Route::get('recepcionista/dashboard', function(){
+    return view('recepcionista.dashboard');
+})->middleware(['auth'])->name('recepcionista.dashboard');
 
 require __DIR__.'/auth.php';

@@ -1,0 +1,1 @@
+<h1>Panel recepcionista</h1>
