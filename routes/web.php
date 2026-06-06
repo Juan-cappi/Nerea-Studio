@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\ProfesionalController;
+use App\Http\Controllers\RecepcionistaController;
+use App\Models\Profesional;
+use App\Models\Recepcionista;
 
 Route::get('/', function () {
     return view('index');
@@ -41,11 +44,21 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('admin/dashboard', function(){
-    return view('admin.dashboard');
+    $totalRecepcionistas = \App\Models\Recepcionista::count();
+    $totalProfesionales = \App\Models\Profesional::count();
+    $profesionales = Profesional::all();
+    $recepcionistas = Recepcionista::all();
+   
+    return view('admin.dashboard', compact('totalRecepcionistas', 'totalProfesionales', 'profesionales', 'recepcionistas'));
 })->middleware(['auth'])->name('admin.dashboard');
 
 Route::get('recepcionista/dashboard', function(){
     return view('recepcionista.dashboard');
 })->middleware(['auth'])->name('recepcionista.dashboard');
+
+Route::resource('profesionales', ProfesionalController::class)
+    ->middleware(['auth']);
+Route::resource('recepcionistas', RecepcionistaController::class)
+    ->middleware(['auth']);
 
 require __DIR__.'/auth.php';
