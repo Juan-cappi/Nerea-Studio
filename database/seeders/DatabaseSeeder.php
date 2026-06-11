@@ -18,15 +18,20 @@ class DatabaseSeeder extends Seeder
 
         // Genera 30 turnos aleatorios en la base de datos al toque
         \App\Models\Turno::factory(30)->create();
+        
+        /*
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);*/
 
-
-
+        /* lOGICA VIEJA DE ROLES 
         $roles = ['admin','recepcionista', 'cliente'];
         foreach($roles as $name){
             role::create([
                 'name' => $name
             ]);
-        }
+        }*/
 
 
     }

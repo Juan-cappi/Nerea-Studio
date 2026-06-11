@@ -13,7 +13,7 @@
             background: #f9f5f0;
         }
         .sidebar {
-            width: 200px;
+            width: 220px;
             background: #fff;
             padding: 2rem 1rem;
             display: flex;
@@ -155,10 +155,15 @@
 
     {{-- Sidebar --}}
     <aside class="sidebar">
-        <a href="#"><span class="icon">👤</span> Panel</a>
-        <a href="#"><span class="icon">✅</span> Profesionales</a>
-        <a href="#"><span class="icon">✅</span> Panel</a>
-        <a href="#"><span class="icon">👤</span> Clientes</a>
+    <a href="{{ route('admin.dashboard') }}">📊 Panel General</a>
+    <a href="{{ route('profesionales.index') }}">💇‍♂️ Gestionar Profesionales</a>
+    <a href="{{ route('recepcionistas.index') }}">📞 Gestionar Recepcionistas</a>
+    <a href="#" class="disabled">👥 Clientes</a>
+    <a href="#" class="disabled">💰 Precios y Servicios</a>
+    <form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button type="submit" class="btn-accion" style="border: none; cursor: pointer; background-color: #333; color: white;" > 🚪 Cerrar Sesión </button>
+    </form>
     </aside>
 
     {{-- Contenido --}}
