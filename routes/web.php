@@ -17,6 +17,10 @@ Route::get('/turnos', function () {
     return view('turnos');
 })->name('turnos');
 
+Route::get('/servicios', function () {
+    return view('servicios');
+})->name('servicios');
+
 Route::redirect('/registro', '/register');
 
 Route::get('/login', [LoginController::class, 'create'])

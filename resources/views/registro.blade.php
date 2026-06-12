@@ -15,7 +15,7 @@
     </a>
     <nav>
         <a href="{{ route('home') }}">Inicio</a>
-        <a href="#">Servicios</a>
+        <a href="{{ route('servicios') }}">Servicios</a>
         <a href="{{ route('turnos') }}">Turnos</a>
         <a href="#">Nosotros</a>
         <a href="{{ route('login') }}">Log In</a>
@@ -51,7 +51,7 @@
                     <p class="error-msg">{{ $message }}</p>
                 @enderror
 
-                <!-- Email -->
+                
                 <div class="input-group">
                     <span class="input-icon">✉️</span>
                     <input
@@ -67,7 +67,7 @@
                     <p class="error-msg">{{ $message }}</p>
                 @enderror
 
-                <!-- Contraseña -->
+                
                 <div class="input-group has-toggle">
                     <span class="input-icon">🔒</span>
                     <input
@@ -84,7 +84,7 @@
                     <p class="error-msg">{{ $message }}</p>
                 @enderror
 
-                <!-- Confirmar Contraseña -->
+                
                 <div class="input-group has-toggle">
                     <span class="input-icon">🔐</span>
                     <input
