@@ -34,7 +34,6 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
     ->name('register.store');
 
 
-
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -64,5 +63,16 @@ Route::resource('profesionales', ProfesionalController::class)
     ->middleware(['auth']);
 Route::resource('recepcionistas', RecepcionistaController::class)
     ->middleware(['auth']);
+
+ROute::get('/perfil', function() {
+    $turnos = \App\Models\turno::where('user_id', auth()->id())
+                ->orderBy('fecha', 'asc')
+                ->orderBy('hora', 'asc')
+                ->get();
+    $proximos = $turnos ->where('fecha', '>=', now()->format('Y-m-d'));
+    $historial = $turnos ->where('fecha', '>=', now()->format('Y-m-d'));
+
+    return view('cliente.perfil', compact('proximos','historial'));
+})->middleware('auth')->name('cliente.perfil');
 
 require __DIR__.'/auth.php';

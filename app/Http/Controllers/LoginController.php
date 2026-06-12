@@ -33,8 +33,9 @@ class LoginController extends Controller
         return match($user->role){
             'administrador'   => redirect()->route('admin.dashboard'),
             'recepcionista'   => redirect()->route('recepcionista.dashboard'),
-            'cliente'         => redirect()->route('turnos'),
-            'default'         => redirect()->route('turnos'),
+            'cliente'         => redirect()->route('cliente.perfil'),
+            'default'         => redirect()->route('dashboard'),
         };
+
     }
 }

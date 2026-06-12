@@ -1,0 +1,269 @@
+/* ==========================================================================
+   ESTILOS PERFIL CLIENTE - INTEGRADO CON LA ESTÉTICA DE NEREA SPA
+   ========================================================================== */
+
+:root {
+    --color-fondo: #f4eee8;
+    --color-texto: #2c2520;
+    --color-primario: #5a4b41;
+    --color-blanco: #ffffff;
+    --cream:      #f5f0eb;
+    --warm-white: #fdfaf7;
+    --gold:       #c9a96e;
+    --gold-light: #e0c99a;
+    --text-dark:  #3a3530;
+    --text-mid:   #7a6f65;
+    --text-light: #b5a99a;
+    --border:     #e8e0d6;
+    --shadow:     rgba(58, 53, 48, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+/* 🧭 Header idéntico al tuyo */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+    align-items: center;
+    background-color: rgba(244, 238, 232, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.logo-circle {
+    width: 48px; height: 48px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.logo-circle span {
+    font-size: 18px;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.logo-texto {
+    font-size: 16px;
+    color: var(--color-texto);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+nav a, .btn-logout {
+    text-decoration: none;
+    color: var(--color-texto);
+    margin-left: 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: inherit;
+}
+
+nav a:hover, nav a.active, .btn-logout:hover {
+    color: var(--color-primario);
+    font-weight: bold;
+}
+
+/* 🏢 Estructura de Contenedor */
+.container-perfil {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Encabezado de Bienvenida minimalista */
+.welcome-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.welcome-container h1 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-size: 28px;
+    color: var(--color-texto);
+}
+
+.welcome-container p {
+    color: var(--text-mid);
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Botón Nuevo Turno (con la facha de tus botones principales) */
+.btn-nuevo-turno {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 13px;
+    transition: background 0.3s;
+}
+
+.btn-nuevo-turno:hover {
+    background-color: #443830;
+}
+
+/* 📅 Bloques de Paneles (Copian la estructura de tu .agenda-block) */
+.perfil-block {
+    background: var(--color-blanco);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.perfil-block h3 {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    color: var(--color-primario);
+    border-bottom: 1px solid var(--color-fondo);
+    padding-bottom: 8px;
+}
+
+/* Fila o Tarjeta de Turno Activo */
+.card-turno-cliente {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--color-fondo);
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.card-turno-cliente .info-turno h4 {
+    font-size: 15px;
+    color: var(--color-texto);
+    margin-bottom: 4px;
+}
+
+.card-turno-cliente .info-turno p {
+    font-size: 13px;
+    color: var(--text-mid);
+}
+
+/* Botón Cancelar Sutil */
+.btn-cancelar-turno {
+    padding: 8px 16px;
+    background-color: var(--color-blanco);
+    color: #a54040;
+    border: 1px solid #e0baba;
+    border-radius: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancelar-turno:hover {
+    background-color: #a54040;
+    color: var(--color-blanco);
+    border-color: #a54040;
+}
+
+/* Estado Vacío */
+.texto-vacio {
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+    padding: 15px 0;
+    font-size: 14px;
+}
+
+/* 📋 Tabla de Historial adaptada a tu paleta */
+.tabla-contenedor-perfil {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla-perfil {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabla-perfil th {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--border);
+}
+
+.tabla-perfil td {
+    padding: 14px 12px;
+    font-size: 14px;
+    color: var(--text-mid);
+    border-bottom: 1px solid var(--color-fondo);
+}
+
+/* Footer idéntico al tuyo */
+footer {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 40px 5%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 14px;
+    margin-top: 60px;
+}
+
+.footer-col {
+    margin-bottom: 20px;
+    min-width: 200px;
+}
+
+.footer-col h4 {
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    header { flex-direction: column; gap: 15px; }
+    nav a, .btn-logout { margin: 0 10px; }
+    .card-turno-cliente { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .btn-cancelar-turno { width: 100%; text-align: center; }
+}

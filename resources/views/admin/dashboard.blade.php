@@ -29,9 +29,9 @@
     <aside class="sidebar">
     <a href="{{ route('admin.dashboard') }}">📊 Panel General</a>
     <a href="{{ route('profesionales.index') }}">💇‍♂️ Gestionar Profesionales</a>
-    <a href="{{ route('recepcionistas.index') }}">📞 Gestionar Recepcionistas</a>
+    <a href="{{ route('recepcionista.dashboard') }}">📞 Gestionar Recepcionistas</a>
     <a href="#" class="disabled">👥 Clientes</a>
-    <a href="#" class="disabled">💰 Precios y Servicios</a>
+    <a href="/servicios" class="disabled">💰 Precios y Servicios</a>
     <form action="{{ route('logout') }}" method="POST">
     @csrf
     <button type="submit" class="btn-accion" style="border: none; cursor: pointer; background-color: #333; color: white;" > 🚪 Cerrar Sesión </button>
