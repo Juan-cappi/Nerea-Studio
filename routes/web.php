@@ -8,6 +8,8 @@ use App\Http\Controllers\ProfesionalController;
 use App\Http\Controllers\RecepcionistaController;
 use App\Models\Profesional;
 use App\Models\Recepcionista;
+use App\Http\Controllers\TurnoController;
+
 
 Route::get('/', function () {
     return view('index');
@@ -16,6 +18,7 @@ Route::get('/', function () {
 Route::get('/turnos', function () {
     return view('turnos');
 })->name('turnos');
+Route::post('/turnos', [TurnoController::class, 'store'])->name('turnos.store');
 
 Route::get('/servicios', function () {
     return view('servicios');
@@ -70,9 +73,12 @@ ROute::get('/perfil', function() {
                 ->orderBy('hora', 'asc')
                 ->get();
     $proximos = $turnos ->where('fecha', '>=', now()->format('Y-m-d'));
-    $historial = $turnos ->where('fecha', '>=', now()->format('Y-m-d'));
+    $historial = $turnos ->where('fecha', '<', now()->format('Y-m-d'));
 
     return view('cliente.perfil', compact('proximos','historial'));
 })->middleware('auth')->name('cliente.perfil');
+
+Route::post('/turnos', [TurnoController::class, 'store'])->middleware('auth')->name('turnos.store');
+
 
 require __DIR__.'/auth.php';

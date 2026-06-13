@@ -11,13 +11,14 @@ class Turno extends Model
 
     protected $table = 'turnos';
 
-    protected $fillable = [
-        'user_id',
-        'servicio',
-        'profesional',
-        'fecha',
-        'hora',
-    ];
+    // Registramos solo las tres columnas reales para evitar trabas de asignación
+   protected $fillable = [
+    'user_id',
+    'servicio',
+    'profesional',
+    'fecha',
+    'hora',
+];
 
     public function user()
     {
