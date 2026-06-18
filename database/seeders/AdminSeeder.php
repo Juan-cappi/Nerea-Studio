@@ -24,5 +24,13 @@ class AdminSeeder extends Seeder
             'role'          => 'administrador',
         ]);   
 
+        $recepcion = User::updateOrCreate(
+            ['email'         => 'recepcion@gmail.com'],
+            [
+            'name'          => 'Recepcionista',
+            'password'      => Hash::make('artemis123'),
+            'role'          => 'recepcionista',
+        ]);
+
     }
 }
