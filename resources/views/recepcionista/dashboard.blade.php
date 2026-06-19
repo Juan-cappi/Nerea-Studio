@@ -18,17 +18,19 @@
             <a href="{{ route('turnos') }}">Turnos</a>
             <a href="#">Nosotros</a>
 
+            <!-- 🔐 CONTROL DE ACCESO ADAPTATIVO -->
             @auth
-                @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador'))
+                @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
                     
-                @elseif(auth()->user()->roles->contains('name', 'recepcionista'))
+                @elseif(auth()->user()->roles->contains('name', 'recepcionista') || auth()->user()->role === 'recepcionista')
                     <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
                     
                 @else
                     <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>
                 @endif
 
+                <!-- Botón de Cerrar Sesión -->
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
                     @csrf
                     <button type="submit" class="btn-logout" style="background: none; border: none; color: var(--color-texto); text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-left: 20px; cursor: pointer; font-family: inherit;">Cerrar Sesión</button>

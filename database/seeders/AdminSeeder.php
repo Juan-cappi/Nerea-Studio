@@ -13,24 +13,34 @@ class AdminSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {   
-        
-        User::updateOrCreate(
-            ['email'         => 'nerea@gmail.com'],
+public function run(): void
+    {
+        // 1. Se crea o actualiza el Administrador
+        $admin = User::updateOrCreate(
+            ['email'          => 'nerea@gmail.com'],
             [
-            'name'          => 'Administrador',
-            'password'      => Hash::make('artemis123'),
-            'role'          => 'administrador',
-        ]);   
+                'name'        => 'Administrador',
+                'password'    => Hash::make('artemis123'),
+                'role'        => 'administrador',
+            ]
+        );
 
+        // 2. Se crea o actualiza la Recepcionista
         $recepcion = User::updateOrCreate(
-            ['email'         => 'recepcion@gmail.com'],
+            ['email'          => 'recepcion@nerea.com'],
             [
-            'name'          => 'Recepcionista',
-            'password'      => Hash::make('artemis123'),
-            'role'          => 'recepcionista',
-        ]);
+                'name'        => 'Recepcionista Nerea',
+                'password'    => Hash::make('12345678'),
+                'role'        => 'recepcionista',
+            ]
+        );
 
+   
+        $rolAdmin = \App\Models\role::updateOrCreate(['name' => 'admin']);
+        $rolRecepcion = \App\Models\role::updateOrCreate(['name' => 'recepcionista']);
+
+        $admin->roles()->syncWithoutDetaching([$rolAdmin->id]);
+        $recepcion->roles()->syncWithoutDetaching([$rolRecepcion->id]);
     }
 }
+

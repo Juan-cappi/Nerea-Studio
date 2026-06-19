@@ -8,7 +8,6 @@
 
 .lado-imagen-salon {
     flex: 1.2; /* Le da un poco más de peso a la foto, como en tu WhatsApp */
-    background-image: url('/services/corte.jpg'); /* Asegurate de que la foto esté en public/services/corte.jpg */
     background-size: cover;
     background-position: center;
     filter: grayscale(100%);

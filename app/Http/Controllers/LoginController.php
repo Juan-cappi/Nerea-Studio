@@ -30,12 +30,18 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
-        return match($user->role){
-            'administrador'   => redirect()->route('admin.dashboard'),
-            'recepcionista'   => redirect()->route('recepcionista.dashboard'),
-            'cliente'         => redirect()->route('cliente.perfil'),
-            'default'         => redirect()->route('dashboard'),
-        };
+  
+        
+        if ($user->role === 'administrador' || $user->role === 'admin' || ($user->roles && ($user->roles->contains('name', 'admin') || $user->roles->contains('name', 'administrador')))) {
+            return redirect()->route('admin.dashboard');
+        }
+
+
+        if ($user->role === 'recepcionista' || ($user->roles && $user->roles->contains('name', 'recepcionista'))) {
+            return redirect()->route('recepcionista.dashboard');
+        }
+
+        return redirect()->route('cliente.perfil');
 
     }
 }

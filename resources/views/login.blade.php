@@ -49,6 +49,12 @@
             <div class="form-title">Nerea</div>
             <div class="form-subtitle">Iniciá sesión</div>
 
+            @if(url()->previous() && str_contains(url()->previous(), 'turnos'))
+             <div style="background-color: #faf8f5; color: #5a4b41; padding: 12px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #e8e0d6; font-size: 14px; text-align: center;">
+                 🔒 Para poder reservar un turno en Nerea Spa, necesitas iniciar sesión o registrarte primero.
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('login.store') }}">
                 @csrf
 
