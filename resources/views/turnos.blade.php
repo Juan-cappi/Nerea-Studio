@@ -107,7 +107,14 @@
                         <label><input type="radio" name="hora" value="18:00">18:00</label>
                         <label><input type="radio" name="hora" value="19:00">19:00</label>
                     </div>
-
+                    <div class="aviso-pago-seguro" style="background-color: #fcf8f2; border-left: 4px solid #d4af37; padding: 15px; border-radius: 6px; margin: 20px 0; font-family: inherit; text-align: left;">
+                        <p style="margin: 0 0 5px 0; font-weight: 600; color: #333; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                            🔒 Reserva Asegurada (Seña del 20%)
+                        </p>
+                        <p style="margin: 0; color: #666; font-size: 13px; line-height: 1.4;">
+                            Para garantizar tu lugar en el salón, se solicita el pago de una <strong>seña del 20%</strong> mediante Mercado Pago. El monto restante se cancelará en el local el día del servicio.
+                        </p>
+                    </div>
                     <button type="submit" class="btn-confirmar">Confirmar Turno</button>
                 </form>
 
