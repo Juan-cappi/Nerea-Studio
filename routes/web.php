@@ -15,9 +15,8 @@ Route::get('/', function () {
     return view('index');
 })->name('home');
 
-Route::get('/turnos', function () {
-    return view('turnos');
-})->name('turnos');
+Route::get('/turnos', [TurnoController::class, 'create'])->name('turnos');
+Route::get('/turnos/ocupados', [TurnoController::class, 'obtenerOcupados'])->name('turnos.ocupados');
 Route::post('/turnos', [TurnoController::class, 'store'])->name('turnos.store');
 
 Route::get('/servicios', function () {

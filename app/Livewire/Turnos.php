@@ -23,6 +23,34 @@ class Turnos extends Component
         'horaSeleccionada' => 'required',
     ];
 
+// 1. Agregá esta propiedad arriba de todo en la clase junto a las demás
+public $horasOcupadas = [];
+
+// 2. Agregá este método dentro de la clase para buscar las horas reservadas
+public function actualizarHorasOcupadas()
+{
+    if ($this->diaSeleccionado && $this->mesActual && $this->anioActual) {
+        // Armamos la fecha exacta formateada YYYY-MM-DD
+        $fechaFormateada = $this->anioActual . '-' . 
+                           str_pad($this->mesActual, 2, '0', STR_PAD_LEFT) . '-' . 
+                           str_pad($this->diaSeleccionado, 2, '0', STR_PAD_LEFT);
+
+        // Buscamos en la base de datos las horas que YA están tomadas para esa fecha
+        $this->horasOcupadas = \App\Models\Turno::where('fecha', $fechaFormateada)
+            ->pluck('hora')
+            ->toArray(); // Esto te devuelve un array simple, ej: ['09:00', '14:30']
+    } else {
+        $this->horasOcupadas = [];
+    }
+}
+
+// 3. Para que Livewire reaccione en tiempo real, agregamos los hooks de actualización.
+// Si cambia el día seleccionado, actualizamos la lista
+public function updatedDiaSeleccionado()
+{
+    $this->actualizarHorasOcupadas();
+}
+
     public function mount()
     {
         // Inicialización si es necesaria

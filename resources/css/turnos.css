@@ -131,7 +131,7 @@
 
 .lado-imagen-salon {
     flex: 1.2;
-    background-image: url('/services/corte.jpg'); /* Apunta directo a tu carpeta public/services/corte.jpg */
+    background-image: url('/img/corte.jpg');
     background-size: cover;
     background-position: center;
     filter: grayscale(100%); /* Deja la foto en blanco y negro exacto como tu captura */

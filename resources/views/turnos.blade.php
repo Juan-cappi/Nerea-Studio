@@ -15,7 +15,7 @@
                 <span>N</span>
             </div>
         </a>
-<nav>
+        <nav>
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('turnos') }}">Turnos</a>
@@ -32,7 +32,6 @@
                     <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>
                 @endif
 
-                <!-- Botón de Cerrar Sesión -->
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
                     @csrf
                     <button type="submit" class="btn-logout" style="background: none; border: none; color: var(--color-texto); text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-left: 20px; cursor: pointer; font-family: inherit;">Cerrar Sesión</button>
@@ -45,9 +44,8 @@
 
     <main class="split-screen-container">
         
-    <div class="lado-imagen-salon">
-    <!-- Ponemos la etiqueta de la imagen apuntando a la carpeta public/img -->
-    <img src="{{ asset('img/spa-turnos.jpeg') }}" alt="Nerea Spa" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        <div class="lado-imagen-salon">
+            <img src="{{ asset('img/spa-turnos.jpeg') }}" alt="Nerea Spa" style="width: 100%; height: 100%; object-fit: cover; display: block;">
         </div>
 
         <div class="lado-formulario-turno">
@@ -58,14 +56,13 @@
                 <form action="{{ route('turnos.store') }}" method="POST">
                     @csrf
                  
-             <!-- 🚨 CARTEL DE ERRORES (Aparece acá arriba si el turno ya está ocupado) -->
-                  @if ($errors->any())
-            <div class="alert-errores-spa" style="background-color: #fce8e6; color: #a54040; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f7d4d1; font-family: inherit; font-size: 14px; font-weight: 500;">
-            @foreach ($errors->all() as $error)
-               <p style="margin: 0;">⚠️ {{ $error }}</p>
-            @endforeach
-        </div>
-            @endif
+                    @if ($errors->any())
+                        <div class="alert-errores-spa" style="background-color: #fce8e6; color: #a54040; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f7d4d1; font-family: inherit; font-size: 14px; font-weight: 500;">
+                            @foreach ($errors->all() as $error)
+                               <p style="margin: 0;">⚠️ {{ $error }}</p>
+                            @endforeach
+                        </div>
+                    @endif
 
                     <input type="text" name="nombre_completo" placeholder="Nombre Completo" class="campo-input-unico" value="{{ old('nombre_completo') }}" required>
                     
@@ -79,14 +76,24 @@
                         <option value="4">Nutrición</option>
                     </select>
 
-                    <p class="titulo-seccion-turno">Selecciona un día</p>
+                    <p class="titulo-seccion-turno">Selecciona un día de {{ \Carbon\Carbon::now()->translatedFormat('F') }}</p>
                     <div class="dias-horizontales">
-                        <label><input type="radio" name="fecha" value="2026-06-16" required><span>Mar</span>16</label>
-                        <label><input type="radio" name="fecha" value="2026-06-17"><span>Mié</span>17</label>
-                        <label><input type="radio" name="fecha" value="2026-06-18"><span>Jue</span>18</label>
-                        <label><input type="radio" name="fecha" value="2026-06-19"><span>Vie</span>19</label>
-                        <label><input type="radio" name="fecha" value="2026-06-20"><span>Sáb</span>20</label>
-                        <label><input type="radio" name="fecha" value="2026-06-23"><span>Mar</span>23</label>
+                        @php
+                            $hoy = \Carbon\Carbon::now();
+                            $ultimoDiaMes = \Carbon\Carbon::now()->endOfMonth()->day;
+                        @endphp
+
+                        @for ($dia = $hoy->day; $dia <= $ultimoDiaMes; $dia++)
+                            @php
+                                $fechaBucle = \Carbon\Carbon::create($hoy->year, $hoy->month, $dia);
+                                $nombreDia = $fechaBucle->translatedFormat('D');
+                            @endphp
+                    
+                            <label>
+                                <input type="radio" name="fecha" value="{{ $fechaBucle->format('Y-m-d') }}" required>
+                                <span>{{ ucfirst($nombreDia) }}</span>{{ $dia }}
+                            </label>
+                        @endfor
                     </div>
 
                     <p class="titulo-seccion-turno">Selecciona la hora</p>
@@ -107,53 +114,53 @@
             </div>
         </div>
     </main>
-    <script>
-    // 1. Recibimos el array de turnos ocupados que armamos en el TurnoController
-    const turnosOcupados = @json($turnosOcupados ?? []);
+</body>
+</html>
 
-    // 2. Capturamos todos los botones de fecha y hora del formulario
-    const radiosFecha = document.querySelectorAll('input[name="fecha"]');
-    const radiosHora = document.querySelectorAll('input[name="hora"]');
-
-    function filtrarHorarios() {
-        // Vemos cuál es la fecha que el usuario tiene seleccionada ahora mismo
+<script>
+    function actualizarHorarios() {
         const fechaSeleccionada = document.querySelector('input[name="fecha"]:checked')?.value;
-        
         if (!fechaSeleccionada) return;
 
-        // Recorremos las horas una por una
-        radiosHora.forEach(radio => {
-            const horaValue = radio.value;
-            // Armamos la combinacion idéntica a la del controlador (Ej: 2026-06-19_10:00)
-            const combinacion = `${fechaSeleccionada}_${horaValue}`;
-            const label = radio.closest('label'); // Buscamos el <label> que envuelve al radio
+        // Le preguntamos al controlador qué horas están tomadas para esa fecha
+        fetch(`/turnos/ocupados?fecha=${fechaSeleccionada}`)
+            .then(res => res.json())
+            .then(horasOcupadas => {
+                const radiosHora = document.querySelectorAll('input[name="hora"]');
+                
+                // Hora actual por si es el día de hoy
+                const ahora = new Date();
+                const fechaHoy = `${ahora.getFullYear()}-${String(ahora.getMonth() + 1).padStart(2, '0')}-${String(ahora.getDate()).padStart(2, '0')}`;
+                const horaActual = `${String(ahora.getHours()).padStart(2, '0')}:${String(ahora.getMinutes()).padStart(2, '0')}`;
 
-            if (turnosOcupados.includes(combinacion)) {
-                // 🔒 SI ESTÁ OCUPADO: Lo deshabilitamos y lo tachamos visualmente
-                radio.disabled = true;
-                radio.checked = false; 
-                if (label) {
-                    label.style.opacity = '0.3';
-                    label.style.textDecoration = 'line-through';
-                    label.style.pointerEvents = 'none'; 
-                }
-            } else {
-                // 🔓 SI ESTÁ LIBRE: Lo dejamos totalmente activo
-                radio.disabled = false;
-                if (label) {
-                    label.style.opacity = '1';
-                    label.style.textDecoration = 'none';
-                    label.style.pointerEvents = 'auto';
-                }
-            }
-        });
+                radiosHora.forEach(radio => {
+                    const horaValue = radio.value;
+                    const label = radio.closest('label');
+
+                    const estaOcupado = horasOcupadas.includes(horaValue);
+                    const yaPaso = (fechaSeleccionada === fechaHoy && horaValue <= horaActual);
+
+                    if (estaOcupado || yaPaso) {
+                        radio.disabled = true;
+                        radio.checked = false;
+                        if (label) label.style.display = 'none'; // Desaparece si está ocupado
+                    } else {
+                        radio.disabled = false;
+                        if (label) label.style.display = ''; // Reaparece centrado con tu CSS original
+                    }
+                });
+            });
     }
 
-    // Le decimos a los botones de fecha que ejecuten la función cada vez que cambien
-    radiosFecha.forEach(radio => {
-        radio.addEventListener('change', filtrarHorarios);
-    });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Cada vez que cambien de fecha, ejecutamos la consulta al servidor
+        document.addEventListener('change', function (e) {
+            if (e.target && e.target.name === 'fecha') {
+                actualizarHorarios();
+            }
+        });
 
-    // Lo corremos apenas carga la página por si ya viene una fecha marcada
-    document.addEventListener('DOMContentLoaded', filtrarHorarios);
+        // Ejecutar al cargar la página por primera vez
+        actualizarHorarios();
+    });
 </script>
