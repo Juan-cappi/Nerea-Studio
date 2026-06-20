@@ -67,8 +67,8 @@ Route::resource('profesionales', ProfesionalController::class)
 Route::resource('recepcionistas', RecepcionistaController::class)
     ->middleware(['auth']);
 
-ROute::get('/perfil', function() {
-    $turnos = \App\Models\turno::where('user_id', auth()->id())
+Route::get('/perfil', function() {
+    $turnos = \App\Models\Turno::where('user_id', auth()->id())
                 ->orderBy('fecha', 'asc')
                 ->orderBy('hora', 'asc')
                 ->get();
@@ -78,7 +78,7 @@ ROute::get('/perfil', function() {
     return view('cliente.perfil', compact('proximos','historial'));
 })->middleware('auth')->name('cliente.perfil');
 
-Route::post('/turnos', [TurnoController::class, 'store'])->middleware('auth')->name('turnos.store');
+
 
 
 require __DIR__.'/auth.php';

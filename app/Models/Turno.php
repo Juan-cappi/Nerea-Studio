@@ -19,7 +19,6 @@ class Turno extends Model
     'fecha',
     'hora',
 ];
-
     public function user()
     {
         return $this->belongsTo(User::class);

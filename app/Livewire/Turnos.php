@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\Turno;
 use Livewire\Component;
 use Carbon\Carbon;
-use App\Models\Turno;
+
 
 class Turnos extends Component
 {
