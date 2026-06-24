@@ -9,9 +9,8 @@
 <body>
 
 <header>
-    <a href="{{ url('/') }}" class="brand-link">
+    <a href="{{ url('/') }}" class="logo">
         <div class="logo-circle"><span>N</span></div>
-        <span class="brand-name">NEREA STUDIO</span>
     </a>
 <nav>
             <a href="{{ route('home') }}">Inicio</a>
