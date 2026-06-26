@@ -45,6 +45,25 @@
             background: #f9f5f0;
             box-sizing: border-box;
         }
+                select.campo-input-unico {
+            width: 100%;
+            height: 45px; /* Ajustalo al alto de tus otros campos */
+            padding: 10px;
+            border: 1px solid #e8ddd4;
+            border-radius: 6px;
+            background-color: #f9f5f0;
+            color: #5a4b41;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            appearance: none; /* ◄ CLAVE: Elimina la flecha fea por defecto del navegador */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            /* Podés sumarle una flechita sutil de fondo si querés */
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='%235a4b41' d='M0 3l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
         .error {
             color: #c0392b;
             font-family: 'Montserrat', sans-serif;
@@ -114,9 +133,14 @@
                 @error('telefono') <div class="error">{{ $message }}</div> @enderror
             </div>
             <div class="input-group">
-                <label>Especialidad</label>
-                <input type="text" name="especialidad" value="{{ old('especialidad') }}" placeholder="Peinador/a">
-                @error('especialidad') <div class="error">{{ $message }}</div> @enderror
+                <label for="especialidad_id">Especialidad</label>
+                <select name="especialidad_id" id="especialidad_id" class="campo-input-unico">
+                    <option value="" disabled selected>Seleccioná una especialidad</option>
+                    <option value="1">Peluquero/a</option>
+                    <option value="2">Colorista</option>
+                    <option value="3">Peinador/a</option>
+                    <option value="4">Asistente</option>
+                </select>
             </div>
 
             <button type="submit" class="btn-submit">Guardar Profesional</button>
