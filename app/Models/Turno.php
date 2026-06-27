@@ -11,16 +11,28 @@ class Turno extends Model
 
     protected $table = 'turnos';
 
-    // Registramos solo las tres columnas reales para evitar trabas de asignación
-   protected $fillable = [
-    'user_id',
-    'servicio',
-    'profesional',
-    'fecha',
-    'hora',
-];
+    protected $fillable = [
+        'user_id',
+        'servicio',
+        'profesional',
+        'fecha',
+        'hora',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // ✂️ Relación para el servicio (usamos 'service' para que no choque con la columna 'servicio')
+    public function service()
+    {
+        return $this->belongsTo(Servicio::class, 'servicio');
+    }
+
+    // 💇‍♂️ Relación para el profesional (usamos 'professional' para que no choque con la columna 'profesional')
+    public function professional()
+    {
+        return $this->belongsTo(Profesional::class, 'profesional');
     }
 }

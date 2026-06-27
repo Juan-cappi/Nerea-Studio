@@ -58,21 +58,38 @@
         <div class="perfil-block">
             <h3>Tus próximos turnos</h3>
             
-            @forelse($proximos as $turno)
-                <div class="card-turno-cliente">
-                    <div class="info-turno">
-                        <h4>{{ $turno->servicio }}</h4>
-                        <p>🧑‍🎨 Profesional: <strong>{{ $turno->profesional }}</strong></p>
-                        <p>📆 {{ \Carbon\Carbon::parse($turno->fecha)->format('d/m/Y') }} - {{ $turno->hora }} hs</p>
-                    </div>
+            @foreach($proximos as $turno)
+                  <div class="card-turno" style="display: flex; justify-content: space-between; align-items: center; background: #faf8f5; padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #e8e0d6;">
                     <div>
-                        <button class="btn-cancelar-turno">Cancelar</button>
+                        <h4 style="margin: 0 0 8px 0; color: #3a3028; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">
+                            ✨ {{ $turno->service->nombre ?? 'Servicio no encontrado' }}
+                        </h4>
+                        <p style="margin: 0; font-size: 13px; color: #6b5c4e;">
+                            💇‍♂️ Profesional: <strong>{{ $turno->professional->nombre ?? 'No asignado' }}</strong>
+                        </p>
+                        <p style="margin: 5px 0 0 0; font-size: 13px; color: #9c8470;">
+                            📅 {{ \Carbon\Carbon::parse($turno->fecha)->format('d/m/Y') }} - {{ $turno->hora }} hs
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <!-- ✏️ BOTÓN MODIFICAR -->
+                        <a href="{{ route('cliente.turnos.edit', $turno->id) }}" style="background-color: #6b5c4e; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: 500;">
+                            MODIFICAR
+                        </a>
+
+                        <!-- ❌ BOTÓN CANCELAR -->
+                        <form action="{{ route('cliente.turnos.cancel', $turno->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que querés cancelar este turno?');" style="margin: 0;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background-color: #fff; color: #a94442; border: 1px solid #a94442; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 500;">
+                                CANCELAR
+                            </button>
+                        </form>
                     </div>
                 </div>
-            @empty
-                <p class="texto-vacio">No tenés turnos programados en este momento.</p>
-            @endforelse
-        </div>
+            @endforeach
+                    </div>
 
         <!-- 📋 Historial de Visitas -->
         <div class="perfil-block">
@@ -91,13 +108,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($historial as $pasado)
-                                <tr>
-                                    <td>{{ \Carbon\Carbon::parse($pasado->fecha)->format('d/m/Y') }}</td>
-                                    <td><strong>{{ $pasado->servicio }}</strong></td>
-                                    <td>{{ $pasado->profesional }}</td>
-                                </tr>
-                            @endforeach
+                    @foreach($historial as $hist)
+                        <tr style="border-bottom: 1px solid #f4eee8; color: #5a4b41;">
+                            <td style="padding: 12px 5px;">{{ \Carbon\Carbon::parse($hist->fecha)->format('d/m/Y') }}</td>
+                            <td style="padding: 12px 5px; font-weight: 500;">{{ $hist->service->nombre ?? 'N/A' }}</td>
+                            <td style="padding: 12px 5px;">{{ $hist->professional->nombre ?? 'N/A' }}</td>
+                        </tr>
+                    @endforeach
                         </tbody>
                     </table>
                 </div>

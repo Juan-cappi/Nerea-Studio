@@ -9,6 +9,8 @@ use App\Http\Controllers\RecepcionistaController;
 use App\Models\Profesional;
 use App\Models\Recepcionista;
 use App\Http\Controllers\TurnoController;
+use App\Http\Controllers\EspecialidadController;
+use App\Http\Controllers\ServicioController;
 
 
 Route::get('/', function () {
@@ -68,16 +70,33 @@ Route::resource('recepcionistas', RecepcionistaController::class)
 
 Route::get('/perfil', function() {
     $turnos = \App\Models\Turno::where('user_id', auth()->id())
+                ->with(['service', 'professional']) // ◄ ¡Cargamos las dos relaciones nuevas de forma limpia!
                 ->orderBy('fecha', 'asc')
                 ->orderBy('hora', 'asc')
                 ->get();
-    $proximos = $turnos ->where('fecha', '>=', now()->format('Y-m-d'));
-    $historial = $turnos ->where('fecha', '<', now()->format('Y-m-d'));
+                
+    $proximos = $turnos->where('fecha', '>=', now()->format('Y-m-d'));
+    $historial = $turnos->where('fecha', '<', now()->format('Y-m-d'));
 
-    return view('cliente.perfil', compact('proximos','historial'));
+    return view('cliente.perfil', compact('proximos', 'historial'));
 })->middleware('auth')->name('cliente.perfil');
 
+// ⚙️ Rutas para que el Cliente Modifique o Cancele su propio turno
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cliente/turnos/{id}/edit', [TurnoController::class, 'edit'])->name('cliente.turnos.edit');
+    Route::put('/cliente/turnos/{id}', [TurnoController::class, 'update'])->name('cliente.turnos.update');
+    Route::delete('/cliente/turnos/{id}', [TurnoController::class, 'cancel'])->name('cliente.turnos.cancel');
+});
 
 
+// Rutas para la gestión de Especialidades (Panel Admin)
+Route::get('/admin/especialidades', [EspecialidadController::class, 'index'])->name('admin.especialidades.index');
+Route::get('/admin/especialidades/{id}/edit', [EspecialidadController::class, 'edit'])->name('admin.especialidades.edit');
+Route::put('/admin/especialidades/{id}', [EspecialidadController::class, 'update'])->name('admin.especialidades.update');
+Route::post('/admin/especialidades/asignar', [EspecialidadController::class, 'asignar'])->name('admin.especialidades.asignar');
+Route::post('/admin/especialidades', [EspecialidadController::class, 'store'])->name('admin.especialidades.store');
 
+// Rutas para la gestión de Servicios
+Route::get('/admin/servicios', [ServicioController::class, 'index'])->name('admin.servicios.index');
+Route::post('/admin/servicios', [ServicioController::class, 'store'])->name('admin.servicios.store');
 require __DIR__.'/auth.php';

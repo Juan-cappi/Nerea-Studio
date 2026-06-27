@@ -48,8 +48,8 @@
     {{-- Sidebar --}}
     <aside class="sidebar">
     <a href="{{ route('admin.dashboard') }}">📊 Panel General</a>
-    <a href="{{ route('profesionales.index') }}">💇‍♂️ Gestionar Profesionales</a>
-    <a href="{{ route('recepcionista.dashboard') }}">📞 Gestionar Recepcionistas</a>
+    <a href="{{ route('admin.servicios.index') }}" class="btn-sidebar-link">✂️ Gestionar Servicios</a>
+    <a href="{{ route('admin.especialidades.index') }}" class="btn-sidebar-link">✨ Gestionar Especialidades</a>
     <a href="#" class="disabled">👥 Clientes</a>
     <a href="/servicios" class="disabled">💰 Precios y Servicios</a>
     <form action="{{ route('logout') }}" method="POST">

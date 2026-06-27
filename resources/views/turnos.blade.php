@@ -64,30 +64,53 @@
                         </div>
                     @endif
 
-                    <input type="text" name="nombre_completo" placeholder="Nombre Completo" class="campo-input-unico" value="{{ old('nombre_completo') }}" required>
-                    
-                    <input type="email" name="correo" placeholder="Correo Electrónico" class="campo-input-unico" value="{{ old('correo') }}" required>
+                    <!-- 👤 Input de Nombre Completo -->
+                    <div class="input-group">
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #6b5c4e;">NOMBRE COMPLETO</label>
+                        <input type="text" name="nombre_completo" class="campo-input-unico" placeholder="Tu Nombre Completo" 
+                            value="{{ auth()->check() ? auth()->user()->name : old('nombre_completo') }}" 
+                            {{ auth()->check() ? 'readonly' : '' }} required>
+                    </div>
 
-                    <select name="servicio_id" class="campo-input-unico" required>
-                        <option value="">Seleccione un servicio</option>
-                        <option value="1">Corte</option>
-                        <option value="2">Balayage</option>
-                        <option value="3">Alisado</option>
-                        <option value="4">Nutrición</option>
-                    </select>
+                    <!-- ✉️ Input de Correo Electrónico -->
                     <div class="input-group" style="margin-top: 15px;">
-                    <select name="profesional_id" id="profesional_id" class="campo-input-unico" required disabled>
-                        <option value="" disabled selected>Primero seleccioná un servicio...</option>
-                        
-                        @foreach($profesionales as $pro)
-                            @foreach($pro->especialidades as $esp)
-                                <option value="{{ $pro->id }}" data-especialidad="{{ $esp->id }}" style="display: none;">
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #6b5c4e;">CORREO ELECTRÓNICO</label>
+                        <input type="email" name="correo" class="campo-input-unico" placeholder="Tu Correo" 
+                            value="{{ auth()->check() ? auth()->user()->email : old('correo') }}" 
+                            {{ auth()->check() ? 'readonly' : '' }} required>
+                    </div>
+                    <div class="input-group">
+                        <select name="servicio" id="servicio_select" class="campo-input-unico" required>
+                            <option value="" disabled selected>Seleccione un servicio</option>
+                            
+                            @foreach($servicios as $ser)
+                                <option value="{{ $ser->nombre }}" data-especialidad="{{ $ser->specialty->nombre ?? '' }}">
+                                    {{ $ser->nombre }}
+                                </option>
+                            @endforeach
+                            
+                        </select>
+                    </div>
+
+                    <!-- 2. Selector de Profesionales (Dinámico) -->
+                    <div class="input-group" style="margin-top: 15px;">
+                        <select name="profesional_id" id="profesional_select" class="campo-input-unico" required disabled>
+                            <option value="" disabled selected>Primero seleccioná un servicio...</option>
+                            
+                            @foreach($profesionales as $pro)
+                                @php
+                                    // Juntamos todos los nombres de las especialidades de este profesional en una sola cadena separada por comas
+                                    $especialidadesDelPro = $pro->especialidades->pluck('nombre')->toArray();
+                                    $stringEspecialidades = implode(',', $especialidadesDelPro);
+                                @endphp
+                                
+                                <!-- Guardamos las especialidades del profesional en minúsculas para comparar fácil en JS -->
+                                <option value="{{ $pro->id }}" data-especialidades="{{ strtolower($stringEspecialidades) }}" style="display: none;">
                                     {{ $pro->nombre }}
                                 </option>
                             @endforeach
-                        @endforeach
-                    </select>
-                </div>
+                        </select>
+                    </div>
 
                     <p class="titulo-seccion-turno">Selecciona un día de {{ \Carbon\Carbon::now()->translatedFormat('F') }}</p>
                     <div class="dias-horizontales">
@@ -222,4 +245,36 @@
         actualizarHorarios();
         filtrarProfesionales();
     });
+    document.addEventListener('DOMContentLoaded', function () {
+    const servicioSelect = document.getElementById('servicio_select');
+    const profesionalSelect = document.getElementById('profesional_select');
+    const profesionalOptions = profesionalSelect.querySelectorAll('option');
+
+    servicioSelect.addEventListener('change', function () {
+        // 1. Obtenemos la especialidad requerida por el servicio seleccionado (en minúsculas)
+        const especialidadRequerida = this.options[this.selectedIndex].getAttribute('data-especialidad').toLowerCase();
+
+        // 2. Habilitamos el selector de profesionales y reseteamos su selección
+        profesionalSelect.disabled = false;
+        profesionalSelect.value = "";
+        profesionalSelect.options[0].textContent = "Seleccione un profesional...";
+
+        // 3. Recorremos los profesionales y filtramos
+        profesionalOptions.forEach(option => {
+            // Saltamos la opción por defecto ("Primero seleccioná...")
+            if (option.value === "") return;
+
+            const especialidadesDelPro = option.getAttribute('data-especialidades');
+
+            // Si el profesional tiene la especialidad requerida, lo mostramos
+            if (especialidadesDelPro.includes(especialidadRequerida)) {
+                option.style.display = 'block';
+                option.disabled = false;
+            } else {
+                option.style.display = 'none';
+                option.disabled = true;
+            }
+        });
+    });
+});
 </script>

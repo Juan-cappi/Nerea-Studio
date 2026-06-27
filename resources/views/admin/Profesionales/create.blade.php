@@ -133,13 +133,12 @@
                 @error('telefono') <div class="error">{{ $message }}</div> @enderror
             </div>
             <div class="input-group">
-                <label for="especialidad_id">Especialidad</label>
-                <select name="especialidad_id" id="especialidad_id" class="campo-input-unico">
+                <label>ESPECIALIDAD</label>
+                <select name="especialidad_id" class="campo-input-unico" required>
                     <option value="" disabled selected>Seleccioná una especialidad</option>
-                    <option value="1">Peluquero/a</option>
-                    <option value="2">Colorista</option>
-                    <option value="3">Peinador/a</option>
-                    <option value="4">Asistente</option>
+                    @foreach($especialidades as $esp)
+                        <option value="{{ $esp->id }}">{{ $esp->nombre }}</option>
+                    @endforeach
                 </select>
             </div>
 

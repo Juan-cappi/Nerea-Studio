@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('especialidad_profesional', function (Blueprint $table) {
+        Schema::create('servicios', function (Blueprint $table) {
             $table->id();
-            
-            // 🔗 Clavamos los dos cables de conexión reales:
-            $table->foreignId('profesional_id')->constrained('profesionales')->onDelete('cascade');
+            $table->string('nombre')->unique();
+            // 🔗 Conectamos el servicio con la especialidad requerida
             $table->foreignId('especialidad_id')->constrained('especialidades')->onDelete('cascade');
-            
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('especialidad_profesional');
+        Schema::dropIfExists('servicios');
     }
 };
