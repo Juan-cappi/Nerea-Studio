@@ -75,6 +75,19 @@
                         <option value="3">Alisado</option>
                         <option value="4">Nutrición</option>
                     </select>
+                    <div class="input-group" style="margin-top: 15px;">
+                    <select name="profesional_id" id="profesional_id" class="campo-input-unico" required disabled>
+                        <option value="" disabled selected>Primero seleccioná un servicio...</option>
+                        
+                        @foreach($profesionales as $pro)
+                            @foreach($pro->especialidades as $esp)
+                                <option value="{{ $pro->id }}" data-especialidad="{{ $esp->id }}" style="display: none;">
+                                    {{ $pro->nombre }}
+                                </option>
+                            @endforeach
+                        @endforeach
+                    </select>
+                </div>
 
                     <p class="titulo-seccion-turno">Selecciona un día de {{ \Carbon\Carbon::now()->translatedFormat('F') }}</p>
                     <div class="dias-horizontales">
@@ -159,15 +172,54 @@
             });
     }
 
+    // ... Tu función actualizarHorarios() termina impecable en la línea 173
+
+    // 💇‍♂️ NUEVA FUNCIÓN: Filtra los profesionales según la especialidad del servicio
+    function filtrarProfesionales() {
+        const selectServicio = document.querySelector('select[name="servicio_id"]');
+        const selectProfesional = document.getElementById('profesional_id');
+        if (!selectServicio || !selectProfesional) return;
+
+        const servicioElegido = selectServicio.value; // ID de la especialidad/servicio
+
+        if (!servicioElegido) {
+            selectProfesional.disabled = true;
+            selectProfesional.value = "";
+            return;
+        }
+
+        // Habilitamos el combo de profesionales
+        selectProfesional.disabled = false;
+        const opciones = selectProfesional.querySelectorAll('option');
+        
+        opciones.forEach(option => {
+            if (option.value === "") return; // Al placeholder no lo tocamos
+
+            const espId = option.getAttribute('data-especialidad');
+            if (espId === servicioElegido) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    }
+
+    // 🔄 Bloque DOMContentLoaded unificado y actualizado
     document.addEventListener('DOMContentLoaded', function () {
-        // Cada vez que cambien de fecha, ejecutamos la consulta al servidor
         document.addEventListener('change', function (e) {
+            // Tu lógica existente para las fechas (No se toca)
             if (e.target && e.target.name === 'fecha') {
                 actualizarHorarios();
             }
+            
+            // ⚡ NUEVO: Detecta cuando cambian el servicio para filtrar el peluquero/colorista
+            if (e.target && e.target.name === 'servicio_id') {
+                filtrarProfesionales();
+            }
         });
 
-        // Ejecutar al cargar la página por primera vez
+        // Corremos ambas funciones al arrancar por si ya viene algo seleccionado
         actualizarHorarios();
+        filtrarProfesionales();
     });
 </script>

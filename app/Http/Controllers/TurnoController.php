@@ -50,15 +50,16 @@ class TurnoController extends Controller
     public function create()
     {
         // Trae los turnos simples para la vista
-        $turnosOcupados = Turno::select('fecha', 'hora')
+        $turnosOcupados = \App\Models\Turno::select('fecha', 'hora')
             ->get()
             ->map(function($turno) {
-                $fechaLimpia = \Carbon\Carbon::parse($turno->fecha)->format('Y-m-d');
+                $fechaLimpia = date('Y-m-d', strtotime($turno->fecha));
                 $horaLimpia = date('H:i', strtotime($turno->hora));
                 return $fechaLimpia . '_' . $horaLimpia;
             })->toArray();
 
-        return view('turnos', compact('turnosOcupados'));
+            $profesionales = \App\Models\Profesional::with('especialidades')->get();
+        return view('turnos', compact('turnosOcupados', 'profesionales'));
     }
     
     public function obtenerOcupados(Request $request)

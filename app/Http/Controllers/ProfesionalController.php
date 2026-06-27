@@ -29,14 +29,22 @@ class ProfesionalController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $dataValidada = $request->validate([
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'telefono' => 'required||max:20',  
-            'especialidad' => 'required|string|max:255',
+            'especialidad' => 'required|exists:especialidad|id',
         ]);
-        Profesional::create($request ->all());
-        return redirect()->route('admin.dashboard')->with('success','Profesional creado correctamente');
+
+        $profesional = Profesional::create([
+            'nombre' => $dataValidada['nombre'],
+            'email' => $dataValidada['email'],
+            'telefono' => $dataValidada['telefono'],
+        ]);
+
+        $profesional->especialidades()->attach($request->especialidad_id);
+        
+        return redirect()->back()->with('success','Profesional creado correctamente con su especialidad');
     }
 
     /**
