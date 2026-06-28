@@ -157,7 +157,8 @@ display: inline-block !important; /* Forza a que ocupe solo su texto */
     font-size: 32px; 
     font-weight: 400;
     color: var(--color-dorado-fino) !important;
-    margin-bottom: 25px; 
+    margin-bottom: 25px;
+    padding-left: 90px; 
 }
 
 .esencia-p { 

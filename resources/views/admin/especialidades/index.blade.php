@@ -157,7 +157,7 @@
 
         <div style="text-align: center; margin-bottom: 3rem;">
             <a href="{{ url('/admin/dashboard') }}" style="color: #6b5c4e; text-decoration: none; font-size: 13px; font-weight: 500;">
-                ← Volver al Dashboard
+                ← Volver al Panel de Administración
             </a>
         </div>
 
