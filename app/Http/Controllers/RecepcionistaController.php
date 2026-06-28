@@ -10,10 +10,19 @@ class RecepcionistaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-    }
+   public function index()
+{
+    // Importamos el modelo Turno directamente con sus relaciones completas
+    // Trae los turnos ordenados por fecha y hora para que la recepcionista vea los primeros arriba
+    $turnos = \App\Models\Turno::with(['user', 'profesional', 'servicio'])
+                ->orderBy('fecha', 'asc')
+                ->orderBy('hora', 'asc')
+                ->get();
+
+    // Retornamos la vista del dashboard pasándole la variable de los turnos
+    // Asegurate de que la vista se llame así, basándome en tu ruta de la línea 39
+    return view('admin.dashboard', compact('turnos'));
+}
 
     /**
      * Show the form for creating a new resource.

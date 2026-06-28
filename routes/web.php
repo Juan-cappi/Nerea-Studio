@@ -67,14 +67,14 @@ Route::resource('profesionales', ProfesionalController::class)
     ->middleware(['auth']);
 Route::resource('recepcionistas', RecepcionistaController::class)
     ->middleware(['auth']);
-
+    
 Route::get('/perfil', function() {
     $turnos = \App\Models\Turno::where('user_id', auth()->id())
-                ->with(['service', 'professional']) // ◄ ¡Cargamos las dos relaciones nuevas de forma limpia!
-                ->orderBy('fecha', 'asc')
-                ->orderBy('hora', 'asc')
-                ->get();
-                
+        ->with(['servicio', 'profesional']) // ◄ Corregido a español para que coincida con tu base de datos
+        ->orderBy('fecha', 'asc')
+        ->orderBy('hora', 'asc')
+        ->get();
+
     $proximos = $turnos->where('fecha', '>=', now()->format('Y-m-d'));
     $historial = $turnos->where('fecha', '<', now()->format('Y-m-d'));
 

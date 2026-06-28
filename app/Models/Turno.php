@@ -19,20 +19,20 @@ class Turno extends Model
         'hora',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
 
-    // ✂️ Relación para el servicio (usamos 'service' para que no choque con la columna 'servicio')
-    public function service()
-    {
-        return $this->belongsTo(Servicio::class, 'servicio');
-    }
+public function profesional()
+{
+    return $this->belongsTo(Profesional::class, 'profesional_id');
+}
 
-    // 💇‍♂️ Relación para el profesional (usamos 'professional' para que no choque con la columna 'profesional')
-    public function professional()
-    {
-        return $this->belongsTo(Profesional::class, 'profesional');
-    }
+public function servicio()
+{
+    // Si tu tabla de turnos guarda directamente el ID del servicio o el nombre
+    // Cambiá 'servicio_id' por la columna con la que se conecte en tu base de datos
+    return $this->belongsTo(Servicio::class, 'servicio_id');
+}
 }

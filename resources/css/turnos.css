@@ -137,23 +137,28 @@
     filter: grayscale(100%); /* Deja la foto en blanco y negro exacto como tu captura */
 }
 
-/* Botón estilizado con la temática de Nerea Studio */
+
 .btn-confirmar {
-    width: 100%;
-    padding: 15px;
-    background-color: var(--cream); /* Usamos tu color crema de base */
-    border: 1px solid var(--border);
-    color: var(--color-texto);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
+    width: 100% !important;              /* Ocupa todo el ancho de la tarjeta */
+    margin-top: 25px !important;
+    background-color: #e2dacb !important; /* Crema claro exacto de tu login */
+    color: #2a2521 !important;           /* Texto oscuro del login */
+    padding: 14px 0 !important;
+    text-transform: uppercase !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 2px !important;
+    display: block !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    text-align: center !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
 }
 
+/* El Hover exacto que querías: cambia a dorado con letra blanca */
 .btn-confirmar:hover {
-    background-color: var(--color-primario); /* Al pasar el mouse toma el marrón institucional */
-    color: var(--color-blanco);
-    border-color: var(--color-primario);
+    background-color: #c5a059 !important; /* Pasa al dorado al apoyar el mouse */
+    color: #ffffff !important;            /* Texto blanco en hover */
 }
