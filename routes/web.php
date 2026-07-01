@@ -59,9 +59,8 @@ Route::get('admin/dashboard', function(){
     return view('admin.dashboard', compact('totalRecepcionistas', 'totalProfesionales', 'profesionales', 'recepcionistas'));
 })->middleware(['auth'])->name('admin.dashboard');
 
-Route::get('recepcionista/dashboard', function(){
-    return view('recepcionista.dashboard');
-})->middleware(['auth'])->name('recepcionista.dashboard');
+Route::get('recepcionista/dashboard', [RecepcionistaController::class, 'dashboard'])
+    ->middleware(['auth'])->name('recepcionista.dashboard');
 
 Route::resource('profesionales', ProfesionalController::class)
     ->middleware(['auth']);

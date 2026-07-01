@@ -27,10 +27,10 @@ public function run(): void
 
         // 2. Se crea o actualiza la Recepcionista
         $recepcion = User::updateOrCreate(
-            ['email'          => 'recepcion@nerea.com'],
+            ['email'          => 'recepcion@gmail.com'],
             [
                 'name'        => 'Recepcionista Nerea',
-                'password'    => Hash::make('12345678'),
+                'password'    => Hash::make('artemis123'),
                 'role'        => 'recepcionista',
             ]
         );

@@ -70,41 +70,39 @@
                 </div>
 
                 <div class="calendario-grid">
-                    <div class="day-number disabled"></div>
-                    <div class="day-number disabled"></div>
-                    <div class="day-number disabled"></div>
-                    <div class="day-number disabled"></div>
-                    <div class="day-number disabled"></div>
-                    <div class="day-number" data-day="1">1</div>
-                    <div class="day-number" data-day="2">2</div>
-                    <div class="day-number" data-day="3">3</div>
-                    <div class="day-number" data-day="4">4</div>
-                    <div class="day-number" data-day="5">5</div>
-                    <div class="day-number" data-day="6">6</div>
-                    <div class="day-number" data-day="7">7</div>
-                    <div class="day-number" data-day="8">8</div>
-                    <div class="day-number" data-day="9">9</div>
-                    <div class="day-number" data-day="10">10</div>
-                    <div class="day-number" data-day="11">11</div>
-                    <div class="day-number selected" data-day="12">12</div>
-                    <div class="day-number" data-day="13">13</div>
-                    <div class="day-number" data-day="14">14</div>
-                    <div class="day-number" data-day="15">15</div>
-                    <div class="day-number" data-day="16">16</div>
-                    <div class="day-number" data-day="17">17</div>
-                    <div class="day-number" data-day="18">18</div>
-                    <div class="day-number" data-day="19">19</div>
-                    <div class="day-number" data-day="20">20</div>
-                    <div class="day-number" data-day="21">21</div>
-                    <div class="day-number" data-day="22">22</div>
-                    <div class="day-number" data-day="23">23</div>
-                    <div class="day-number" data-day="24">24</div>
-                    <div class="day-number" data-day="25">25</div>
-                    <div class="day-number" data-day="26">26</div>
-                    <div class="day-number" data-day="27">27</div>
-                    <div class="day-number" data-day="28">28</div>
-                    <div class="day-number" data-day="29">29</div>
-                    <div class="day-number" data-day="30">30</div>
+                    @php
+                        $primerDia = $fechaCarbon->copy()->startOfMonth();
+                        $diasDelMesDelMes = $primerDia->dayOfWeek;
+                    @endphp
+
+                    @for ($i = 0; $i < $diasDelMesDelMes; $i++)
+                        <div class="day-number disabled"></div>
+                    @endfor
+
+                    @foreach($diasDelMes as $diaCalendario)
+                        @php
+                            $claseDia = 'day-number';
+                            if ($diaCalendario['selected']) {
+                                $claseDia .= ' selected';
+                            }
+                            if ($diaCalendario['estado'] === 'partial') {
+                                $claseDia .= ' dot-partial';
+                            } elseif ($diaCalendario['estado'] === 'full') {
+                                $claseDia .= ' dot-full';
+                            } else {
+                                $claseDia .= ' dot-available';
+                            }
+                        @endphp
+                        <button
+                            type="button"
+                            class="{{ $claseDia }}"
+                            data-day="{{ $diaCalendario['dia'] }}"
+                            data-date="{{ $diaCalendario['fecha'] }}"
+                            onclick="window.location.href='{{ route('recepcionista.dashboard', ['fecha' => $diaCalendario['fecha']]) }}'"
+                        >
+                            {{ $diaCalendario['dia'] }}
+                        </button>
+                    @endforeach
                 </div>
 
                 <div class="availability-legend">
@@ -124,116 +122,28 @@
             </div>
 
             <div class="horarios-section">
-                <h3>Profesionales y Turnos - 12 de Junio</h3>
+                <h3>Profesionales y Turnos - {{ \Carbon\Carbon::parse($fecha)->translatedFormat('d \d\e F') }}</h3>
 
                 <div class="profesionales-grid">
-                    <div class="profesional-card">
-                        <div class="profesional-header">
-                            <div class="profesional-avatar">A</div>
-                            <div class="profesional-info">
-                                <h4>Ana</h4>
-                                <p>Corte y mechas</p>
+                    @foreach($agendaProfesionales as $agenda)
+                        <div class="profesional-card">
+                            <div class="profesional-header">
+                                <div class="profesional-avatar">{{ strtoupper(substr($agenda['profesional']->nombre, 0, 1)) }}</div>
+                                <div class="profesional-info">
+                                    <h4>{{ $agenda['profesional']->nombre }}</h4>
+                                    <p>{{ $agenda['profesional']->Especialidad ?? $agenda['profesional']->especialidad ?? 'Sin especialidad' }}</p>
+                                </div>
+                            </div>
+                            <div class="horarios-list">
+                                @foreach($agenda['horarios'] as $horario)
+                                    <div class="horario-item">
+                                        <span class="horario-hora">{{ $horario['hora'] }}</span>
+                                        <span class="horario-status {{ $horario['estado'] === 'Ocupado' ? 'status-reservado' : 'status-disponible' }}">{{ $horario['estado'] }}</span>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                        <div class="horarios-list">
-                            <div class="horario-item">
-                                <span class="horario-hora">09:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">09:30</span>
-                                <span class="horario-status status-reservado">Reservado</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">10:00</span>
-                                <span class="horario-status status-reservado">Reservado</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">10:30</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">14:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">15:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="profesional-card">
-                        <div class="profesional-header">
-                            <div class="profesional-avatar">C</div>
-                            <div class="profesional-info">
-                                <h4>Clara</h4>
-                                <p>Corte y mechas</p>
-                            </div>
-                        </div>
-                        <div class="horarios-list">
-                            <div class="horario-item">
-                                <span class="horario-hora">09:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">09:30</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">10:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">10:30</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">14:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">15:00</span>
-                                <span class="horario-status status-reservado">Reservado</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="profesional-card">
-                        <div class="profesional-header">
-                            <div class="profesional-avatar">B</div>
-                            <div class="profesional-info">
-                                <h4>Barbi</h4>
-                                <p>Corte y mechas</p>
-                            </div>
-                        </div>
-                        <div class="horarios-list">
-                            <div class="horario-item">
-                                <span class="horario-hora">09:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">09:30</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">10:00</span>
-                                <span class="horario-status status-reservado">Reservado</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">10:30</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">14:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                            <div class="horario-item">
-                                <span class="horario-hora">15:00</span>
-                                <span class="horario-status status-disponible">Disponible</span>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -256,24 +166,10 @@
 </footer>
 
 <script>
-    // Hacer el calendario interactivo
     document.querySelectorAll('.day-number[data-day]').forEach(day => {
         day.addEventListener('click', function() {
-            // Remover la clase selected de todos los días
             document.querySelectorAll('.day-number.selected').forEach(d => d.classList.remove('selected'));
-            
-            // Añadir la clase selected al día clickeado
             this.classList.add('selected');
-            
-            // Obtener el número del día
-            const dayNumber = this.getAttribute('data-day');
-            
-            // Actualizar el título de "Profesionales y Turnos"
-            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-            const horarioTitle = document.querySelector('.horarios-section h3');
-            if (horarioTitle) {
-                horarioTitle.textContent = `Profesionales y Turnos - ${dayNumber} de ${monthNames[5]}`;
-            }
         });
     });
 </script>
