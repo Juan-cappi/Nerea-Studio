@@ -70,28 +70,45 @@ class ProfesionalController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit($id)
-    {   
-        $profesional = Profesional::findOrFail($id);
-        return view('admin.profesionales.edit', compact('profesional'));
+    {
+        // Buscamos al profesional trayendo sus especialidades vinculadas
+        $profesional = Profesional::with('especialidades')->findOrFail($id);
+        
+        // 🔮 Buscamos todas las especialidades disponibles para el select
+        $especialidades = \App\Models\Especialidad::all();
+
+        // 🎒 Enviamos las dos variables juntas a la vista
+        return view('admin.Profesionales.edit', compact('profesional', 'especialidades'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
-    {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'telefono' => 'required||max:20',
-            'especialidad' => 'required|string|max:255',
-        ]);
-        $profesional = Profesional::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'email' => 'required|email|unique:profesionales,email,' . $id,
+        'telefono' => 'required|string',
+        'especialidad_id' => 'required|exists:especialidades,id',
+    ]);
 
-        $profesional->update($request->all());
-        return redirect()->route('admin.dashboard')
-        ->with('success','Profesional actualizado correctamente');
-    }
+    $profesional = Profesional::findOrFail($id);
+    $especialidadReal = \App\Models\Especialidad::find($request->especialidad_id);
+
+    // Actualizamos los campos individuales salteando trabas de fillable
+    $profesional->nombre = $request->nombre;
+    $profesional->email = $request->email;
+    $profesional->telefono = $request->telefono;
+    $profesional->Especialidad = $especialidadReal->nombre; // Mantenemos la columna vieja con el texto string
+    $profesional->save();
+
+    // 🔗 ¡LA CLAVE DE LA EDICIÓN! 
+    // sync() borra la relación vieja en la tabla intermedia y clava la nueva automáticamente
+    $profesional->especialidades()->sync([$request->especialidad_id]);
+
+    return redirect('/admin/dashboard')->with('status', '¡Profesional actualizado con éxito!');
+}
 
     /**
      * Remove the specified resource from storage.

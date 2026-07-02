@@ -36,16 +36,21 @@
             text-transform: uppercase;
             margin-bottom: 0.4rem;
         }
-        .input-group input {
+        /* 📐 Cambiá la línea 39 para que incluya al select */
+        .input-group input,
+        .input-group select {
             width: 100%;
             padding: 0.6rem 1rem;
-            border: 1px solid #e8ddd4;
-            border-radius: 8px;
+            box-sizing: border-box; /* ◄ Clave para que el padding no estire el ancho */
+            border: 1px solid #e8e0d6; /* El color de borde que venías usando */
+            border-radius: 6px;
+            background-color: #fff;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            color: #6b5c4e;
-            background: #f9f5f0;
-            box-sizing: border-box;
+            color: #5a4b41;
+            font-size: 0.9rem;
+            outline: none;
+            height: 44px; /* Forzamos la misma altura para ambos */
+            appearance: none; /* Opcional: quita la flecha nativa si querés personalizarla */
         }
         .error {
             color: #c0392b;
@@ -117,9 +122,16 @@
                 @error('telefono') <div class="error">{{ $message }}</div> @enderror
             </div>
             <div class="input-group">
-                <label>Especialidad</label>
-                <input type="text" name="especialidad" value="{{ old('especialidad') }}" placeholder="Peinador/a">
-                @error('especialidad') <div class="error">{{ $message }}</div> @enderror
+                <label>ESPECIALIDAD</label>
+                <select name="especialidad_id" class="campo-input-unico" required>
+                    <option value="" disabled>Seleccioná una especialidad</option>
+                    @foreach($especialidades as $esp)
+                        <!-- Comprobamos si el profesional ya tiene vinculada esta especialidad por ID -->
+                        <option value="{{ $esp->id }}" {{ $profesional->especialidades->contains($esp->id) ? 'selected' : '' }}>
+                            {{ $esp->nombre }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <button type="submit" class="btn-submit">Actualizar Profesional</button>
