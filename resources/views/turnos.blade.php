@@ -45,7 +45,7 @@
                 @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
                 @elseif(auth()->user()->roles->contains('name', 'recepcionista') || auth()->user()->role === 'recepcionista')
-                    <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
+                    <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Reception</a>
                 @else
                     <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>
                 @endif
@@ -98,7 +98,8 @@
                         <select name="servicio_id" id="servicio_select" class="campo-input-unico" required style="border-radius: 4px;">
                             <option value="" disabled selected>Seleccione un servicio</option>
                             @foreach($servicios as $ser)
-                                <option value="{{ $ser->id }}" data-especialidad="{{ $ser->specialty->nombre ?? '' }}">
+                                <!-- 🔒 CORRECCIÓN: Usamos la relación 'especialidad' en español tal como está en el modelo -->
+                                <option value="{{ $ser->id }}" data-especialidad="{{ $ser->especialidad->nombre ?? '' }}">
                                     {{ $ser->nombre }}
                                 </option>
                             @endforeach
@@ -148,16 +149,19 @@
                             $ultimoDiaMes = $fechaObjeto->endOfMonth()->day;
                         @endphp
 
-                        @for ($dia = $diaInicio; $dia <= $ultimoDiaMes; $dia++)
-                            @php
-                                $fechaBucle = \Carbon\Carbon::create($anioSeleccionado, $mesSeleccionado, $dia);
-                                $nombreDia = $fechaBucle->translatedFormat('D');
-                            @endphp
-                            <label>
-                                <input type="radio" name="fecha" value="{{ $fechaBucle->format('Y-m-d') }}" required {{ request('fecha') == $fechaBucle->format('Y-m-d') ? 'checked' : '' }}>
-                                <span>{{ ucfirst($nombreDia) }}</span>{{ $dia }}
-                            </label>
-                        @endfor
+                       @for ($dia = $diaInicio; $dia <= $ultimoDiaMes; $dia++)
+                        @php
+                            $fechaBucle = \Carbon\Carbon::create($anioSeleccionado, $mesSeleccionado, $dia);
+                            $nombreDia = $fechaBucle->translatedFormat('D');
+                            $esDiaInvalido = ($fechaBucle->dayOfWeek === 0 || $fechaBucle->dayOfWeek === 1);
+                        @endphp
+                        @continue($esDiaInvalido)
+                        <label>
+                            <input type="radio" name="fecha" value="{{ $fechaBucle->format('Y-m-d') }}" required 
+                                {{ request('fecha') == $fechaBucle->format('Y-m-d') ? 'checked' : '' }}>
+                            <span>{{ ucfirst($nombreDia) }}</span>{{ $dia }}
+                        </label>
+                    @endfor
                     </div>
 
                     <p class="titulo-seccion-turno" style="margin-top: 20px;">Selecciona la hora</p>
@@ -241,7 +245,23 @@
         const fechaSeleccionada = radioFecha?.value;
         if (!fechaSeleccionada) return;
 
-        fetch(`/turnos/ocupados?fecha=${fechaSeleccionada}`)
+        const servicioSelect = document.getElementById('servicio_select');
+        const servicioId = servicioSelect ? servicioSelect.value : '';
+
+        const profesionalSelect = document.getElementById('profesional_select');
+        const profesionalId = profesionalSelect ? profesionalSelect.value : '';
+
+        if (!servicioId) {
+            const radiosHora = document.querySelectorAll('input[name="hora"]');
+            radiosHora.forEach(radio => {
+                radio.disabled = true;
+                const label = radio.closest('label');
+                if (label) label.style.display = 'none';
+            });
+            return;
+        }
+
+        fetch(`/turnos/ocupados?fecha=${fechaSeleccionada}&servicio_id=${servicioId}&profesional_id=${profesionalId}`)
             .then(res => res.json())
             .then(horasOcupadas => {
                 const radiosHora = document.querySelectorAll('input[name="hora"]');
@@ -299,14 +319,25 @@
                         option.disabled = true;
                     }
                 });
+
+                actualizarHorarios();
             });
         }
 
-        const primerRadioFecha = document.querySelector('input[name="fecha"]');
-        if (primerRadioFecha && !document.querySelector('input[name="fecha"]:checked')) {
-            primerRadioFecha.checked = true;
+      if (profesionalSelect) {
+            profesionalSelect.addEventListener('change', function () {
+                actualizarHorarios();
+            });
         }
 
-        actualizarHorarios();
+        const radiosFechaValidos = document.querySelectorAll('input[name="fecha"]:not([disabled])');
+        if (radiosFechaValidos.length > 0 && !document.querySelector('input[name="fecha"]:checked')) {
+            radiosFechaValidos[0].checked = true;
+        }
+
+    
+        setTimeout(actualizarHorarios, 100); 
     });
+</script>
+    
 </script>

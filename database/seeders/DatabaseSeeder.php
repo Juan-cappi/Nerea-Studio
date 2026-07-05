@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         $this->call(AdminSeeder::class);
-
+        $this->call(ServicioseYEspecialidadesSeeder::class);
         // Genera 30 turnos aleatorios en la base de datos al toque
         \App\Models\Turno::factory(30)->create();
         

@@ -17,19 +17,40 @@ class TurnoController extends Controller
             'correo'          => 'required|email|max:255',
             'fecha'           => 'required|date',
             'hora'            => 'required|string',
-            'servicio_id'     => 'required',
+            'servicio_id'     => 'required|exists:servicios,id',
             'profesional_id'  => 'required',
         ]);
 
-        $turnoExistente = Turno::where('fecha', $request->fecha)
-                               ->where('hora', $request->hora)
-                               ->first();
-        
-        if($turnoExistente){
-            return redirect()->back()->withInput()->withErrors(['hora' => 'Lo sentimos, este horario ya fue reservado por otro cliente.']);
+        $servicio = Servicio::findOrFail($request->servicio_id);
+        $duracion = $servicio->duracion;
+
+        $horasAComprobar = [];
+        $horaBase = date('H:i', strtotime($request->hora));
+        $horasAComprobar[] = $horaBase;
+
+        if ($duracion == 2) {
+            $horasAComprobar[] = date('H:i', strtotime($horaBase . ' +1 hour'));
         }
 
-        // Guardamos el turno directo en XAMPP
+        foreach ($horasAComprobar as $horaEvaluar) {
+            $bloqueoDirecto = Turno::where('fecha', $request->fecha)
+                                   ->where('hora', $horaEvaluar)
+                                   ->where('profesional', $request->profesional_id)
+                                   ->exists();
+
+            $horaAnterior = date('H:i', strtotime($horaEvaluar . ' -1 hour'));
+            $bloqueoPorExtension = Turno::where('fecha', $request->fecha)
+                            ->where('hora', $horaAnterior)
+                            ->where('profesional', $request->profesional_id)
+                            ->whereHas('servicio', function($query) { 
+                                 $query->where('duracion', 2);
+                            })->exists();
+
+            if ($bloqueoDirecto || $bloqueoPorExtension) {
+                return redirect()->back()->withInput()->withErrors(['hora' => 'Lo sentimos, el bloque horario requerido no está disponible.']);
+            }
+        }
+
         Turno::create([
             'user_id'     => auth()->id() ?? 1, 
             'fecha'       => $dataValidada['fecha'],
@@ -48,29 +69,84 @@ class TurnoController extends Controller
 
         return redirect()->route('cliente.perfil')->with('status', '¡Tu turno ha sido reservado con éxito!');
     }
-
+        
     public function create()
     {
         $turnosOcupados = Turno::select('fecha', 'hora')->get()->map(function($turno) {
             return date('Y-m-d', strtotime($turno->fecha)) . '_' . date('H:i', strtotime($turno->hora));
         })->toArray();
 
-        // Mantenemos las relaciones en inglés como las usa tu web.php
         $servicios = Servicio::with(['specialty'])->get();
         $profesionales = Profesional::with(['especialidades'])->get();
 
         return view('turnos', compact('turnosOcupados', 'profesionales', 'servicios'));
     }
     
-    public function obtenerOcupados(Request $request)
+  public function obtenerOcupados(Request $request)
     {
-        $horas = Turno::where('fecha', $request->fecha)->pluck('hora')->map(function($hora) {
-            return date('H:i', strtotime($hora));
-        })->toArray();
+        $request->validate([
+            'fecha' => 'required|date',
+            'servicio_id' => 'required|exists:servicios,id',
+            'profesional_id' => 'nullable'
+        ]);
 
-        return response()->json($horas);
+        
+        $servicioNuevo = Servicio::find($request->servicio_id);
+        $duracionNueva = $servicioNuevo ? $servicioNuevo->duracion : 1; 
+
+        
+        $query = Turno::where('fecha', $request->fecha);
+        if ($request->profesional_id) {
+            $query->where('profesional', $request->profesional_id);
+        }
+        $turnosExistentes = $query->get();
+
+        $horasOcupadas = [];
+
+        
+        foreach ($turnosExistentes as $turno) {
+            $horaBaseStr = date('H:i', strtotime($turno->hora));
+            $horasOcupadas[] = $horaBaseStr;
+
+            // Buscamos el servicio asignado al turno viejo
+            $servicioViejo = Servicio::find($turno->servicio);
+            $duracionVieja = $servicioViejo ? $servicioViejo->duracion : 1;
+
+            
+            if ($duracionVieja == 2) {
+                $horaSiguiente = date('H:i', strtotime($horaBaseStr . ' +1 hour'));
+                $horasOcupadas[] = $horaSiguiente;
+            }
+        }
+
+        
+        if ($duracionNueva == 2) {
+            
+            $grillaHoraria = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+            
+            foreach ($grillaHoraria as $horaActual) {
+                
+                if ($horaActual == '12:00') {
+                    $horaSiguiente = '14:00';
+                } else {
+                    $horaSiguiente = date('H:i', strtotime($horaActual . ' +1 hour'));
+                }
+
+                
+                if (in_array($horaSiguiente, $horasOcupadas)) {
+                    $horasOcupadas[] = $horaActual;
+                }
+            }
+            
+            
+            $horasOcupadas[] = '19:00'; 
+        }
+
+        
+        $horasOcupadas = array_values(array_unique($horasOcupadas));
+
+        return response()->json($horasOcupadas);
     }
-
     public function edit($id)
     {
         $turno = Turno::where('id', $id)->where('user_id', auth()->id())->firstOrFail();

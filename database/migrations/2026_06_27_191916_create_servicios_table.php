@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre')->unique();
             // 🔗 Conectamos el servicio con la especialidad requerida
+            $table->integer('duracion')->default(1); //Guarda la duración del servicio en horas y le ponemos por defecto 1 hora que es la media de los servicios
             $table->foreignId('especialidad_id')->constrained('especialidades')->onDelete('cascade');
             $table->timestamps();
         });
