@@ -41,6 +41,15 @@
         </nav>
 </header>
 
+        
+        @if(session('error'))
+            <div style="max-width: 600px; margin: 2rem auto 0 auto; background-color: #fdf2f2; border: 1px solid #f5baba; color: #9b2c2c; padding: 15px 20px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 14px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: center; gap: 10px; z-index: 999; position: relative;">
+                <span>🛑</span>
+                <strong>{{ session('error') }}</strong>
+            </div>
+        @endif
+
+
 <main class="container-recepcionista">
     <div class="recepcionista-header">
         <h1>Panel de Recepcionista</h1>
