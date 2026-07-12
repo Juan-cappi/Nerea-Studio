@@ -16,7 +16,7 @@
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('turnos') }}">Turnos</a>
-            <a href="#">Nosotros</a>
+            <a href="{{ route('nosotros') }}">Nosotros</a>
 
             <!-- 🔐 CONTROL DE ACCESO ADAPTATIVO -->
             @auth
