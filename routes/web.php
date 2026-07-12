@@ -98,4 +98,9 @@ Route::post('/admin/especialidades', [EspecialidadController::class, 'store'])->
 // Rutas para la gestión de Servicios
 Route::get('/admin/servicios', [ServicioController::class, 'index'])->name('admin.servicios.index');
 Route::post('/admin/servicios', [ServicioController::class, 'store'])->name('admin.servicios.store');
+
+Route::get('/nosotros' , function() {
+    return view ('nosotros');
+    })->name('nosotros');
+
 require __DIR__.'/auth.php';

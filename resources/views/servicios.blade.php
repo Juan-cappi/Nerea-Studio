@@ -15,7 +15,7 @@
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('turnos') }}">Turnos</a>
-            <a href="#">Nosotros</a>
+            <a href="{{ route('nosotros') }}">Nosotros</a>
 
             @auth
                 @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
