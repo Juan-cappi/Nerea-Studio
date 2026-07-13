@@ -154,9 +154,9 @@
             <a href="{{ route('nosotros') }}" class="active">Nosotros</a>
 
             @auth
-                @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador'))
+                @if(auth()->user()->esAdmin())
                     <a href="{{ route('admin.dashboard') }}" class="btn-perfil-shortcut">Panel Admin</a>
-                @elseif(auth()->user()->role === 'recepcionista')
+                @elseif(auth()->user()->esRecepcionista())
                     <a href="{{ route('recepcionista.dashboard') }}" class="btn-perfil-shortcut">Panel Recepción</a>
                 @else
                     <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>

@@ -19,20 +19,19 @@
             <a href="{{ route('nosotros') }}">Nosotros</a>
 
             @auth
-                @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
+                @if(auth()->user()->esAdmin())
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
                     
-                @elseif(auth()->user()->roles->contains('name', 'recepcionista') || auth()->user()->role === 'recepcionista')
+                @elseif(auth()->user()->esRecepcionista())
                     <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
                     
                 @else
                     <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>
                 @endif
 
-                <!-- Botón de Cerrar Sesión -->
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
                     @csrf
-                    <button type="submit" class="btn-logout" style="background: none; border: none; color: var(--color-texto); text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-left: 20px; cursor: pointer; font-family: inherit;">Cerrar Sesión</button>
+                    <button type="submit" class="btn-logout" style="background: none; border: none; color: var(--color-texto); text-transform: uppercase; letter-spacing:1px; font-size: 14px; margin-left: 20px; cursor: pointer; font-family: inherit;">Cerrar Sesión</button>
                 </form>
             @else
                 <a href="{{ route('login') }}">Ingresar</a>
@@ -46,7 +45,7 @@
             Gestión de Especialidades
         </h2>
 
-       
+        {{-- FORMULARIO: Crear especialidad --}}
         <div class="card" style="background: #ffffff; border-radius: 16px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem;">
             <h4 style="margin-top: 0; margin-bottom: 15px; color: #6b5c4e; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; border-bottom: 1px solid #f4eee8; padding-bottom: 10px;">
                 ✨ Crear Nueva Especialidad
@@ -62,7 +61,7 @@
                 @csrf
                 <div class="input-group" style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: #6b5c4e; letter-spacing: 0.05em;">NOMBRE DE LA ESPECIALIDAD</label>
-                    <input type="text" name="nombre" class="campo-input-unico" placeholder="Ej: Colorista, Manicura, Barbero..." required style="width: 100%; height: 48px; padding: 10px; border: 1px solid #e8e0d6; border-radius: 6px; background-color: #ffffff; color: #5a4b41;">
+                    <input type="text" name="nombre" value="{{ old('nombre') }}" class="campo-input-unico" placeholder="Ej: Colorista, Manicura, Barbero..." required style="width: 100%; height: 48px; padding: 10px; border: 1px solid #e8e0d6; border-radius: 6px; background-color: #ffffff; color: #5a4b41;">
                     @error('nombre')
                         <small style="color: #a94442; font-size: 11px; margin-top: 5px; display: block;">{{ $message }}</small>
                     @enderror
@@ -74,8 +73,7 @@
             </form>
         </div>
 
-
-        
+        {{-- FORMULARIO: Vincular especialidad a profesional --}}
         <div class="card" style="background: #ffffff; border-radius: 16px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem;">
             <h4 style="margin-top: 0; margin-bottom: 15px; color: #6b5c4e; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; border-bottom: 1px solid #f4eee8; padding-bottom: 10px;">
                 🔗 Vincular Especialidad a Profesional
@@ -94,7 +92,7 @@
                     <label style="display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: #6b5c4e; letter-spacing: 0.05em;">SELECCIONÁ EL PROFESIONAL</label>
                     <select name="profesional_id" class="campo-input-unico" required style="width: 100%; height: 48px; padding: 10px; border: 1px solid #e8e0d6; border-radius: 6px; background-color: #ffffff; color: #5a4b41;">
                         <option value="" disabled selected>Elegí un profesional...</option>
-                        @foreach($profesionales as $pro)
+                        @foreach($todosProfesionales as $pro)
                             <option value="{{ $pro->id }}">{{ $pro->nombre }}</option>
                         @endforeach
                     </select>
@@ -104,7 +102,7 @@
                     <label style="display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: #6b5c4e; letter-spacing: 0.05em;">ASIGNARLE LA ESPECIALIDAD</label>
                     <select name="especialidad_id" class="campo-input-unico" required style="width: 100%; height: 48px; padding: 10px; border: 1px solid #e8e0d6; border-radius: 6px; background-color: #ffffff; color: #5a4b41;">
                         <option value="" disabled selected>Elegí la especialidad...</option>
-                        @foreach($especialidades as $esp)
+                        @foreach($todasEspecialidades as $esp)
                             <option value="{{ $esp->id }}">{{ $esp->nombre }}</option>
                         @endforeach
                     </select>
@@ -116,8 +114,7 @@
             </form>
         </div>
 
-
-        
+        {{-- LISTADO PAGINADO --}}
         <div class="card" style="background: #ffffff; border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem;">
             <h4 style="margin-top: 0; color: #6b5c4e; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; border-bottom: 1px solid #f4eee8; padding-bottom: 10px;">
                 Especialidades por Profesional
@@ -151,6 +148,8 @@
                     @endforelse
                 </tbody>
             </table>
+
+            {{ $profesionales->links('vendor.pagination.nerea') }}
         </div>
 
         <div style="text-align: center; margin-bottom: 3rem;">
@@ -158,8 +157,6 @@
                 ← Volver al Panel de Administración
             </a>
         </div>
-
     </div>
-
 </body>
 </html>

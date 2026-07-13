@@ -2,45 +2,48 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-public function run(): void
+    public function run(): void
     {
-        // 1. Se crea o actualiza el Administrador
+        // Los TRES roles del sistema
+        $rolAdmin     = Role::firstOrCreate(['name' => 'admin']);
+        $rolRecepcion = Role::firstOrCreate(['name' => 'recepcionista']);
+        $rolCliente   = Role::firstOrCreate(['name' => 'cliente']);
+
+        // Administrador
         $admin = User::updateOrCreate(
-            ['email'          => 'nerea@gmail.com'],
+            ['email' => 'nerea@gmail.com'],
             [
-                'name'        => 'Administrador',
-                'password'    => Hash::make('artemis123'),
-                'role'        => 'administrador',
+                'name'     => 'Administrador',
+                'password' => Hash::make('artemis123'),
             ]
         );
+        $admin->roles()->sync([$rolAdmin->id]);
 
-        // 2. Se crea o actualiza la Recepcionista
+        // Recepcionista
         $recepcion = User::updateOrCreate(
-            ['email'          => 'recepcion@gmail.com'],
+            ['email' => 'recepcion@gmail.com'],
             [
-                'name'        => 'Recepcionista Nerea',
-                'password'    => Hash::make('artemis123'),
-                'role'        => 'recepcionista',
+                'name'     => 'Recepcionista Nerea',
+                'password' => Hash::make('artemis123'),
             ]
         );
+        $recepcion->roles()->sync([$rolRecepcion->id]);
 
-   
-        $rolAdmin = \App\Models\role::updateOrCreate(['name' => 'admin']);
-        $rolRecepcion = \App\Models\role::updateOrCreate(['name' => 'recepcionista']);
-
-        $admin->roles()->syncWithoutDetaching([$rolAdmin->id]);
-        $recepcion->roles()->syncWithoutDetaching([$rolRecepcion->id]);
+        // Cliente de prueba (para la defensa)
+        $cliente = User::updateOrCreate(
+            ['email' => 'cliente@gmail.com'],
+            [
+                'name'     => 'Cliente de Prueba',
+                'password' => Hash::make('artemis123'),
+            ]
+        );
+        $cliente->roles()->sync([$rolCliente->id]);
     }
 }
-

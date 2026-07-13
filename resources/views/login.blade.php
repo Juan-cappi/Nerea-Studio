@@ -19,7 +19,7 @@
             <a href="{{ route('nosotros') }}">Nosotros</a>
 
             @auth
-                @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador'))
+                @if(auth()->user()->esAdmin())
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
                     
                 @elseif(auth()->user()->roles->contains('name', 'recepcionista'))

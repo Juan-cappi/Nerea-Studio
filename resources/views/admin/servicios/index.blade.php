@@ -20,10 +20,10 @@
 
             
             @auth
-                @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
+                @if(auth()->user()->esAdmin())
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
                     
-                @elseif(auth()->user()->roles->contains('name', 'recepcionista') || auth()->user()->role === 'recepcionista')
+                @elseif(auth()->user()->esRecepcionista())
                     <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
                     
                 @else
@@ -57,12 +57,22 @@
                 </div>
             @endif
 
+            @if($errors->any())
+                <div style="background-color: #fdf2f2; color: #9b3a3a; padding: 12px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #f0d6d6; font-size: 14px;">
+                    <ul style="margin: 0; padding-left: 20px;">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('admin.servicios.store') }}" method="POST">
                 @csrf
                 
                 <div class="input-group" style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: #6b5c4e;">NOMBRE DEL SERVICIO</label>
-                    <input type="text" name="nombre" class="campo-input-unico" placeholder="Ej: Balayage, Alisado, Corte..." required style="width: 100%; height: 48px; padding: 10px; border: 1px solid #e8e0d6; border-radius: 6px;">
+                    <input type="text" name="nombre" value="{{ old('nombre') }}" class="campo-input-unico" placeholder="Ej: Balayage, Alisado, Corte..." required style="width: 100%; height: 48px; padding: 10px; border: 1px solid #e8e0d6; border-radius: 6px;">
                 </div>
 
                 <div class="input-group" style="margin-bottom: 25px;">
@@ -70,7 +80,7 @@
                     <select name="especialidad_id" class="campo-input-unico" required style="width: 100%; height: 48px; padding: 10px; border: 1px solid #e8e0d6; border-radius: 6px; background: #fff;">
                         <option value="" disabled selected>Elegí una especialidad...</option>
                         @foreach($especialidades as $esp)
-                            <option value="{{ $esp->id }}">{{ $esp->nombre }}</option>
+                            <option value="{{ $esp->id }}" {{ old('especialidad_id') == $esp->id ? 'selected' : '' }}>{{ $esp->nombre }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -106,6 +116,8 @@
                     @endforelse
                 </tbody>
             </table>
+
+            {{ $servicios->links('vendor.pagination.nerea') }}
         </div>
 
         <div style="text-align: center; margin-bottom: 3rem;">

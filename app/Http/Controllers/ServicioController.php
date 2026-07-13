@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Servicio;
 use App\Models\Especialidad;
 use Illuminate\Http\Request;
@@ -10,8 +11,14 @@ class ServicioController extends Controller
     // 1. Muestra el panel con el formulario y el listado de servicios
     public function index()
     {
-        $servicios = Servicio::with('specialty')->get();
-        $especialidades = Especialidad::all(); // Para llenar el select del formulario
+        // El listado SÍ se pagina
+        $servicios = Servicio::with('specialty')
+            ->orderBy('nombre')
+            ->paginate(10)
+            ->withQueryString();
+
+        // El select del formulario necesita TODAS las especialidades (no se pagina)
+        $especialidades = Especialidad::orderBy('nombre')->get();
 
         return view('admin.servicios.index', compact('servicios', 'especialidades'));
     }

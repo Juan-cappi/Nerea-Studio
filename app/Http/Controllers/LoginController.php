@@ -30,18 +30,17 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
-  
-        
-        if ($user->role === 'administrador' || $user->role === 'admin' || ($user->roles && ($user->roles->contains('name', 'admin') || $user->roles->contains('name', 'administrador')))) {
+        // Redirección según rol (fuente única: tabla pivote)
+        if ($user->esAdmin()) {
             return redirect()->route('admin.dashboard');
         }
 
-
-        if ($user->role === 'recepcionista' || ($user->roles && $user->roles->contains('name', 'recepcionista'))) {
+        if ($user->esRecepcionista()) {
             return redirect()->route('recepcionista.dashboard');
         }
 
-        return redirect()->route('cliente.perfil');
+        return redirect()->route('cliente.perfil');{
 
+        }
     }
 }
