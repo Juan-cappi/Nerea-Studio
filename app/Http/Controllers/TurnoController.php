@@ -18,7 +18,7 @@ class TurnoController extends Controller
             'fecha'           => 'required|date',
             'hora'            => 'required|string',
             'servicio_id'     => 'required|exists:servicios,id',
-            'profesional_id'  => 'required',
+            'profesional_id'  => 'required|exists:profesionales,id',
         ]);
 
         $servicio = Servicio::findOrFail($request->servicio_id);
@@ -42,7 +42,7 @@ class TurnoController extends Controller
             $bloqueoPorExtension = Turno::where('fecha', $request->fecha)
                             ->where('hora', $horaAnterior)
                             ->where('profesional', $request->profesional_id)
-                            ->whereHas('servicio', function($query) { 
+                            ->whereHas('elServicio', function($query) { 
                                  $query->where('duracion', 2);
                             })->exists();
 
@@ -52,7 +52,7 @@ class TurnoController extends Controller
         }
 
         Turno::create([
-            'user_id'     => auth()->id() ?? 1, 
+            'user_id'     => auth()->id(), 
             'fecha'       => $dataValidada['fecha'],
             'hora'        => $dataValidada['hora'],
             'servicio'    => $dataValidada['servicio_id'], 
@@ -82,7 +82,7 @@ class TurnoController extends Controller
         return view('turnos', compact('turnosOcupados', 'profesionales', 'servicios'));
     }
     
-  public function obtenerOcupados(Request $request)
+    public function obtenerOcupados(Request $request)
     {
         $request->validate([
             'fecha' => 'required|date',
@@ -90,11 +90,9 @@ class TurnoController extends Controller
             'profesional_id' => 'nullable'
         ]);
 
-        
         $servicioNuevo = Servicio::find($request->servicio_id);
         $duracionNueva = $servicioNuevo ? $servicioNuevo->duracion : 1; 
 
-        
         $query = Turno::where('fecha', $request->fecha);
         if ($request->profesional_id) {
             $query->where('profesional', $request->profesional_id);
@@ -103,50 +101,42 @@ class TurnoController extends Controller
 
         $horasOcupadas = [];
 
-        
         foreach ($turnosExistentes as $turno) {
             $horaBaseStr = date('H:i', strtotime($turno->hora));
             $horasOcupadas[] = $horaBaseStr;
 
-            // Buscamos el servicio asignado al turno viejo
             $servicioViejo = Servicio::find($turno->servicio);
             $duracionVieja = $servicioViejo ? $servicioViejo->duracion : 1;
 
-            
             if ($duracionVieja == 2) {
                 $horaSiguiente = date('H:i', strtotime($horaBaseStr . ' +1 hour'));
                 $horasOcupadas[] = $horaSiguiente;
             }
         }
 
-        
         if ($duracionNueva == 2) {
-            
             $grillaHoraria = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
             
             foreach ($grillaHoraria as $horaActual) {
-                
                 if ($horaActual == '12:00') {
                     $horaSiguiente = '14:00';
                 } else {
                     $horaSiguiente = date('H:i', strtotime($horaActual . ' +1 hour'));
                 }
 
-                
                 if (in_array($horaSiguiente, $horasOcupadas)) {
                     $horasOcupadas[] = $horaActual;
                 }
             }
             
-            
             $horasOcupadas[] = '19:00'; 
         }
 
-        
         $horasOcupadas = array_values(array_unique($horasOcupadas));
 
         return response()->json($horasOcupadas);
     }
+
     public function edit($id)
     {
         $turno = Turno::where('id', $id)->where('user_id', auth()->id())->firstOrFail();

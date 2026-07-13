@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -30,8 +31,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Todo usuario que se registra por la web es CLIENTE
+        $rolCliente = Role::firstOrCreate(['name' => 'cliente']);
+        $user->roles()->attach($rolCliente->id);
+
         Auth::login($user);
 
-        return redirect(route('login'));
+        return redirect()->route('cliente.perfil')
+            ->with('status', '¡Bienvenido/a a Nerea Studio!');
     }
 }

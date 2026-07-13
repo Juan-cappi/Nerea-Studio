@@ -20,10 +20,10 @@
             <a href="{{ route('nosotros') }}">Nosotros</a>
 
             @auth
-                @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
+                @if(auth()->user()->esAdmin())
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
                     
-                @elseif(auth()->user()->roles->contains('name', 'recepcionista') || auth()->user()->role === 'recepcionista')
+                @elseif(auth()->user()->esRecepcionista())
                     <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
                     
                 @else
@@ -85,7 +85,7 @@
         <div class="panel-card">
             <div class="panel-card-title">Listado de Profesionales</div>
             <table class="profesionales-table">
-                @foreach($profesionales as $profesional)
+                @forelse($profesionales as $profesional)
                 <tr>
                     <td>{{ $profesional->nombre }}</td>
                     <td>{{ $profesional->email }}</td>
@@ -104,14 +104,23 @@
     </div>
 </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 20px; color: #9c8b78;">
+                        No hay profesionales cargados todavía.
+                    </td>
+                </tr>
+                @endforelse
             </table>
+
+            {{ $profesionales->links('vendor.pagination.nerea') }}
         </div>
+
         {{-- Listado de Recepcionistas --}}
         <div class="panel-card">
             <div class="panel-card-title">Listado de recepcionistas</div>
             <table class="profesionales-table">
-                @foreach($recepcionistas as $recepcionista)
+                @forelse($recepcionistas as $recepcionista)
                 <tr>
                     <td>{{ $recepcionista->nombre }}</td>
                     <td>{{ $recepcionista->email }}</td>
@@ -129,8 +138,16 @@
     </div>
 </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px; color: #9c8b78;">
+                        No hay recepcionistas cargados todavía.
+                    </td>
+                </tr>
+                @endforelse
             </table>
+
+            {{ $recepcionistas->links('vendor.pagination.nerea') }}
         </div>
     </div>
 </div>

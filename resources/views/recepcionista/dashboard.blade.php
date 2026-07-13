@@ -20,10 +20,10 @@
 
             <!-- 🔐 CONTROL DE ACCESO ADAPTATIVO -->
             @auth
-                @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
+                @if(auth()->user()->esAdmin())
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
                     
-                @elseif(auth()->user()->roles->contains('name', 'recepcionista') || auth()->user()->role === 'recepcionista')
+                @elseif(auth()->user()->esRecepcionista())
                     <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
                     
                 @else

@@ -10,21 +10,22 @@ class IsAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('login');
         }
 
         $user = auth()->user();
 
-    
-        if ($user->roles->contains('name', 'admin') || $user->roles->contains('name', 'administrador')) {
+        if ($user->esAdmin()) {
             return $next($request);
         }
 
-        if ($user->role === 'recepcionista') {
-            return redirect()->route('recepcionista.dashboard')->with('error', 'No tienes acceso al panel de administración.');
+        if ($user->esRecepcionista()) {
+            return redirect()->route('recepcionista.dashboard')
+                ->with('error', 'No tenés acceso al panel de administración.');
         }
 
-        return redirect()->route('cliente.perfil')->with('error', 'No tienes permisos de administrador para acceder a esta sección.');
+        return redirect()->route('cliente.perfil')
+            ->with('error', 'No tenés permisos de administrador para acceder a esta sección.');
     }
 }

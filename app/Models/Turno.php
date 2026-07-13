@@ -17,21 +17,21 @@ class Turno extends Model
         'profesional',
         'fecha',
         'hora',
+        'estado',
     ];
 
-public function user()
-{
-    return $this->belongsTo(User::class, 'user_id');
-}
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
-public function profesional()
-{
-   return $this->belongsTo(Profesional::class, 'profesional');
-}
+    public function elServicio()
+    {
+        return $this->belongsTo(Servicio::class, 'servicio');
+    }
 
-public function servicio()
-{
-    
-    return $this->belongsTo(Servicio::class, 'servicio');
-}
+    public function elProfesional()
+    {
+        return $this->belongsTo(Profesional::class, 'profesional');
+    }
 }

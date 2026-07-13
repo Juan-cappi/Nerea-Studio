@@ -40,10 +40,9 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->name('regi
 
 
 Route::middleware(['auth'])->group(function () {
-    
+
     Route::view('dashboard', 'dashboard')->middleware(['verified'])->name('dashboard');
 
-    // Ajustes de cuenta (Volt)
     Route::redirect('settings', 'settings/profile');
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
@@ -51,14 +50,23 @@ Route::middleware(['auth'])->group(function () {
 
     // Perfil e historial del cliente
     Route::get('/perfil', function() {
-        $turnos = \App\Models\Turno::where('user_id', auth()->id())
-            ->with(['servicio', 'profesional']) 
+        $hoy = now()->format('Y-m-d');
+
+        $proximos = \App\Models\Turno::where('user_id', auth()->id())
+            ->where('fecha', '>=', $hoy)
+            ->with(['elServicio', 'elProfesional'])
             ->orderBy('fecha', 'asc')
             ->orderBy('hora', 'asc')
-            ->get();
+            ->paginate(5, ['*'], 'pag_prox')
+            ->withQueryString();
 
-        $proximos = $turnos->where('fecha', '>=', now()->format('Y-m-d'));
-        $historial = $turnos->where('fecha', '<', now()->format('Y-m-d'));
+        $historial = \App\Models\Turno::where('user_id', auth()->id())
+            ->where('fecha', '<', $hoy)
+            ->with(['elServicio', 'elProfesional'])
+            ->orderBy('fecha', 'desc')
+            ->orderBy('hora', 'desc')
+            ->paginate(5, ['*'], 'pag_hist')
+            ->withQueryString();
 
         return view('cliente.perfil', compact('proximos', 'historial'));
     })->name('cliente.perfil');
@@ -71,29 +79,31 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    
-    // Dashboard Administrativo oficial con todas sus variables juntas
+
     Route::get('admin/dashboard', function(){
         $totalRecepcionistas = \App\Models\Recepcionista::count();
-        $totalProfesionales = \App\Models\Profesional::count();
-        $profesionales = Profesional::all();
-        $recepcionistas = Recepcionista::all();
-       
+        $totalProfesionales  = \App\Models\Profesional::count();
+
+        $profesionales  = Profesional::orderBy('nombre')
+            ->paginate(5, ['*'], 'pag_prof')
+            ->withQueryString();
+
+        $recepcionistas = Recepcionista::orderBy('nombre')
+            ->paginate(5, ['*'], 'pag_recep')
+            ->withQueryString();
+
         return view('admin.dashboard', compact('totalRecepcionistas', 'totalProfesionales', 'profesionales', 'recepcionistas'));
     })->name('admin.dashboard');
 
-    // ABM de Empleados
     Route::resource('profesionales', ProfesionalController::class);
     Route::resource('recepcionistas', RecepcionistaController::class);
-    
-    // Configuración de Especialidades
+
     Route::get('/admin/especialidades', [EspecialidadController::class, 'index'])->name('admin.especialidades.index');
     Route::get('/admin/especialidades/{id}/edit', [EspecialidadController::class, 'edit'])->name('admin.especialidades.edit');
     Route::put('/admin/especialidades/{id}', [EspecialidadController::class, 'update'])->name('admin.especialidades.update');
     Route::post('/admin/especialidades/asignar', [EspecialidadController::class, 'asignar'])->name('admin.especialidades.asignar');
     Route::post('/admin/especialidades', [EspecialidadController::class, 'store'])->name('admin.especialidades.store');
 
-    // Configuración de catálogo de Servicios
     Route::get('/admin/servicios', [ServicioController::class, 'index'])->name('admin.servicios.index');
     Route::post('/admin/servicios', [ServicioController::class, 'store'])->name('admin.servicios.store');
 });
