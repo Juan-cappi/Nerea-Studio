@@ -145,7 +145,7 @@
    
     <header>
         <a href="{{ url('/') }}" class="logo">
-         <img src="{{ asset('img/logo.png')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">        
+         <img src="{{ asset('img/logo.jpeg')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">        
         </a>
         <nav>
             <a href="{{ route('home') }}">Inicio</a>
