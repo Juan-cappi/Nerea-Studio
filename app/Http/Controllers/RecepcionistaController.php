@@ -7,6 +7,7 @@ use App\Models\Recepcionista;
 use App\Models\Turno;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Requests\RecepcionistaRequest;
 
 class RecepcionistaController extends Controller
 {
@@ -120,15 +121,11 @@ class RecepcionistaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RecepcionistaRequest $request)
     {
-        $request->validate([
-            'nombre'=> 'required|string|max:255',
-            'email'=> 'required|email|max:255',
-            'telefono' => 'required|max:20',
-        ]);
+        $validated = $request->validated();
 
-        Recepcionista::create($request->all());
+        Recepcionista::create($validated);
 
         return redirect()->route('admin.dashboard')
         ->with('success','Recepcionista creado correctamente');
@@ -154,9 +151,14 @@ class RecepcionistaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Recepcionista $recepcionista)
+    public function update(RecepcionistaRequest $request, Recepcionista $recepcionista)
     {
-        //
+        $validated = $request->validated();
+
+        $recepcionista->update($validated);
+
+        return redirect()->route('admin.dashboard')
+            ->with('success','Recepcionista actualizado correctamente');
     }
 
     /**
@@ -164,6 +166,9 @@ class RecepcionistaController extends Controller
      */
     public function destroy(Recepcionista $recepcionista)
     {
-        //
+        $recepcionista->delete();
+
+        return redirect()->route('admin.dashboard')
+            ->with('success','Recepcionista eliminado correctamente');
     }
 }

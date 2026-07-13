@@ -27,7 +27,7 @@ Route::get('/nosotros' , function() {
 
 Route::get('/turnos', [TurnoController::class, 'create'])->name('turnos');
 Route::get('/turnos/ocupados', [TurnoController::class, 'obtenerOcupados'])->name('turnos.ocupados');
-Route::post('/turnos', [TurnoController::class, 'store'])->name('turnos.store');
+Route::post('/turnos', [TurnoController::class, 'store'])->middleware('auth')->name('turnos.store');
 
 
 Route::redirect('/registro', '/register');

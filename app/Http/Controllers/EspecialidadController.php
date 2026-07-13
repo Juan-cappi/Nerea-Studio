@@ -3,56 +3,65 @@
 namespace App\Http\Controllers;
 
 use App\Models\Especialidad;
-use App\Models\Profesional;
 use Illuminate\Http\Request;
 
 class EspecialidadController extends Controller
 {
     public function index()
     {
-        // Único listado paginado: profesionales con sus especialidades
-        $profesionales = Profesional::with('especialidades')
-            ->orderBy('nombre')
-            ->paginate(10)
-            ->withQueryString();
+        $especialidades = Especialidad::paginate(10);
+        return view('admin.especialidades.index', compact('especialidades'));
+    }
 
-        // Los selects del formulario necesitan TODOS los registros (no se paginan)
-        $todosProfesionales  = Profesional::orderBy('nombre')->get();
-        $todasEspecialidades = Especialidad::orderBy('nombre')->get();
-
-        return view('admin.especialidades.index', compact(
-            'profesionales',
-            'todosProfesionales',
-            'todasEspecialidades'
-        ));
+    public function create()
+    {
+        return view('admin.especialidades.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|min:3|max:50|unique:especialidades,nombre',
-        ], [
-            'nombre.required' => '⚠️ El nombre de la especialidad es obligatorio.',
-            'nombre.unique'   => '⚠️ Esta especialidad ya se encuentra registrada.',
+            'nombre' => 'required|string|max:255|unique:especialidades',
         ]);
 
-        Especialidad::create([
-            'nombre' => $request->nombre
+        Especialidad::create($request->all());
+
+        return redirect()->route('admin.especialidades.index')->with('success', 'Especialidad creada exitosamente.');
+    }
+
+    public function edit(Especialidad $especialidad)
+    {
+        return view('admin.especialidades.edit', compact('especialidad'));
+    }
+
+    public function update(Request $request, Especialidad $especialidad)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:especialidades,nombre,' . $especialidad->id,
         ]);
 
-        return redirect()->back()->with('status_create', '¡Especialidad creada con éxito!');
+        $especialidad->update($request->all());
+
+        return redirect()->route('admin.especialidades.index')->with('success', 'Especialidad actualizada exitosamente.');
+    }
+
+    public function destroy(Especialidad $especialidad)
+    {
+        $especialidad->delete();
+
+        return redirect()->route('admin.especialidades.index')->with('success', 'Especialidad eliminada exitosamente.');
     }
 
     public function asignar(Request $request)
     {
         $request->validate([
-            'profesional_id'  => 'required|exists:profesionales,id',
+            'profesional_id' => 'required|exists:profesionales,id',
             'especialidad_id' => 'required|exists:especialidades,id',
         ]);
 
-        $profesional = Profesional::findOrFail($request->profesional_id);
-        $profesional->especialidades()->syncWithoutDetaching([$request->especialidad_id]);
+        $especialidad = Especialidad::findOrFail($request->especialidad_id);
+        $especialidad->profesionales()->syncWithoutDetaching([$request->profesional_id]);
 
-        return redirect()->back()->with('status', '¡Especialidad asignada al profesional con éxito!');
+        return redirect()->back()->with('success', 'Especialidad asignada al profesional correctamente.');
     }
 }

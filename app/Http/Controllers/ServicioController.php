@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Servicio;
 use App\Models\Especialidad;
 use Illuminate\Http\Request;
+use App\Http\Requests\ServicioRequest;
 
 class ServicioController extends Controller
 {
@@ -24,22 +25,48 @@ class ServicioController extends Controller
     }
 
     // 2. Guarda el nuevo servicio en la base de datos
-    public function store(Request $request)
+    public function store(ServicioRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|min:3|max:50|unique:servicios,nombre',
-            'especialidad_id' => 'required|exists:especialidades,id',
-        ], [
-            'nombre.required' => '⚠️ El nombre del servicio es obligatorio.',
-            'nombre.unique' => '⚠️ Este servicio ya existe.',
-            'especialidad_id.required' => '⚠️ Tenés que asignarle una especialidad.',
-        ]);
+        $validated = $request->validated();
 
         Servicio::create([
-            'nombre' => $request->nombre,
-            'especialidad_id' => $request->especialidad_id,
+            'nombre' => $validated['nombre'],
+            'especialidad_id' => $validated['especialidad_id'],
+            'duracion' => $validated['duracion'] ?? 1,
+            'precio' => $validated['precio'] ?? null,
         ]);
 
         return redirect()->back()->with('status', '¡Servicio creado con éxito!');
+    }
+
+    public function edit($id)
+    {
+        $servicio = Servicio::findOrFail($id);
+        $especialidades = Especialidad::orderBy('nombre')->get();
+
+        return view('admin.servicios.edit', compact('servicio', 'especialidades'));
+    }
+
+    public function update(ServicioRequest $request, $id)
+    {
+        $validated = $request->validated();
+
+        $servicio = Servicio::findOrFail($id);
+        $servicio->update([
+            'nombre' => $validated['nombre'],
+            'especialidad_id' => $validated['especialidad_id'],
+            'duracion' => $validated['duracion'] ?? $servicio->duracion,
+            'precio' => $validated['precio'] ?? $servicio->precio,
+        ]);
+
+        return redirect()->route('admin.servicios.index')->with('status', '¡Servicio actualizado con éxito!');
+    }
+
+    public function destroy($id)
+    {
+        $servicio = Servicio::findOrFail($id);
+        $servicio->delete();
+
+        return redirect()->route('admin.servicios.index')->with('status', '¡Servicio eliminado con éxito!');
     }
 }

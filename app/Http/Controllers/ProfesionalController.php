@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Profesional;
+use App\Http\Requests\ProfesionalRequest;
 
 class ProfesionalController extends Controller
 {
@@ -31,28 +32,20 @@ class ProfesionalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProfesionalRequest $request)
     {
-        // 1. Validamos los datos básicos
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'email' => 'required|email|unique:profesionales,email',
-            'telefono' => 'required|string',
-            'especialidad_id' => 'required|exists:especialidades,id', 
-        ]);
+        $validated = $request->validated();
 
-        
-            $especialidadReal = \App\Models\Especialidad::find($request->especialidad_id);
+        $especialidadReal = \App\Models\Especialidad::find($validated['especialidad_id']);
 
-            $profesional = new Profesional();
-            $profesional->nombre = $request->nombre;
-            $profesional->email = $request->email;
-            $profesional->telefono = $request->telefono;
-            $profesional->Especialidad = $especialidadReal->nombre; 
-            $profesional->save(); 
+        $profesional = new Profesional();
+        $profesional->nombre = $validated['nombre'];
+        $profesional->email = $validated['email'];
+        $profesional->telefono = $validated['telefono'];
+        $profesional->Especialidad = $especialidadReal->nombre; 
+        $profesional->save(); 
 
-        
-            $profesional->especialidades()->attach($request->especialidad_id);
+        $profesional->especialidades()->attach($validated['especialidad_id']);
 
         return redirect('/admin/dashboard')->with('status', '¡Profesional creado y vinculado con éxito!');
     }
@@ -83,27 +76,20 @@ class ProfesionalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, $id)
+public function update(ProfesionalRequest $request, $id)
 {
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'email' => 'required|email|unique:profesionales,email,' . $id,
-        'telefono' => 'required|string',
-        'especialidad_id' => 'required|exists:especialidades,id',
-    ]);
+    $validated = $request->validated();
 
     $profesional = Profesional::findOrFail($id);
-    $especialidadReal = \App\Models\Especialidad::find($request->especialidad_id);
+    $especialidadReal = \App\Models\Especialidad::find($validated['especialidad_id']);
 
-    // Actualizamos los campos individuales salteando trabas de fillable
-    $profesional->nombre = $request->nombre;
-    $profesional->email = $request->email;
-    $profesional->telefono = $request->telefono;
-    $profesional->Especialidad = $especialidadReal->nombre; // Mantenemos la columna vieja con el texto string
+    $profesional->nombre = $validated['nombre'];
+    $profesional->email = $validated['email'];
+    $profesional->telefono = $validated['telefono'];
+    $profesional->Especialidad = $especialidadReal->nombre;
     $profesional->save();
 
-
-    $profesional->especialidades()->sync([$request->especialidad_id]);
+    $profesional->especialidades()->sync([$validated['especialidad_id']]);
 
     return redirect('/admin/dashboard')->with('status', '¡Profesional actualizado con éxito!');
 }

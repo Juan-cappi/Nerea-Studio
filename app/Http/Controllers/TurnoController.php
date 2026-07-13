@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreTurnoRequest;
+use App\Http\Requests\UpdateTurnoRequest;
 use App\Models\Turno; 
 use App\Models\Servicio;
 use App\Models\Profesional;
@@ -10,16 +12,9 @@ use Illuminate\Support\Facades\Mail;
 
 class TurnoController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreTurnoRequest $request)
     {
-        $dataValidada = $request->validate([
-            'nombre_completo' => 'required|string|max:255',
-            'correo'          => 'required|email|max:255',
-            'fecha'           => 'required|date',
-            'hora'            => 'required|string',
-            'servicio_id'     => 'required|exists:servicios,id',
-            'profesional_id'  => 'required|exists:profesionales,id',
-        ]);
+        $dataValidada = $request->validated();
 
         $servicio = Servicio::findOrFail($request->servicio_id);
         $duracion = $servicio->duracion;
@@ -150,22 +145,17 @@ class TurnoController extends Controller
         return view('cliente.edit', compact('turno', 'servicios', 'profesionales', 'turnosOcupados'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateTurnoRequest $request, $id)
     {
-        $request->validate([
-            'servicio_id'    => 'required|exists:servicios,id',
-            'profesional_id' => 'required|exists:profesionales,id',
-            'fecha'          => 'required|date',
-            'hora'           => 'required|string',
-        ]);
+        $validated = $request->validated();
 
         $turno = Turno::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
         
         $turno->update([
-            'fecha'       => $request->fecha,
-            'hora'        => $request->hora,
-            'servicio'    => $request->servicio_id, 
-            'profesional' => $request->profesional_id, 
+            'fecha'       => $validated['fecha'],
+            'hora'        => $validated['hora'],
+            'servicio'    => $validated['servicio_id'], 
+            'profesional' => $validated['profesional_id'], 
         ]);
 
         return redirect()->route('cliente.perfil')->with('status', '¡Tu turno fue reprogramado con éxito!');
