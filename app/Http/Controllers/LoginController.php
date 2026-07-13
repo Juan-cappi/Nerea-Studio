@@ -39,8 +39,6 @@ class LoginController extends Controller
             return redirect()->route('recepcionista.dashboard');
         }
 
-        return redirect()->route('cliente.perfil');{
-
-        }
+        return redirect()->route('cliente.perfil');
     }
 }

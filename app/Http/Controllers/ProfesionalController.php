@@ -13,7 +13,10 @@ class ProfesionalController extends Controller
      */
     public function index()
     {
-        $profesionales= Profesional::all();
+        $profesionales = Profesional::orderBy('nombre')
+            ->paginate(10)
+            ->withQueryString();
+
         return view('admin.profesionales.index', compact('profesionales'));
     }
 
@@ -42,7 +45,6 @@ class ProfesionalController extends Controller
         $profesional->nombre = $validated['nombre'];
         $profesional->email = $validated['email'];
         $profesional->telefono = $validated['telefono'];
-        $profesional->Especialidad = $especialidadReal->nombre; 
         $profesional->save(); 
 
         $profesional->especialidades()->attach($validated['especialidad_id']);
@@ -86,7 +88,6 @@ public function update(ProfesionalRequest $request, $id)
     $profesional->nombre = $validated['nombre'];
     $profesional->email = $validated['email'];
     $profesional->telefono = $validated['telefono'];
-    $profesional->Especialidad = $especialidadReal->nombre;
     $profesional->save();
 
     $profesional->especialidades()->sync([$validated['especialidad_id']]);

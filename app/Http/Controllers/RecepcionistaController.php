@@ -20,7 +20,8 @@ class RecepcionistaController extends Controller
     $turnos = \App\Models\Turno::with(['user', 'profesional', 'servicio'])
                 ->orderBy('fecha', 'asc')
                 ->orderBy('hora', 'asc')
-                ->get();
+                    ->paginate(10)
+                    ->withQueryString();
 
     return view('admin.dashboard', compact('turnos'));
 }
