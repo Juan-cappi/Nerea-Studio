@@ -3,9 +3,17 @@
 use App\Models\Profesional;
 use App\Models\Turno;
 use App\Models\User;
+use App\Models\Role;
 
 it('muestra los profesionales y turnos reales en el panel del recepcionista', function () {
+    // 1. Creamos el usuario común usando el factory
     $user = User::factory()->create();
+
+    // 2. Buscamos o creamos el rol usando 'name' en inglés
+    $rolRecepcionista = Role::firstOrCreate(['name' => 'recepcionista']);
+
+    // 3. Asociamos el usuario con el rol en la tabla intermedia
+    $user->roles()->attach($rolRecepcionista);
 
     Profesional::create([
         'nombre' => 'Mateo',

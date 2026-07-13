@@ -11,7 +11,8 @@ export default defineConfig({
                 'resources/css/turnos.css',
                 'resources/js/turnos.js',
                 'resources/css/registro.css',
-                'resources/css/index.css',
+                'resources/js/registro.js',     // Busca este JS para el registro
+                'resources/css/index.css',    // Cambiado definitivamente a index.css
                 'resources/css/admin.css',
                 'resources/css/cliente.css',
                 'resources/css/recepcionista.css',
