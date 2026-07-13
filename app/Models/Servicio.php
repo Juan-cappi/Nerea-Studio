@@ -11,7 +11,7 @@ class Servicio extends Model
 
     protected $fillable = ['nombre', 'especialidad_id', 'duracion', 'precio'];
 
-    // 🏷️ Relación: Un servicio pertenece a una especialidad (Ej: Balayage pertenece a Colorista)
+    // Un servicio pertenece a una especialidad (Ej: Balayage pertenece a Colorista)
     public function specialty()
     {
         return $this->belongsTo(Especialidad::class, 'especialidad_id');

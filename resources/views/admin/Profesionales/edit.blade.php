@@ -36,21 +36,21 @@
             text-transform: uppercase;
             margin-bottom: 0.4rem;
         }
-        /* 📐 Cambiá la línea 39 para que incluya al select */
+
         .input-group input,
         .input-group select {
             width: 100%;
             padding: 0.6rem 1rem;
-            box-sizing: border-box; /* ◄ Clave para que el padding no estire el ancho */
-            border: 1px solid #e8e0d6; /* El color de borde que venías usando */
+            box-sizing: border-box; 
+            border: 1px solid #e8e0d6; 
             border-radius: 6px;
             background-color: #fff;
             font-family: 'Montserrat', sans-serif;
             color: #5a4b41;
             font-size: 0.9rem;
             outline: none;
-            height: 44px; /* Forzamos la misma altura para ambos */
-            appearance: none; /* Opcional: quita la flecha nativa si querés personalizarla */
+            height: 44px; 
+            appearance: none; 
         }
         .error {
             color: #c0392b;
@@ -126,7 +126,7 @@
                 <select name="especialidad_id" class="campo-input-unico" required>
                     <option value="" disabled>Seleccioná una especialidad</option>
                     @foreach($especialidades as $esp)
-                        <!-- Comprobamos si el profesional ya tiene vinculada esta especialidad por ID -->
+                        
                         <option value="{{ $esp->id }}" {{ $profesional->especialidades->contains($esp->id) ? 'selected' : '' }}>
                             {{ $esp->nombre }}
                         </option>

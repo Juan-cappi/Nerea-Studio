@@ -11,8 +11,7 @@
 
 <header>
     <a href="{{ url('/') }}" class="logo">
-        <div class="logo-circle"><span>N</span></div>
-    </a>
+ <img src="{{ asset('img/logo.png')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">    </a>
     <nav>
         <a href="{{ route('home') }}">Inicio</a>
         <a href="{{ route('servicios') }}">Servicios</a>
@@ -113,7 +112,7 @@
             <div class="social-btns">
                 <a href="#" class="social-btn" title="Google">G</a>
                 <a href="#" class="social-btn" title="Facebook">f</a>
-                <a href="#" class="social-btn" title="Apple">⌘</a>
+                <a href="https://www.instagram.com/nereacolorista/" class="social-btn" title="Instagram">I</a>
             </div>
 
         </div>

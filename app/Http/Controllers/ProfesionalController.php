@@ -21,10 +21,10 @@ class ProfesionalController extends Controller
      */
         public function create()
         {
-            // 🔮 Buscamos todas las especialidades reales en MySQL
+            
             $especialidades = \App\Models\Especialidad::all();
 
-            // 🎒 Se las pasamos a la vista usando compact
+     
             return view('admin.Profesionales.create', compact('especialidades'));
         }
 
@@ -38,23 +38,22 @@ class ProfesionalController extends Controller
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:profesionales,email',
             'telefono' => 'required|string',
-            'especialidad_id' => 'required|exists:especialidades,id', // Asegurate de que coincida con el 'name' de tu <select>
+            'especialidad_id' => 'required|exists:especialidades,id', 
         ]);
 
-        // 2. Creamos el registro del profesional a mano para saltear el $fillable
+        
             $especialidadReal = \App\Models\Especialidad::find($request->especialidad_id);
 
             $profesional = new Profesional();
             $profesional->nombre = $request->nombre;
             $profesional->email = $request->email;
             $profesional->telefono = $request->telefono;
-            $profesional->Especialidad = $especialidadReal->nombre; // ◄ Forzamos la columna vieja tal cual se llama en la BD
-            $profesional->save(); // Guardamos en la tabla 'profesionales'
+            $profesional->Especialidad = $especialidadReal->nombre; 
+            $profesional->save(); 
 
-            // 3. ¡EL TRUCO CLAVE! Enganchamos al nuevo profesional en la tabla intermedia
+        
             $profesional->especialidades()->attach($request->especialidad_id);
 
-        // 4. 🧭 ¡REDIRECCIÓN AL PANEL! En vez de quedarnos ahí, lo mandamos al dashboard con un mensaje de éxito
         return redirect('/admin/dashboard')->with('status', '¡Profesional creado y vinculado con éxito!');
     }
 
@@ -74,10 +73,10 @@ class ProfesionalController extends Controller
         // Buscamos al profesional trayendo sus especialidades vinculadas
         $profesional = Profesional::with('especialidades')->findOrFail($id);
         
-        // 🔮 Buscamos todas las especialidades disponibles para el select
+        
         $especialidades = \App\Models\Especialidad::all();
 
-        // 🎒 Enviamos las dos variables juntas a la vista
+       
         return view('admin.Profesionales.edit', compact('profesional', 'especialidades'));
     }
 
@@ -103,8 +102,7 @@ public function update(Request $request, $id)
     $profesional->Especialidad = $especialidadReal->nombre; // Mantenemos la columna vieja con el texto string
     $profesional->save();
 
-    // 🔗 ¡LA CLAVE DE LA EDICIÓN! 
-    // sync() borra la relación vieja en la tabla intermedia y clava la nueva automáticamente
+
     $profesional->especialidades()->sync([$request->especialidad_id]);
 
     return redirect('/admin/dashboard')->with('status', '¡Profesional actualizado con éxito!');

@@ -215,7 +215,7 @@ main {
 }
 .form-footer a:hover { color: var(--gold); }
  
-/* ── DIVIDER ── */
+
 .divider {
     display: flex;
     align-items: center;
@@ -234,7 +234,7 @@ main {
     letter-spacing: 1px;
 }
  
-/* ── SOCIAL BUTTONS ── */
+
 .social-btns {
     display: flex;
     justify-content: center;
@@ -252,7 +252,7 @@ main {
 }
 .social-btn:hover { border-color: var(--gold); color: var(--gold); }
  
-/* ── RESPONSIVE ── */
+/* RESPONSIVE*/
 @media (max-width: 900px) {
     nav { padding: 16px 24px; }
     .nav-links { display: none; }

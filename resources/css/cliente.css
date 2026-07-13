@@ -31,7 +31,7 @@ body {
     line-height: 1.6;
 }
 
-/* 🧭 Header idéntico al tuyo */
+/* Header idéntico al tuyo */
 header {
     display: flex;
     justify-content: space-between;
@@ -91,7 +91,7 @@ nav a:hover, nav a.active, .btn-logout:hover {
     font-weight: bold;
 }
 
-/* 🏢 Estructura de Contenedor */
+/*  Estructura de Contenedor */
 .container-perfil {
     max-width: 1100px;
     margin: 40px auto;
@@ -139,7 +139,6 @@ nav a:hover, nav a.active, .btn-logout:hover {
     background-color: #443830;
 }
 
-/* 📅 Bloques de Paneles (Copian la estructura de tu .agenda-block) */
 .perfil-block {
     background: var(--color-blanco);
     padding: 30px;
@@ -209,7 +208,7 @@ nav a:hover, nav a.active, .btn-logout:hover {
     font-size: 14px;
 }
 
-/* 📋 Tabla de Historial adaptada a tu paleta */
+
 .tabla-contenedor-perfil {
     width: 100%;
     overflow-x: auto;

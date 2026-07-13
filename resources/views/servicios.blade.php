@@ -9,7 +9,7 @@
 <body>
 <header>
     <a href="{{ url('/') }}" class="logo">
-        <div class="logo-circle"><span>N</span></div>
+        <img src="{{ asset('img/logo.png')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">
     </a>
 <nav>
             <a href="{{ route('home') }}">Inicio</a>

@@ -11,15 +11,13 @@
 
 <header>
     <a href="{{ url('/') }}" class="logo">
-        <div class="logo-circle"><span>N</span></div>
-    </a>
+ <img src="{{ asset('img/logo.png')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">    </a>
 <nav>
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('turnos') }}">Turnos</a>
             <a href="{{ route('nosotros') }}">Nosotros</a>
 
-            <!-- 🔐 CONTROL DE ACCESO ADAPTATIVO -->
             @auth
                 @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
@@ -48,7 +46,7 @@
             Gestión de Especialidades
         </h2>
 
-        <!-- 🏷️ CARD 1: FORMULARIO PARA AGREGAR NUEVA ESPECIALIDAD -->
+       
         <div class="card" style="background: #ffffff; border-radius: 16px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem;">
             <h4 style="margin-top: 0; margin-bottom: 15px; color: #6b5c4e; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; border-bottom: 1px solid #f4eee8; padding-bottom: 10px;">
                 ✨ Crear Nueva Especialidad
@@ -77,7 +75,7 @@
         </div>
 
 
-        <!-- 🤝 CARD 2: FORMULARIO DE VINCULACIÓN -->
+        
         <div class="card" style="background: #ffffff; border-radius: 16px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem;">
             <h4 style="margin-top: 0; margin-bottom: 15px; color: #6b5c4e; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; border-bottom: 1px solid #f4eee8; padding-bottom: 10px;">
                 🔗 Vincular Especialidad a Profesional
@@ -119,7 +117,7 @@
         </div>
 
 
-        <!-- 📋 CARD 3: LISTADO ACTUAL DE COORDINACIÓN -->
+        
         <div class="card" style="background: #ffffff; border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem;">
             <h4 style="margin-top: 0; color: #6b5c4e; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; border-bottom: 1px solid #f4eee8; padding-bottom: 10px;">
                 Especialidades por Profesional

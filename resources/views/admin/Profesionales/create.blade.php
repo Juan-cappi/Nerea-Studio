@@ -56,10 +56,9 @@
             font-family: inherit;
             font-size: 14px;
             cursor: pointer;
-            appearance: none; /* ◄ CLAVE: Elimina la flecha fea por defecto del navegador */
+            appearance: none; 
             -webkit-appearance: none;
             -moz-appearance: none;
-            /* Podés sumarle una flechita sutil de fondo si querés */
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='%235a4b41' d='M0 3l5 5 5-5z'/></svg>");
             background-repeat: no-repeat;
             background-position: right 15px center;

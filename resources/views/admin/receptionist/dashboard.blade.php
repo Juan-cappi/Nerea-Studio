@@ -11,8 +11,7 @@
 
 <header>
     <a href="{{ url('/') }}" class="logo">
-        <div class="logo-circle"><span>N</span></div>
-    </a>
+ <img src="{{ asset('img/logo.png')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">    </a>
     <nav>
         <a href="{{ route('home') }}">Inicio</a>
         <a href="#">Servicios</a>
@@ -23,19 +22,19 @@
 </header>
 
 <main class="container-recepcionista">
-    <!-- Header del Panel -->
+    
     <div class="recepcionista-header">
         <h1>Panel de Recepcionista</h1>
         <p>Gestiona los turnos y clientes del estudio</p>
     </div>
 
-    <!-- Botones de Acción Principales -->
+   
     <div class="action-buttons">
         <button class="btn-action" onclick="window.location.href='#agenda'">Ver Agenda Completa</button>
         <button class="btn-action" onclick="window.location.href='#clientes'">Gestionar Clientes</button>
     </div>
 
-    <!-- Sección Agenda Semanal -->
+   
     <section class="agenda-semanal" id="agenda">
         <h2>Agenda Semanal</h2>
 
@@ -92,7 +91,7 @@
                     <div class="day-number">30</div>
                 </div>
 
-                <!-- Leyenda de disponibilidad -->
+                
                 <div class="availability-legend">
                     <div class="legend-item">
                         <div class="legend-dot dot-available"></div>
@@ -109,12 +108,12 @@
                 </div>
             </div>
 
-            <!-- Horarios y Profesionales -->
+            
             <div class="horarios-section">
                 <h3>Profesionales y Turnos - 12 de Junio</h3>
 
                 <div class="profesionales-grid">
-                    <!-- Profesional 1 -->
+                    
                     <div class="profesional-card">
                         <div class="profesional-header">
                             <div class="profesional-avatar">A</div>
@@ -151,7 +150,7 @@
                         </div>
                     </div>
 
-                    <!-- Profesional 2 -->
+                   
                     <div class="profesional-card">
                         <div class="profesional-header">
                             <div class="profesional-avatar">C</div>
@@ -188,7 +187,7 @@
                         </div>
                     </div>
 
-                    <!-- Profesional 3 -->
+                  
                     <div class="profesional-card">
                         <div class="profesional-header">
                             <div class="profesional-avatar">B</div>

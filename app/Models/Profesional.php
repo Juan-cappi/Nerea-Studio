@@ -15,12 +15,9 @@ class Profesional extends Model
         'Especialidad',
         'especialidad',
     ];
-    /**
- * ✨ Relación: Un profesional puede tener muchas especialidades
- */
+
 public function especialidades()
 {
-    // 🧼 Lo dejamos estándar para que Laravel use las columnas perfectas que creaste
     return $this->belongsToMany(Especialidad::class);
 }
 }

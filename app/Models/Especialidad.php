@@ -9,7 +9,6 @@ class Especialidad extends Model
 {
     use HasFactory;
 
-    // 🔒 LE DECIMOS A LARAVEL EL NOMBRE REAL DE LA TABLA
     protected $table = 'especialidades';
 
     protected $fillable = ['nombre'];

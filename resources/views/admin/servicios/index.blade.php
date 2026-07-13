@@ -11,15 +11,14 @@
 
 <header>
     <a href="{{ url('/') }}" class="logo">
-        <div class="logo-circle"><span>N</span></div>
-    </a>
+ <img src="{{ asset('img/logo.png')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">    </a>
 <nav>
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('turnos') }}">Turnos</a>
             <a href="{{ route('nosotros') }}">Nosotros</a>
 
-            <!-- 🔐 CONTROL DE ACCESO ADAPTATIVO -->
+            
             @auth
                 @if(auth()->user()->roles->contains('name', 'admin') || auth()->user()->roles->contains('name', 'administrador') || auth()->user()->role === 'administrador')
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
@@ -31,7 +30,7 @@
                     <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>
                 @endif
 
-                <!-- Botón de Cerrar Sesión -->
+                
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
                     @csrf
                     <button type="submit" class="btn-logout" style="background: none; border: none; color: var(--color-texto); text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-left: 20px; cursor: pointer; font-family: inherit;">Cerrar Sesión</button>

@@ -45,7 +45,7 @@ class EspecialidadController extends Controller
 
         $profesional = Profesional::findOrFail($request->profesional_id);
         
-        // syncWithoutDetaching() engancha la especialidad en la tabla intermedia sin borrar las que ya tenía
+       
         $profesional->especialidades()->syncWithoutDetaching([$request->especialidad_id]);
 
         return redirect()->back()->with('status', '¡Especialidad asignada al profesional con éxito!');

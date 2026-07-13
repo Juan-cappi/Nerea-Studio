@@ -31,7 +31,7 @@ header {
 }
 
 .logo-circle {
-    background-color: transparent !important; /* Sin fondo oscuro */
+    background-color: transparent !important; 
     border: 1px solid #e2d1b6 !important; /* Borde fino sutil */
     width: 45px !important;
     height: 45px !important;
