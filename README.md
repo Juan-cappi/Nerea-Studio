@@ -22,7 +22,7 @@ Sistema web para gestión de turnos de una peluquería, desarrollado con **Larav
 
 ```bash
 git clone https://github.com/Genj32/Nerea-TP2.git
-cd Proyecto-Web-Peluqueria
+cd Nerea-TP2
 ```
 
 ### 2. Instalar dependencias de PHP
@@ -48,7 +48,7 @@ php artisan key:generate
 
 Abrir el archivo `.env` y configurar los datos de conexión a la base de datos:
 
-```
+```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -57,7 +57,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-> Importante: crear antes la base de datos vacía (por ejemplo `nerea_studio`) desde MySQL o phpMyAdmin. Laravel no crea la base en sí, solo las tablas.
+> **Importante:** crear antes la base de datos vacía desde MySQL o phpMyAdmin. Laravel no crea la base en sí, solo las tablas.
 
 ```sql
 CREATE DATABASE nerea_studio;
@@ -65,31 +65,31 @@ CREATE DATABASE nerea_studio;
 
 ### 5. Ejecutar las migraciones
 
-Este comando crea automáticamente todas las tablas del sistema (usuarios, roles, profesionales, recepcionistas, turnos, especialidades, servicios, etc.):
+Crea todas las tablas del sistema (usuarios, roles, profesionales, recepcionistas, turnos, especialidades, servicios y las tablas intermedias):
 
 ```bash
 php artisan migrate
 ```
 
-Si en algún momento necesitás borrar todas las tablas y volver a crearlas desde cero:
-
-```bash
-php artisan migrate:fresh
-```
-
 ### 6. Cargar los datos de prueba (seeders)
-
-Este paso crea los **tres roles del sistema** (admin, recepcionista, cliente) y un usuario de prueba para cada uno, además de servicios y especialidades base:
 
 ```bash
 php artisan db:seed
 ```
 
-O ambos pasos juntos :
+O todo junto, desde cero:
 
 ```bash
 php artisan migrate:fresh --seed
 ```
+
+Los seeders cargan:
+
+- Los **tres roles** del sistema (admin, recepcionista, cliente) y un usuario de prueba para cada uno
+- **3 especialidades** (Peinador/a, Colorista, Asistente) y sus **servicios** asociados, con duración de 1 o 2 horas
+- **4 profesionales**, vinculados a sus especialidades
+- **3 recepcionistas**
+- **30 turnos** distribuidos entre el mes pasado y el próximo, para poder ver historial y próximos turnos
 
 ### 7. Compilar los assets (CSS/JS)
 
@@ -109,21 +109,31 @@ npm run dev
 php artisan serve
 ```
 
-La aplicación quedará disponible en `http://127.0.0.1:8000`.
+La aplicación queda disponible en `http://127.0.0.1:8000`.
 
 ---
 
-## Usuarios de prueba (cargados por el seeder)
+## Usuarios de prueba
 
-| Rol            | Email                  | Contraseña   |
-|----------------|-------------------------|--------------|
-| Administrador  | nerea@gmail.com         | artemis123   |
-| Recepcionista  | recepcion@gmail.com     | artemis123   |
-| Cliente        | cliente@gmail.com       | artemis123   |
+| Rol            | Email                | Contraseña |
+|----------------|----------------------|------------|
+| Administrador  | nerea@gmail.com      | artemis123 |
+| Recepcionista  | recepcion@gmail.com  | artemis123 |
+| Cliente        | cliente@gmail.com    | artemis123 |
 
 ---
 
-## Comandos útiles adicionales
+## Roles y accesos del sistema
+
+- **Administrador:** gestiona profesionales, recepcionistas, especialidades y servicios. Vincula especialidades a cada profesional. Ruta protegida por middleware `admin`.
+- **Recepcionista:** consulta la agenda diaria del salón, con el estado de cada horario por profesional. Ruta protegida por middleware `recepcionista`.
+- **Cliente:** reserva turnos, y modifica o cancela los propios desde su perfil.
+
+Las rutas administrativas y de recepción están protegidas mediante middlewares personalizados (`IsAdmin`, `IsRecepcionista`), por lo que un usuario sin el rol correspondiente no puede acceder a ellas ni siquiera pegando la URL manualmente en el navegador.
+
+---
+
+## Comandos útiles
 
 ```bash
 # Ver el estado de las migraciones
@@ -132,18 +142,8 @@ php artisan migrate:status
 # Revertir la última tanda de migraciones
 php artisan migrate:rollback
 
-# Limpiar cachés (útil si hay cambios raros de configuración o rutas)
+# Limpiar cachés (útil ante cambios raros de configuración o rutas)
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
 ```
-
----
-
-## Roles y accesos del sistema
-
-- **Administrador:** gestiona profesionales, recepcionistas, especialidades y servicios (CRUD completo). Ruta protegida por middleware `admin`.
-- **Recepcionista:** gestiona los turnos del salón desde su panel propio. Ruta protegida por middleware `recepcionista`.
-- **Cliente:** reserva turnos, y edita o cancela sus propios turnos desde su perfil.
-
-Todas las rutas administrativas y de recepción están protegidas mediante middlewares (`IsAdmin`, `IsRecepcionista`), por lo que un usuario sin el rol correspondiente no puede acceder a ellas ni siquiera pegando la URL manualmente en el navegador.
