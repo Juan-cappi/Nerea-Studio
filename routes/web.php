@@ -11,6 +11,7 @@ use App\Models\Recepcionista;
 use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\ClienteController;
 
 
 Route::get('/', function () {
@@ -98,19 +99,33 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('profesionales', ProfesionalController::class);
     Route::resource('recepcionistas', RecepcionistaController::class);
 
+    Route::get('/admin/clientes', [ClienteController::class, 'index'])->name('admin.clientes.index');
+    Route::get('/admin/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('admin.clientes.edit');
+    Route::put('/admin/clientes/{cliente}', [ClienteController::class, 'update'])->name('admin.clientes.update');
+    Route::delete('/admin/clientes/{cliente}', [ClienteController::class, 'destroy'])->name('admin.clientes.destroy');
+
     Route::get('/admin/especialidades', [EspecialidadController::class, 'index'])->name('admin.especialidades.index');
-    Route::get('/admin/especialidades/{id}/edit', [EspecialidadController::class, 'edit'])->name('admin.especialidades.edit');
-    Route::put('/admin/especialidades/{id}', [EspecialidadController::class, 'update'])->name('admin.especialidades.update');
+    Route::get('/admin/especialidades/{especialidad}/edit', [EspecialidadController::class, 'edit'])->name('admin.especialidades.edit');
+    Route::put('/admin/especialidades/{especialidad}', [EspecialidadController::class, 'update'])->name('admin.especialidades.update');
+    Route::delete('/admin/especialidades/{especialidad}', [EspecialidadController::class, 'destroy'])->name('admin.especialidades.destroy');
     Route::post('/admin/especialidades/asignar', [EspecialidadController::class, 'asignar'])->name('admin.especialidades.asignar');
     Route::post('/admin/especialidades', [EspecialidadController::class, 'store'])->name('admin.especialidades.store');
 
     Route::get('/admin/servicios', [ServicioController::class, 'index'])->name('admin.servicios.index');
+    Route::get('/admin/servicios/{servicio}/edit', [ServicioController::class, 'edit'])->name('admin.servicios.edit');
+    Route::put('/admin/servicios/{servicio}', [ServicioController::class, 'update'])->name('admin.servicios.update');
+    Route::delete('/admin/servicios/{servicio}', [ServicioController::class, 'destroy'])->name('admin.servicios.destroy');
     Route::post('/admin/servicios', [ServicioController::class, 'store'])->name('admin.servicios.store');
 });
 
 
 Route::middleware(['auth', 'recepcionista'])->group(function () {
     Route::get('recepcionista/dashboard', [RecepcionistaController::class, 'dashboard'])->name('recepcionista.dashboard');
+
+    Route::get('/admin/clientes', [ClienteController::class, 'index'])->name('admin.clientes.index');
+    Route::get('/admin/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('admin.clientes.edit');
+    Route::put('/admin/clientes/{cliente}', [ClienteController::class, 'update'])->name('admin.clientes.update');
+    Route::delete('/admin/clientes/{cliente}', [ClienteController::class, 'destroy'])->name('admin.clientes.destroy');
 });
 
 require __DIR__.'/auth.php';

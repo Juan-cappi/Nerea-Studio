@@ -39,19 +39,17 @@ class ServicioController extends Controller
         return redirect()->back()->with('status', '¡Servicio creado con éxito!');
     }
 
-    public function edit($id)
+    public function edit(Servicio $servicio)
     {
-        $servicio = Servicio::findOrFail($id);
         $especialidades = Especialidad::orderBy('nombre')->get();
 
         return view('admin.servicios.edit', compact('servicio', 'especialidades'));
     }
 
-    public function update(ServicioRequest $request, $id)
+    public function update(ServicioRequest $request, Servicio $servicio)
     {
         $validated = $request->validated();
 
-        $servicio = Servicio::findOrFail($id);
         $servicio->update([
             'nombre' => $validated['nombre'],
             'especialidad_id' => $validated['especialidad_id'],
@@ -62,9 +60,8 @@ class ServicioController extends Controller
         return redirect()->route('admin.servicios.index')->with('status', '¡Servicio actualizado con éxito!');
     }
 
-    public function destroy($id)
+    public function destroy(Servicio $servicio)
     {
-        $servicio = Servicio::findOrFail($id);
         $servicio->delete();
 
         return redirect()->route('admin.servicios.index')->with('status', '¡Servicio eliminado con éxito!');

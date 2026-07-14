@@ -97,6 +97,7 @@
                     <tr style="text-align: left; color: #9c8470; font-size: 12px; border-bottom: 1px solid #e8e0d6;">
                         <th style="padding: 10px 5px;">Servicio</th>
                         <th style="padding: 10px 5px;">Especialidad Mapeada</th>
+                        <th style="padding: 10px 5px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,10 +109,18 @@
                                     {{ $ser->specialty->nombre ?? 'Sin especialidad' }}
                                 </span>
                             </td>
+                            <td style="padding: 12px 5px;">
+                                <a href="{{ route('admin.servicios.edit', $ser->id) }}" style="color: #6b5c4e; font-size: 12px; text-decoration: none; margin-right: 10px;">Editar</a>
+                                <form action="{{ route('admin.servicios.destroy', $ser->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" style="background: none; border: none; color: #c0392b; font-size: 12px; cursor: pointer; padding: 0;">Eliminar</button>
+                                </form>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="2" style="padding: 15px; text-align: center; color: #b5a496; font-style: italic;">No hay servicios cargados.</td>
+                            <td colspan="3" style="padding: 15px; text-align: center; color: #b5a496; font-style: italic;">No hay servicios cargados.</td>
                         </tr>
                     @endforelse
                 </tbody>

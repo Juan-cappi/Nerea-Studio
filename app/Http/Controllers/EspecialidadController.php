@@ -3,14 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Especialidad;
+use App\Models\Profesional;
 use Illuminate\Http\Request;
 
 class EspecialidadController extends Controller
 {
     public function index()
     {
-        $especialidades = Especialidad::paginate(10);
-        return view('admin.especialidades.index', compact('especialidades'));
+        $especialidades = Especialidad::orderBy('nombre')->paginate(10);
+        $todasEspecialidades = Especialidad::orderBy('nombre')->get();
+        $todosProfesionales = Profesional::orderBy('nombre')->get();
+        $profesionales = Profesional::with('especialidades')
+            ->orderBy('nombre')
+            ->paginate(5, ['*'], 'pag_prof')
+            ->withQueryString();
+
+        return view('admin.especialidades.index', compact('especialidades', 'todasEspecialidades', 'todosProfesionales', 'profesionales'));
     }
 
     public function create()
@@ -20,11 +28,11 @@ class EspecialidadController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255|unique:especialidades',
         ]);
 
-        Especialidad::create($request->all());
+        Especialidad::create($validated);
 
         return redirect()->route('admin.especialidades.index')->with('success', 'Especialidad creada exitosamente.');
     }
@@ -36,11 +44,11 @@ class EspecialidadController extends Controller
 
     public function update(Request $request, Especialidad $especialidad)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255|unique:especialidades,nombre,' . $especialidad->id,
         ]);
 
-        $especialidad->update($request->all());
+        $especialidad->update($validated);
 
         return redirect()->route('admin.especialidades.index')->with('success', 'Especialidad actualizada exitosamente.');
     }

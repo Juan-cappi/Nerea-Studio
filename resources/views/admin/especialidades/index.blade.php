@@ -114,6 +114,43 @@
             </form>
         </div>
 
+        {{-- TABLA DE ESPECIALIDADES --}}
+        <div class="card" style="background: #ffffff; border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem;">
+            <h4 style="margin-top: 0; color: #6b5c4e; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; border-bottom: 1px solid #f4eee8; padding-bottom: 10px;">
+                Especialidades existentes
+            </h4>
+
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 1rem;">
+                <thead>
+                    <tr style="text-align: left; color: #9c8470; font-size: 12px; border-bottom: 1px solid #e8e0d6;">
+                        <th style="padding: 10px 5px;">Nombre</th>
+                        <th style="padding: 10px 5px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($especialidades as $esp)
+                        <tr style="border-bottom: 1px solid #f4eee8; color: #5a4b41;">
+                            <td style="padding: 12px 5px; font-weight: 500;">{{ $esp->nombre }}</td>
+                            <td style="padding: 12px 5px;">
+                                <a href="{{ route('admin.especialidades.edit', $esp->id) }}" style="color: #6b5c4e; font-size: 12px; text-decoration: none; margin-right: 10px;">Editar</a>
+                                <form action="{{ route('admin.especialidades.destroy', $esp->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" style="background: none; border: none; color: #c0392b; font-size: 12px; cursor: pointer; padding: 0;">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2" style="padding: 15px; text-align: center; color: #b5a496; font-style: italic;">No hay especialidades cargadas.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+
+            {{ $especialidades->links('vendor.pagination.nerea') }}
+        </div>
+
         {{-- LISTADO PAGINADO --}}
         <div class="card" style="background: #ffffff; border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem;">
             <h4 style="margin-top: 0; color: #6b5c4e; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; border-bottom: 1px solid #f4eee8; padding-bottom: 10px;">

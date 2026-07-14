@@ -58,7 +58,7 @@
 
     <div class="action-buttons">
         <button class="btn-action" onclick="window.location.href='#agenda'">Ver Agenda Completa</button>
-        <button class="btn-action" onclick="window.location.href='#clientes'">Gestionar Clientes</button>
+        <button class="btn-action" onclick="window.location.href='{{ route('admin.clientes.index') }}'">Gestionar Clientes</button>
     </div>
 
     <section class="agenda-semanal" id="agenda">

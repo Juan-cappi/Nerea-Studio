@@ -31,7 +31,7 @@
 
     <header>
         <a href="{{ route('home') }}" class="logo">
-         <img src="{{ asset('img/logo.png')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">
+         <img src="{{ asset('img/Logo.jpg')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">
         </a>
         <nav>
             <a href="{{ route('home') }}">Inicio</a>
