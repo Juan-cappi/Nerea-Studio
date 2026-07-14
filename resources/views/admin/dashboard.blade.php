@@ -48,7 +48,7 @@
     <a href="{{ route('admin.dashboard') }}">📊 Panel General</a>
     <a href="{{ route('admin.servicios.index') }}" class="btn-sidebar-link">✂️ Gestionar Servicios</a>
     <a href="{{ route('admin.especialidades.index') }}" class="btn-sidebar-link">✨ Gestionar Especialidades</a>
-    <a href="{{ route('admin.clientes.index') }}" class="btn-sidebar-link">👥 Clientes</a>
+    <a href="#" class="disabled">👥 Clientes</a>
     <a href="/servicios" class="disabled">💰 Precios y Servicios</a>
     <form action="{{ route('logout') }}" method="POST">
     @csrf
@@ -90,7 +90,7 @@
                     <td>{{ $profesional->nombre }}</td>
                     <td>{{ $profesional->email }}</td>
                     <td>{{ $profesional->telefono ?? '-' }}</td>
-                    <td>{{ $profesional->Especialidad ?? 'Sin definir'}}</td>
+                    <td>{{ $profesional->especialidades->pluck('nombre')->implode(', ') ?: 'Sin definir' }}</td>
                     <td>    
                         
     <div style="display: flex; gap: 10px;">
