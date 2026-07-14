@@ -13,7 +13,8 @@ class ProfesionalRequest extends FormRequest
 
     public function rules()
     {
-        $id = $this->route('id') ?? $this->route('profesional');
+        $id = $this->route('profesional');
+        $id = $id instanceof \App\Models\Profesional ? $id->id : $id;
 
         return [
             'nombre' => 'required|string|max:255',

@@ -43,14 +43,14 @@
                 @if(auth()->user()->esAdmin())
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
                 @elseif(auth()->user()->esRecepcionista())
-                    <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Reception</a>
+                    <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
                 @else
                     <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>
                 @endif
 
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
                     @csrf
-                    <button type="submit" class="btn-logout">Cerrar Sesión</button>
+                    <button type="submit" class="btn-logout" style="background: none; border: none; color: var(--color-texto); text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-left: 20px; cursor: pointer; font-family: inherit;">Cerrar Sesión</button>
                 </form>
             @else
                 <a href="{{ route('login') }}">Ingresar</a>

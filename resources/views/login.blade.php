@@ -89,11 +89,9 @@
                     <p class="error-msg">{{ $message }}</p>
                 @enderror
 
-                <div class="input-group">
-                    <label class="flex items-center gap-2 text-sm text-gray-600">
-                        <input type="checkbox" name="remember" class="h-4 w-4 rounded border-gray-300 text-gold focus:ring-gold">
-                        Recordarme
-                    </label>
+                <div class="input-group" style="display: flex; align-items: center; gap: 10px; padding: 5px 0;">
+                    <input type="checkbox" name="remember" id="remember" style="width: 16px; height: 16px; accent-color: #c5a059; cursor: pointer; margin: 0;">
+                    <label for="remember" style="font-size: 13px; color: #5a4b41; cursor: pointer; font-family: 'Montserrat', sans-serif; margin: 0;">Recordarme</label>
                 </div>
 
                 <button type="submit" class="btn-submit">Ingresar</button>

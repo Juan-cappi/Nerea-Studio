@@ -23,8 +23,9 @@ class ProfesionalSeeder extends Seeder
 
         foreach ($datos as $d) {
             $profesional = Profesional::updateOrCreate(
-                ['email' => $d['email']],
+                
                 [
+                    'email' => $d['email'],
                     'nombre'       => $d['nombre'],
                     'telefono'     => $d['telefono'],
                     'Especialidad' => $d['Especialidad'],

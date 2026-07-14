@@ -96,7 +96,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         return view('admin.dashboard', compact('totalRecepcionistas', 'totalProfesionales', 'profesionales', 'recepcionistas'));
     })->name('admin.dashboard');
 
-    Route::resource('profesionales', ProfesionalController::class);
+    Route::resource('profesionales', ProfesionalController::class)->parameters(['profesionales' => 'profesional']);
     Route::resource('recepcionistas', RecepcionistaController::class);
 
     Route::get('/admin/clientes', [ClienteController::class, 'index'])->name('admin.clientes.index');

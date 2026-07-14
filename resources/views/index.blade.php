@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/index.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/index.css', 'resources/js/app.js'])
 </head>
 <body>
 
@@ -33,7 +33,7 @@
 
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
                     @csrf
-                    <button type="submit" class="btn-logout">Cerrar Sesión</button>
+                    <button type="submit" class="btn-logout" style="background: none; border: none; color: var(--color-texto); text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-left: 20px; cursor: pointer; font-family: inherit;">Cerrar Sesión</button>
                 </form>
             @else
                 <a href="{{ route('login') }}">Ingresar</a>
