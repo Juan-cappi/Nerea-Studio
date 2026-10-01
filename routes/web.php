@@ -12,7 +12,12 @@ use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\ClienteController;
+use Illuminate\Support\Facades\Artisan;
 
+Route::get('/migrar-produccion', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return '¡Migraciones ejecutadas con éxito!';
+});
 
 Route::get('/', function () {
     return view('index');
