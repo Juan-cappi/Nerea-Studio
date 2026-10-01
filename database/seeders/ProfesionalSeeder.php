@@ -28,7 +28,6 @@ class ProfesionalSeeder extends Seeder
                     'email' => $d['email'],
                     'nombre'       => $d['nombre'],
                     'telefono'     => $d['telefono'],
-                    'Especialidad' => $d['Especialidad'],
                 ]
             );
 

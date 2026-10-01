@@ -16,7 +16,7 @@ return new class extends Migration
             $table->String('nombre');
             $table->String('email');
             $table->String('telefono');
-            $table->String('Especialidad');
+            $table->String('Especialidad')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profesionals');
+        Schema::dropIfExists('profesionales');
     }
 };

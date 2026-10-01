@@ -17,7 +17,7 @@ class RecepcionistaController extends Controller
    public function index()
 {
 
-    $turnos = \App\Models\Turno::with(['user', 'profesional', 'servicio'])
+    $turnos = \App\Models\Turno::with(['user', 'elProfesional', 'elServicio'])
                 ->orderBy('fecha', 'asc')
                 ->orderBy('hora', 'asc')
                     ->paginate(10)

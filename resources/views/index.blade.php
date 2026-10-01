@@ -49,7 +49,7 @@
                 <a href="{{ route('turnos') }}" class="btn-reserva">Reserva tu turno</a>
             </div>
             <div class="hero-image">
-                <img src="{{ asset('Login.jpg') }}" alt="Nerea Estudio" class="hero-img-src">
+                <img src="{{ asset('Login.jpeg') }}" alt="Nerea Estudio" class="hero-img-src">
             </div>
         </section>
 
@@ -85,16 +85,6 @@
         </section>
     </main>
 
-    <footer>
-        <div class="footer-col">
-            <h4 class="footer-brand">Nerea Studio</h4>
-            <p class="footer-text-muted">&copy; 2026 Nerea Studio</p>
-        </div>
-        <div class="footer-col footer-right">
-            <h4>Contacto</h4>
-            <p class="footer-info">Buenos Aires, Argentina</p>
-        </div>
-    </footer>
-
+<x-footer/>
 </body>
 </html>

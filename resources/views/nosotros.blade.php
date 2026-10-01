@@ -231,18 +231,7 @@
         </section>
 
     </main>
-    <footer>
-    <div class="footer-col">
-        <h4>Nerea Studio</h4>
-        <p>Belleza y experiencia personalizada.</p>
-        <p style="margin-top: 10px;">&copy; 2026 Nerea Studio</p>
-    </div>
-    <div class="footer-col">
-        <h4>Contacto</h4>
-        <p>Dirección del salón</p>
-        <p>+54 11 1234 5678</p>
-        <p>nerea@email.com</p>
-    </div>
-</footer>
+    
+<x-footer/>
 </body>
 </html>

@@ -42,16 +42,21 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->name('regi
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::view('dashboard', 'dashboard')->middleware(['verified'])->name('dashboard');
 
-    Route::redirect('settings', 'settings/profile');
-    Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
-    Volt::route('settings/password', 'settings.password')->name('settings.password');
-    Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+Route::get('dashboard', function () {
+    if (auth()->user()->esAdmin()) return redirect()->route('admin.dashboard');
+    if (auth()->user()->esRecepcionista()) return redirect()->route('recepcionista.dashboard');
+    return redirect()->route('cliente.perfil');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-    // Perfil e historial del cliente
-    Route::get('/perfil', function() {
-        $hoy = now()->format('Y-m-d');
+Route::redirect('settings', 'settings/profile');
+Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
+Volt::route('settings/password', 'settings.password')->name('settings.password');
+Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+
+// Perfil e historial del cliente
+Route::get('/perfil', function() {
+    $hoy = now()->format('Y-m-d');
 
         $proximos = \App\Models\Turno::where('user_id', auth()->id())
             ->where('fecha', '>=', $hoy)

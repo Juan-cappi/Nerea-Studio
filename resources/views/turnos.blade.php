@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/home.css', 'resources/css/registro.css', 'resources/css/turnos.css'])
+    @vite(['resources/css/app.css', 'resources/css/turnos.css', 'resources/css/turnos.css'])
 
     <style>
         .card-reserva {
@@ -206,7 +206,7 @@
             </div>
         </div>
     </div>
-
+<x-footer/>
 </body>
 </html>
 

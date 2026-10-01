@@ -11,7 +11,8 @@
 
 <header>
         <a href="{{ url('/') }}" class="logo">
- <img src="{{ asset('img/Logo.jpg')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">        </a>
+            <img src="{{ asset('img/Logo.jpg')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">        
+        </a>
     <nav>
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
@@ -41,7 +42,7 @@
 
 <main>
     <div class="hero">
-        <img src="{{ asset('Login.jpg') }}" alt="Nerea Spa">
+        <img src="{{ asset('Login.jpeg') }}" alt="Nerea Spa">
     </div>
 
     <div class="form-panel">
@@ -125,6 +126,6 @@
         }
     }
 </script>
-
+<x-footer/>
 </body>
 </html>

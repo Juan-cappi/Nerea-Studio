@@ -236,33 +236,88 @@ nav a:hover, nav a.active, .btn-logout:hover {
     border-bottom: 1px solid var(--color-fondo);
 }
 
-/* Footer idéntico al tuyo */
-footer {
-    background-color: var(--color-primario);
-    color: var(--color-blanco);
-    padding: 40px 5%;
+/* =========================================
+   ✨ FOOTER PREMIUM CON CONTACTOS ✨
+   ========================================= */
+.footer-premium {
+    background-color: #1e1a17; 
+    color: #fbf9f6;
+    padding: 30px 8%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    font-size: 14px;
-    margin-top: 60px;
+    gap: 40px;
+    border-top: 1px solid #3a332d;
+    width: 100%;
+    box-sizing: border-box; /* Esto evita que el footer desborde la pantalla */
 }
 
-.footer-col {
-    margin-bottom: 20px;
-    min-width: 200px;
+.footer-brand {
+    max-width: 350px;
 }
 
-.footer-col h4 {
-    margin-bottom: 15px;
-    text-transform: uppercase;
+.footer-brand h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #c5a059; 
+    margin: 0 0 10px 0;
+    font-weight: 400;
     letter-spacing: 1px;
 }
 
-/* Responsivo */
+.footer-brand p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #a39b93;
+    margin: 0 0 5px 0;
+    line-height: 1.6;
+}
+
+.footer-contact h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #c5a059;
+    margin: 0 0 25px 0;
+    font-weight: 600;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #fbf9f6;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-link:hover {
+    color: #c5a059;
+    transform: translateX(8px); 
+}
+
+.contact-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
 @media (max-width: 768px) {
-    header { flex-direction: column; gap: 15px; }
-    nav a, .btn-logout { margin: 0 10px; }
-    .card-turno-cliente { flex-direction: column; align-items: flex-start; gap: 15px; }
-    .btn-cancelar-turno { width: 100%; text-align: center; }
+    .footer-premium {
+        flex-direction: column;
+        padding: 50px 5%;
+    }
 }

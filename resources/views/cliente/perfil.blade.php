@@ -131,17 +131,7 @@
         </div>
 
     </div>
-
-    <footer>
-        <div class="footer-col">
-            <h4>Nerea Spa</h4>
-            <p>Tu espacio de relax y estética.</p>
-        </div>
-        <div class="footer-col">
-            <h4>Horarios</h4>
-            <p>Martes a Sábado: 09:00 - 20:00</p>
-        </div>
-    </footer>
+<x-footer/>
 
 </body>
 </html>

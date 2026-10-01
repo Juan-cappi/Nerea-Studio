@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 
 class TurnoController extends Controller
 {
-    public function store(StoreTurnoRequest $request)
+public function store(StoreTurnoRequest $request)
     {
         $dataValidada = $request->validated();
 
@@ -46,6 +46,7 @@ class TurnoController extends Controller
             }
         }
 
+        // 1. Guardamos el turno en la base de datos
         Turno::create([
             'user_id'     => auth()->id(), 
             'fecha'       => $dataValidada['fecha'],
@@ -55,12 +56,24 @@ class TurnoController extends Controller
             'estado'      => 'confirmado', 
         ]);
 
+        // 2. Armamos el objeto con las propiedades exactas que espera el Blade del mail
+        $datosMail = (object) [
+            'nombre_completo' => $dataValidada['nombre_completo'],
+            'correo'          => $dataValidada['correo'],
+            'fecha'           => $dataValidada['fecha'],
+            'hora'            => $dataValidada['hora'],
+            'servicio'        => $servicio->nombre, // Enviamos el nombre legible ('Balayage', 'Corte') en vez del ID numérico
+        ];
+
+        // 3. Envío del mail con log de respaldo ante fallos de servidor
         try {
-            Mail::send('emails.turno-confirmado', ['turno' => $dataValidada], function($message) use ($dataValidada) {
+            Mail::send('emails.turno-confirmado', ['turno' => $datosMail], function($message) use ($dataValidada) {
                 $message->to($dataValidada['correo'], $dataValidada['nombre_completo'])
                         ->subject('✨ Tu turno en Nerea Studio está confirmado ✨');
             });
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            \Log::error('Error al enviar correo de confirmación: ' . $e->getMessage());
+        }
 
         return redirect()->route('cliente.perfil')->with('status', '¡Tu turno ha sido reservado con éxito!');
     }

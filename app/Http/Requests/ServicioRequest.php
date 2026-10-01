@@ -13,7 +13,8 @@ class ServicioRequest extends FormRequest
 
     public function rules()
     {
-        $servicioId = $this->route('id') ?? $this->route('servicio');
+        $servicio = $this->route('servicio');
+        $servicioId = $servicio instanceof \App\Models\Servicio ? $servicio->id : ($this->route('id') ?? $servicio);
 
         return [
             'nombre' => 'required|string|min:3|max:50|unique:servicios,nombre,' . $servicioId,
