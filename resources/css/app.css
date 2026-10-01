@@ -1,7 +1,7 @@
 :root {
     --color-fondo: #f4eee8;
     --color-texto: #2c2520;
-    --color-primario: #5a4b41;
+    --color-primario: #bd9346;
     --color-blanco: #ffffff;
     --cream:      #f5f0eb;
     --warm-white: #fdfaf7;
@@ -87,15 +87,16 @@ nav a:hover, nav a.active {
 }
 
 .hero-text h1 {
-    font-size: 48px;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 3px;
     margin-bottom: 10px;
     color: var(--color-primario);
 }
 
+
 .hero-text p {
-    font-size: 18px;
+    font-size: 10px;
     letter-spacing: 1px;
     margin-bottom: 30px;
 }

@@ -4,7 +4,7 @@
 
 :root {
     --color-fondo-login: #fbf9f6; /* El beige/crema claro de la primera foto */
-    --color-dorado-fino: #c5a059; /* El dorado de las letras y bordes */
+    --color-dorado-fino: #8C6243; /* El dorado de las letras y bordes */
     --texto-marron-suave: #4a433c; /* El tono oscuro sutil para los textos */
     --blanco-tarjeta: #ffffff;
 }
@@ -30,7 +30,7 @@ body {
 
 .hero-text h1 { 
     font-family: 'Playfair Display', serif !important;
-    font-size: 55px; 
+    font-size: 30px; 
     margin: 0; 
     font-weight: 400;
     color: var(--color-dorado-fino) !important; /* Título dorado como en el login */
@@ -39,16 +39,14 @@ body {
 .hero-text p { 
     font-size: 12px; 
     letter-spacing: 3px; 
-    color: var(--texto-marron-suave); 
     text-transform: uppercase;
-    opacity: 0.8;
     margin: 15px 0 30px 0; 
 }
 
 /* Botón de reserva elegante */
 .btn-reserva {
 display: inline-block !important; /* Forza a que ocupe solo su texto */
-    background-color: #c5a059 !important; /* El dorado fino que tenés en el inicio */
+    background-color: #8C6243 !important; /* El dorado fino que tenés en el inicio */
     color: #ffffff !important;
     padding: 14px 35px !important;
     text-decoration: none !important;
@@ -140,25 +138,14 @@ display: inline-block !important; /* Forza a que ocupe solo su texto */
     box-sizing: border-box; /* Esto evita que el footer desborde la pantalla */
 }
 
-.footer-brand {
-    max-width: 350px;
-}
-
-.footer-brand h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    color: #c5a059; 
-    margin: 0 0 10px 0;
-    font-weight: 400;
-    letter-spacing: 1px;
-}
-
-.footer-brand p {
+.footer-contact h1{
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    color: #a39b93;
-    margin: 0 0 5px 0;
-    line-height: 1.6;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #c5a059;
+    margin: 0 0 25px 0;
+    font-weight: 600;
 }
 
 .footer-contact h4 {

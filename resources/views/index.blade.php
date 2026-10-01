@@ -20,7 +20,7 @@
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('turnos') }}">Turnos</a>
-            <a href="{{ route('nosotros') }}">Nosotros</a>
+            <a href="{{ route('nosotros') }}">Salón</a>
 
             @auth
                 @if(auth()->user()->esAdmin())
@@ -44,12 +44,12 @@
     <main>
         <section class="hero">
             <div class="hero-text">
-                <h1>Nerea</h1>
-                <p>TU CABELLO, TU HISTORIA</p>
+                <h1>Nerea Colorista</h1>
+                <p>Peluquería Studio</p>
                 <a href="{{ route('turnos') }}" class="btn-reserva">Reserva tu turno</a>
             </div>
             <div class="hero-image">
-                <img src="{{ asset('Login.jpeg') }}" alt="Nerea Estudio" class="hero-img-src">
+                <img src="{{ asset('/img/Login.jpeg') }}" alt="Nerea Estudio" class="hero-img-src">
             </div>
         </section>
 

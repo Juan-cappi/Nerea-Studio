@@ -13,19 +13,17 @@
         <a href="{{ url('/') }}" class="logo">
             <img src="{{ asset('img/Logo.jpg')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">        
         </a>
-    <nav>
+        <nav>
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('turnos') }}">Turnos</a>
-            <a href="{{ route('nosotros') }}">Nosotros</a>
+            <a href="{{ route('nosotros') }}">Salón</a>
 
             @auth
                 @if(auth()->user()->esAdmin())
                     <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
-                    
-                @elseif(auth()->user()->roles->contains('name', 'recepcionista'))
+                @elseif(auth()->user()->esRecepcionista())
                     <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
-                    
                 @else
                     <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>
                 @endif
