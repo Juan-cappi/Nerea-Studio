@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip
 
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_mysql pdo_sqlite mbstring exif pcntl bcmath gd
 
 # Habilitar mod_rewrite de Apache para las rutas de Laravel
 RUN a2enmod rewrite
@@ -26,6 +26,9 @@ COPY . /var/www/html
 
 # Instalar las dependencias de Composer directamente en el servidor de Render
 RUN composer install --no-dev --optimize-autoloader
+
+# Crear la base de datos SQLite y configurar permisos
+RUN mkdir -p /var/www/html/database && touch /var/www/html/database/database.sqlite && chmod -R 777 /var/www/html/database
 
 # Configurar el DocumentRoot de Apache para que apunte a la carpeta public de Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
