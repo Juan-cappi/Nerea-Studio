@@ -40,7 +40,7 @@
 
 <main>
     <div class="hero">
-        <img src="{{ asset('Login.jpeg') }}" alt="Nerea Spa">
+        <img src="{{ asset('/img/Login.jpeg') }}" alt="Nerea Spa">
     </div>
 
     <div class="form-panel">

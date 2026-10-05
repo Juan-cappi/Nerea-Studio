@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nerea Studio - Reservar Turno</title>
+    <title>Nerea Studio - Contacto y Turnos</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/css/turnos.css', 'resources/css/turnos.css'])
+    @vite(['resources/css/app.css', 'resources/css/turnos.css'])
 
     <style>
         .card-reserva {
@@ -29,34 +29,7 @@
 </head>
 <body>
 
-    <header>
-        <a href="{{ route('home') }}" class="logo">
-         <img src="{{ asset('img/Logo.jpg')}}" alt="Logo Nerea" style="height: 100px; width: auto; object-fit: contain; mix-blend-mode: multiply;">
-        </a>
-        <nav>
-            <a href="{{ route('home') }}">Inicio</a>
-            <a href="{{ route('servicios') }}">Servicios</a>
-            <a href="{{ route('turnos') }}">Turnos</a>
-            <a href="{{ route('nosotros') }}">Salón</a>
-
-            @auth
-                @if(auth()->user()->esAdmin())
-                    <a href="/admin/dashboard" class="btn-perfil-shortcut">Panel Admin</a>
-                @elseif(auth()->user()->esRecepcionista())
-                    <a href="/recepcionista/dashboard" class="btn-perfil-shortcut">Panel Recepción</a>
-                @else
-                    <a href="{{ route('cliente.perfil') }}" class="btn-perfil-shortcut">Mi Perfil</a>
-                @endif
-
-                <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
-                    @csrf
-                    <button type="submit" class="btn-logout" style="background: none; border: none; color: var(--color-texto); text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-left: 20px; cursor: pointer; font-family: inherit;">Cerrar Sesión</button>
-                </form>
-            @else
-                <a href="{{ route('login') }}">Ingresar</a>
-            @endauth
-        </nav>
-    </header>
+<x-header />
 
     <main class="split-screen-container">
         <div class="lado-imagen-salon">
@@ -64,8 +37,8 @@
         </div>
 
         <div class="lado-formulario-turno">
-            <div class="card-reserva">
-                <h2>Reserva tu Turno</h2>
+            <div class="card-reserva" style="padding: 30px;">
+                <h2>Solicitar Turno</h2>
 
                 <form action="{{ route('turnos.store') }}" method="POST">
                     @csrf
@@ -78,116 +51,60 @@
                         </div>
                     @endif
 
+                    @if(session('success'))
+                        <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; font-weight: 500;">
+                            ✨ {{ session('success') }}
+                        </div>
+                    @endif
+
                     <div class="input-group">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #2a2521;">NOMBRE COMPLETO</label>
-                        <input type="text" name="nombre_completo" class="campo-input-unico" placeholder="Tu Nombre Completo" 
-                            value="{{ auth()->check() ? auth()->user()->name : old('nombre_completo') }}" 
-                            {{ auth()->check() ? 'readonly' : '' }} required style="border-radius: 4px;">
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #2a2521;">NOMBRE</label>
+                        <input type="text" name="nombre" class="campo-input-unico" placeholder="Tu Nombre" 
+                            value="{{ auth()->check() ? auth()->user()->name : old('nombre') }}" required style="border-radius: 4px;">
+                    </div>
+
+                    <div class="input-group" style="margin-top: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #2a2521;">APELLIDO</label>
+                        <input type="text" name="apellido" class="campo-input-unico" placeholder="Tu Apellido" 
+                            value="{{ old('apellido') }}" required style="border-radius: 4px;">
                     </div>
 
                     <div class="input-group" style="margin-top: 15px;">
                         <label style="display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #2a2521;">CORREO ELECTRÓNICO</label>
                         <input type="email" name="correo" class="campo-input-unico" placeholder="Tu Correo" 
-                            value="{{ auth()->check() ? auth()->user()->email : old('correo') }}" 
-                            {{ auth()->check() ? 'readonly' : '' }} required style="border-radius: 4px;">
+                            value="{{ auth()->check() ? auth()->user()->email : old('correo') }}" required style="border-radius: 4px;">
                     </div>
 
                     <div class="input-group" style="margin-top: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #2a2521;">TELÉFONO</label>
+                        <input type="text" name="telefono" class="campo-input-unico" placeholder="Tu Teléfono o Celular" 
+                            value="{{ old('telefono') }}" required style="border-radius: 4px;">
+                    </div>
+
+                    <div class="input-group" style="margin-top: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px; font-weight: 600; color: #2a2521;">SERVICIO DE INTERÉS</label>
                         <select name="servicio_id" id="servicio_select" class="campo-input-unico" required style="border-radius: 4px;">
                             <option value="" disabled selected>Seleccione un servicio</option>
                             @foreach($servicios as $ser)
-                                <!-- 🔒 CORRECCIÓN: Usamos la relación 'especialidad' en español tal como está en el modelo -->
-                                <option value="{{ $ser->id }}" data-especialidad="{{ $ser->especialidad->nombre ?? '' }}">
+                                <option value="{{ $ser->id }}">
                                     {{ $ser->nombre }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="input-group" style="margin-top: 15px;">
-                        <select name="profesional_id" id="profesional_select" class="campo-input-unico" required disabled style="border-radius: 4px;">
-                            <option value="" disabled selected>Primero seleccioná un servicio...</option>
-                            @foreach($profesionales as $pro)
-                                @php
-                                    $especialidadesDelPro = $pro->especialidades->pluck('nombre')->toArray();
-                                    $stringEspecialidades = implode(',', $especialidadesDelPro);
-                                @endphp
-                                <option value="{{ $pro->id }}" data-especialidades="{{ strtolower($stringEspecialidades) }}" style="display: none;">
-                                    {{ $pro->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    @php
-                        $mesSeleccionado = request('mes', \Carbon\Carbon::now()->month);
-                        $anioSeleccionado = request('anio', \Carbon\Carbon::now()->year);
-                        $fechaObjeto = \Carbon\Carbon::create($anioSeleccionado, $mesSeleccionado, 1);
-                    @endphp
-
-                    <div class="header-calendario-interactivo" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; margin-bottom: 15px;">
-                        <p class="titulo-seccion-turno" style="margin: 0;">Selecciona un día de {{ ucfirst($fechaObjeto->translatedFormat('F Y')) }}</p>
-                        
-                        <select id="selector_mes_turno" class="campo-input-unico" style="width: auto; padding: 5px 10px; margin: 0; border-radius: 4px;" onchange="cambiarMesCalendario()">
-                            @for ($m = 0; $m < 6; $m++)
-                                @php
-                                    $mesOpcion = \Carbon\Carbon::now()->addMonths($m);
-                                @endphp
-                                <option value="{{ $mesOpcion->month }}" data-anio="{{ $mesOpcion->year }}" {{ $mesSeleccionado == $mesOpcion->month ? 'selected' : '' }}>
-                                    {{ ucfirst($mesOpcion->translatedFormat('F Y')) }}
-                                </option>
-                            @endfor
-                        </select>
-                    </div>
-
-                    <div class="dias-horizontales">
-                        @php
-                            $hoy = \Carbon\Carbon::now();
-                            $diaInicio = ($mesSeleccionado == $hoy->month && $anioSeleccionado == $hoy->year) ? $hoy->day : 1;
-                            $ultimoDiaMes = $fechaObjeto->endOfMonth()->day;
-                        @endphp
-
-                       @for ($dia = $diaInicio; $dia <= $ultimoDiaMes; $dia++)
-                        @php
-                            $fechaBucle = \Carbon\Carbon::create($anioSeleccionado, $mesSeleccionado, $dia);
-                            $nombreDia = $fechaBucle->translatedFormat('D');
-                            $esDiaInvalido = ($fechaBucle->dayOfWeek === 0 || $fechaBucle->dayOfWeek === 1);
-                        @endphp
-                        @continue($esDiaInvalido)
-                        <label>
-                            <input type="radio" name="fecha" value="{{ $fechaBucle->format('Y-m-d') }}" required 
-                                {{ request('fecha') == $fechaBucle->format('Y-m-d') ? 'checked' : '' }}>
-                            <span>{{ ucfirst($nombreDia) }}</span>{{ $dia }}
-                        </label>
-                    @endfor
-                    </div>
-
-                    <p class="titulo-seccion-turno" style="margin-top: 20px;">Selecciona la hora</p>
-                    <div class="horas-grilla-cuatro">
-                        @php
-                            $horaActual = \Carbon\Carbon::now('-03:00')->format('H:i');
-                        @endphp
-                        <label style="{{ $horaActual >= '09:00' ? 'display: none;' : '' }}"><input type="radio" name="hora" value="09:00" required {{ $horaActual >= '09:00' ? 'disabled' : '' }}>09:00</label>
-                        <label style="{{ $horaActual >= '10:00' ? 'display: none;' : '' }}"><input type="radio" name="hora" value="10:00" {{ $horaActual >= '10:00' ? 'disabled' : '' }}>10:00</label>
-                        <label style="{{ $horaActual >= '11:00' ? 'display: none;' : '' }}"><input type="radio" name="hora" value="11:00" {{ $horaActual >= '11:00' ? 'disabled' : '' }}>11:00</label>
-                        <label style="{{ $horaActual >= '12:00' ? 'display: none;' : '' }}"><input type="radio" name="hora" value="12:00" {{ $horaActual >= '12:00' ? 'disabled' : '' }}>12:00</label>
-                        <label style="{{ $horaActual >= '16:00' ? 'display: none;' : '' }}"><input type="radio" name="hora" value="16:00" required {{ $horaActual >= '16:00' ? 'disabled' : '' }}>16:00</label>
-                        <label style="{{ $horaActual >= '17:00' ? 'display: none;' : '' }}"><input type="radio" name="hora" value="17:00" {{ $horaActual >= '17:00' ? 'disabled' : '' }}>17:00</label>
-                        <label style="{{ $horaActual >= '18:00' ? 'display: none;' : '' }}"><input type="radio" name="hora" value="18:00" {{ $horaActual >= '18:00' ? 'disabled' : '' }}>18:00</label>
-                        <label style="{{ $horaActual >= '19:00' ? 'display: none;' : '' }}"><input type="radio" name="hora" value="19:00" {{ $horaActual >= '19:00' ? 'disabled' : '' }}>19:00</label>
-                    </div>
-
                     <div class="aviso-pago-seguro" style="background-color: #fcf8f2; border-left: 4px solid #c5a059; padding: 15px; border-radius: 6px; margin: 20px 0; text-align: left;">
                         <p style="margin: 0 0 5px 0; font-weight: 600; color: #2a2521; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                            ✨ Reserva Directa en Línea
+                            ✨ Solicitud Directa
                         </p>
                         <p style="margin: 0; color: #6a6156; font-size: 13px; line-height: 1.4;">
-                            Estás registrando tu turno de forma directa. El pago total del servicio se realizará en el local el día de tu cita. ¡Te esperamos!
+                            Envianos tus datos y el servicio que te interesa. Nos pondremos en contacto a la brevedad para coordinar tu día y horario.
                         </p>
                     </div>
-                        <button type="button" class="btn-confirmar" onclick="abrirConfirmacion()">
-                        Confirmar Turno
-                        </button>
+
+                    <button type="button" class="btn-confirmar" onclick="abrirConfirmacion()" style="width: 100%; margin-top: 10px;">
+                        Enviar Solicitud
+                    </button>
                 </form>
             </div>
         </div>
@@ -195,14 +112,14 @@
 
     <div id="modal_confirmacion_turno" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 99999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
         <div style="background: white; padding: 30px; border-radius: 8px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-            <div style="font-size: 40px; margin-bottom: 15px;">🔒</div>
-            <h3 style="margin: 0 0 10px 0; color: #2a2521; font-size: 22px; font-weight: 600;">¿Confirmar tu Reserva?</h3>
+            <div style="font-size: 40px; margin-bottom: 15px;">📩</div>
+            <h3 style="margin: 0 0 10px 0; color: #2a2521; font-size: 22px; font-weight: 600;">¿Enviar Solicitud?</h3>
             <p style="color: #666; font-size: 14px; margin-bottom: 25px; line-height: 1.5; text-align: left;">
-                Estás por agendar tu turno en <strong>Nerea Studio</strong>. Al confirmar, tu cita quedará registrada de inmediato en nuestro sistema de atención.
+                Estás por enviar tus datos de contacto a <strong>Nerea Studio</strong> para coordinar tu turno. Nos comunicaremos con vos a la brevedad.
             </p>
             <div style="display: flex; gap: 12px; justify-content: center;">
-                <button type="button" onclick="cerrarConfirmacion()" style="background: #f0f0f0; color: #444; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px; flex: 1;">Modificar</button>
-                <button type="button" onclick="enviarFormularioTurno()" style="background: #2a2521; color: white; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px; flex: 1; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">Confirmar</button>
+                <button type="button" onclick="cerrarConfirmacion()" style="background: #f0f0f0; color: #444; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px; flex: 1;">Revisar</button>
+                <button type="button" onclick="enviarFormularioTurno()" style="background: #2a2521; color: white; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px; flex: 1; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">Enviar</button>
             </div>
         </div>
     </div>
@@ -211,13 +128,6 @@
 </html>
 
 <script>
-    function cambiarMesCalendario() {
-        const selector = document.getElementById('selector_mes_turno');
-        const mes = selector.value;
-        const anio = selector.options[selector.selectedIndex].getAttribute('data-anio');
-        window.location.href = `?mes=${mes}&anio=${anio}`;
-    }
-
     function abrirConfirmacion() {
         const form = document.querySelector('.card-reserva form');
         if (!form.checkValidity()) {
@@ -232,110 +142,54 @@
     }
 
     function enviarFormularioTurno() {
-        const form = document.querySelector('.card-reserva form');
-        if (form) {
-            form.submit();
-        }
-    }
-
-    function actualizarHorarios() {
-        const radioFecha = document.querySelector('input[name="fecha"]:checked');
-        const fechaSeleccionada = radioFecha?.value;
-        if (!fechaSeleccionada) return;
-
+        // 1. Capturar los valores
+        const nombre = document.querySelector('input[name="nombre"]').value;
+        const apellido = document.querySelector('input[name="apellido"]').value;
+        const correo = document.querySelector('input[name="correo"]').value;
+        const telefono = document.querySelector('input[name="telefono"]').value;
+        
         const servicioSelect = document.getElementById('servicio_select');
-        const servicioId = servicioSelect ? servicioSelect.value : '';
+        const servicioTexto = servicioSelect.options[servicioSelect.selectedIndex].text;
 
-        const profesionalSelect = document.getElementById('profesional_select');
-        const profesionalId = profesionalSelect ? profesionalSelect.value : '';
+        // 2. Número de WhatsApp con formato correcto (Ejemplo para Argentina: 54 + 9 + área + número sin 0 ni 15)
+        const numeroWhatsApp = "5491166781890"; // <--- CAMBIÁ ESTO POR TU NÚMERO DE PRUEBA
 
-        if (!servicioId) {
-            const radiosHora = document.querySelectorAll('input[name="hora"]');
-            radiosHora.forEach(radio => {
-                radio.disabled = true;
-                const label = radio.closest('label');
-                if (label) label.style.display = 'none';
-            });
-            return;
-        }
+        // 3. Armar el mensaje
+        let mensaje = `¡Hola Nerea! 👋 Quiero solicitar un turno desde la web:%0A%0A`;
+        mensaje += `👤 *Nombre:* ${nombre} ${apellido}%0A`;
+        mensaje += `📧 *Correo:* ${correo}%0A`;
+        mensaje += `📱 *Teléfono:* ${telefono}%0A`;
+        mensaje += `✨ *Servicio de interés:* ${servicioTexto}%0A%0A`;
+        mensaje += `Quedo a la espera para coordinar el día y horario. ¡Gracias!`;
 
-        fetch(`/turnos/ocupados?fecha=${fechaSeleccionada}&servicio_id=${servicioId}&profesional_id=${profesionalId}`)
-            .then(res => res.json())
-            .then(horasOcupadas => {
-                const radiosHora = document.querySelectorAll('input[name="hora"]');
-                const ahora = new Date();
-                const fechaHoy = `${ahora.getFullYear()}-${String(ahora.getMonth() + 1).padStart(2, '0')}-${String(ahora.getDate()).padStart(2, '0')}`;
-                const horaActual = `${String(ahora.getHours()).padStart(2, '0')}:${String(ahora.getMinutes()).padStart(2, '0')}`;
+        const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensaje}`;
 
-                radiosHora.forEach(radio => {
-                    const horaValue = radio.value;
-                    const label = radio.closest('label');
-                    const estaOcupado = horasOcupadas.includes(horaValue);
-                    const yaPaso = (fechaSeleccionada === fechaHoy && horaValue <= horaActual);
+        // 4. Cerrar modal de confirmación
+        cerrarConfirmacion();
 
-                    if (estaOcupado || yaPaso) {
-                        radio.disabled = true;
-                        radio.checked = false;
-                        if (label) label.style.display = 'none';
-                    } else {
-                        radio.disabled = false;
-                        if (label) label.style.display = '';
-                    }
-                });
-            });
+        // 5. Mostrar un cartelito lindo de éxito en la pantalla antes de abrir WhatsApp
+        const cardReserva = document.querySelector('.card-reserva');
+        
+        // Creamos el div del mensaje de éxito
+        const alertaExito = document.createElement('div');
+        alertaExito.style.backgroundColor = '#d4edda';
+        alertaExito.style.color = '#155724';
+        alertaExito.style.padding = '15px';
+        alertaExito.style.borderRadius = '8px';
+        alertaExito.style.marginBottom = '20px';
+        alertaExito.style.fontSize = '14px';
+        alertaExito.style.fontWeight = '600';
+        alertaExito.style.textAlign = 'center';
+        alertaExito.style.boxShadow = '0 4px 10px rgba(0,0,0,0.05)';
+        alertaExito.innerHTML = '✨ ¡Solicitud generada con éxito! Abriendo WhatsApp...';
+
+        // Lo insertamos arriba del formulario
+        const formElement = cardReserva.querySelector('form');
+        cardReserva.insertBefore(alertaExito, formElement);
+
+        // 6. Abrir WhatsApp en otra pestaña tras un breve respiro para que el usuario alcance a leer
+        setTimeout(() => {
+            window.open(urlWhatsApp, '_blank');
+        }, 1000);
     }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const servicioSelect = document.getElementById('servicio_select');
-        const profesionalSelect = document.getElementById('profesional_select');
-        const profesionalOptions = profesionalSelect.querySelectorAll('option');
-
-        document.addEventListener('change', function (e) {
-            if (e.target && e.target.name === 'fecha') {
-                actualizarHorarios();
-            }
-        });
-
-        if (servicioSelect) {
-            servicioSelect.addEventListener('change', function () {
-                const selectedOption = this.options[this.selectedIndex];
-                const especialidadRequerida = selectedOption.getAttribute('data-especialidad')?.toLowerCase().trim();
-
-                profesionalSelect.disabled = false;
-                profesionalSelect.value = "";
-                profesionalSelect.options[0].textContent = "Seleccione un profesional...";
-
-                profesionalOptions.forEach(option => {
-                    if (option.value === "") return;
-                    const especialidadesDelPro = option.getAttribute('data-especialidades')?.toLowerCase().trim();
-
-                    if (especialidadesDelPro && (especialidadesDelPro.includes(especialidadRequerida) || (especialidadRequerida && especialidadRequerida.includes(especialidadesDelPro)))) {
-                        option.style.display = 'block';
-                        option.disabled = false;
-                    } else {
-                        option.style.display = 'none';
-                        option.disabled = true;
-                    }
-                });
-
-                actualizarHorarios();
-            });
-        }
-
-      if (profesionalSelect) {
-            profesionalSelect.addEventListener('change', function () {
-                actualizarHorarios();
-            });
-        }
-
-        const radiosFechaValidos = document.querySelectorAll('input[name="fecha"]:not([disabled])');
-        if (radiosFechaValidos.length > 0 && !document.querySelector('input[name="fecha"]:checked')) {
-            radiosFechaValidos[0].checked = true;
-        }
-
-    
-        setTimeout(actualizarHorarios, 100); 
-    });
-</script>
-    
 </script>
