@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Instalar dependencias del sistema y extensiones de PHP necesarias para Laravel y MySQL
+# Instalar dependencias del sistema y extensiones de PHP necesarias
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Habilitar mod_rewrite de Apache para las rutas limpias de Laravel
+# Habilitar mod_rewrite de Apache para las rutas de Laravel
 RUN a2enmod rewrite
 
 # Instalar Composer globalmente
@@ -21,15 +21,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Configurar el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copiar los archivos del proyecto al contenedor
+# Copiar todo el proyecto al contenedor
 COPY . /var/www/html
 
-# Cambiar la carpeta public al DocumentRoot de Apache
+# Instalar las dependencias de Composer directamente en el servidor de Render
+RUN composer install --no-dev --optimize-autoloader
+
+# Configurar el DocumentRoot de Apache para que apunte a la carpeta public de Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
-# Dar permisos correctos a las carpetas de almacenamiento y caché de Laravel
+# Dar permisos correctos a las carpetas de almacenamiento y caché
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Puerto por el que escucha Render
