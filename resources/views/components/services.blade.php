@@ -58,10 +58,22 @@
         box-sizing: border-box !important;
     }
 
+    .servicios h2 {
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase !important;
+        font-size: 30px !important;
+        color: #8C6243 !important; 
+        margin-bottom: 12px !important;
+        font-weight: 400 !important;
+        text-align: center !important;
+        margin: 40px !important;
+    }
+
     .service-body h3 {
-        font-family: 'Playfair Display', serif !important; 
-        font-size: 24px !important;
-        color: #c5a059 !important; 
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase !important; 
+        font-size: 18px !important;
+        color: #8C6243 !important; 
         margin-bottom: 12px !important;
         font-weight: 400 !important;
     }
@@ -90,7 +102,7 @@
     }
 
     .service-link:hover {
-        color: #c5a059 !important;
+        color: #2a2521 !important;
         border-color: #4a433c !important;
     }
 
@@ -147,20 +159,24 @@
     }
 
     .service-modal__left h3 {
-        font-family: 'Playfair Display', serif !important;
-        color: #c5a059 !important;
+        font-family: 'Montserrat', sans-serif !important;
+        text-transform: uppercase !important;
+        color: #8C6243 !important;
         font-size: 32px !important;
         margin-bottom: 20px !important;
         font-weight: 400 !important;
         margin-top: 0 !important;
+        width: fit-content !important;
+        border-bottom: 1px solid #8C6243 !important;
+        padding-bottom: 12px !important;
     }
 
     .service-modal__left h3::after {
         content: '';
-        display: block;
+        display: none !important; /* Ocultamos la línea inferior ya que ahora usamos border-bottom */
         width: 50px;
         height: 1px;
-        background-color: #c5a059;
+        background-color: #8C6243;
         margin: 20px 0 0 0;
     }
 
@@ -235,96 +251,89 @@
 </style>
 
 <section class="servicios">
-    <h2>Nuestros Servicios</h2>
+    <h2>Servicios Pensados para vos</h2>
     <div class="services-grid">
-        @php
-            $items = [
-                [
-                    'title' => 'Corte', 
-                    'text' => 'Diseñado a medida, respetando tu estilo y la forma de tu rostro.', 
-                    'info' => 'Incluye diagnóstico de rostro y tipo de cabello, corte preciso y asesoramiento para mantenerlo perfecto en casa.', 
-                    'img' => 'img/servicios/corte.jpeg',
-                    'img_modal' => 'img/servicios/corte.jpeg' /* 🌟 Acá podés poner la foto original sin recortar si tenés una */
-                ],
-                [
-                    'title' => 'Balayage', 
-                    'text' => 'Sutil, elegante, y de bajo mantenimiento.', 
-                    'info' => 'Técnica de coloración artesanal que aporta luz natural, volumen y un efecto suavemente degradado.', 
-                    'img' => 'img/servicios/balayage.jpeg',
-                    'img_modal' => 'img/servicios/balayage.jpeg'
-                ],
-                [
-                    'title' => 'Alisado', 
-                    'text' => 'Consigue un cabello liso y sedoso con nuestros tratamientos.', 
-                    'info' => 'Ideal para controlar el frizz y lograr un acabado brillante, con productos pensados para cuidar la fibra.', 
-                    'img' => 'img/servicios/alisado.jpeg',
-                    'img_modal' => 'img/servicios/alisado.jpeg'
-                ],
-                [
-                    'title' => 'Nutrición / Tratamiento', 
-                    'text' => 'Consigue un cabello sano y brillante con nuestros tratamientos.', 
-                    'info' => 'Tratamiento profundo de hidratación y reparación intensa para restaurar la elasticidad y el brillo natural.', 
-                    'img' => 'img/servicios/tratamiento.jpeg',
-                    'img_modal' => 'img/servicios/tratamiento.jpeg'
-                ],
-                [
-                    'title' => 'Lavado', 
-                    'text' => 'Un ritual pensado para relajar y cuidar tu experiencia en el salón.', 
-                    'info' => 'Incluye masaje capilar neurosedante, elección del shampoo ideal según tu cuero cabelludo y secado.', 
-                    'img' => 'img/servicios/lavado.jpeg',
-                    'img_modal' => 'img/servicios/lavado.jpeg'
-                ],
-                [
-                    'title' => 'Peinado', 
-                    'text' => 'Peinados personalizados para cada ocasión.', 
-                    'info' => 'Perfecto para eventos, fiestas o días especiales, con opciones de recogidos u ondas que se adaptan a tu outfit.', 
-                    'img' => 'img/servicios/peinado.jpeg',
-                    'img_modal' => 'img/servicios/peinado.jpeg'
-                ],
-                [
-                    'title' => 'Barrido', 
-                    'text' => 'Decoloración suave para limpiar tonos viejos o aclarar tu base.', 
-                    'info' => 'Elimina pigmentos acumulados de tinturas anteriores para preparar el cabello hacia un nuevo color reflejo.', 
-                    'img' => 'img/servicios/barrido.jpeg',
-                    'img_modal' => 'img/servicios/barrido.jpeg'
-                ],
-                [
-                    'title' => 'Color Completo', 
-                    'text' => 'Renovación total de tu color de raíz a puntas.', 
-                    'info' => 'Aplicación global de tinturas premium con alta protección para lograr un color uniforme, vibrante y duradero.', 
-                    'img' => 'img/servicios/color completo.jpeg',
-                    'img_modal' => 'img/servicios/color completo.jpeg'
-                ],
-                [
-                    'title' => 'Coloración de Raíces', 
-                    'text' => 'Mantenimiento preciso para cubrir canas o crecimiento.', 
-                    'info' => 'Retoque localizado en el crecimiento de la raíz para emparejar tu color global y asegurar una cobertura del 100%.', 
-                    'img' => 'img/servicios/coloracion de rices.jpeg',
-                    'img_modal' => 'img/servicios/coloracion de rices.jpeg'
-                ],
-                [
-                    'title' => 'Mechas Balayage', 
-                    'text' => 'Contraste y definición de luz para tu melena.', 
-                    'info' => 'Combinación avanzada de iluminación localizada que genera un contraste armónico y tridimensional.', 
-                    'img' => 'img/servicios/mechas balayage.jpeg',
-                    'img_modal' => 'img/servicios/mechas balayage completa.jpeg'
-                ],
-                [
-                    'title' => 'Mechas Tradicionales', 
-                    'text' => 'Reflejos definidos desde la raíz para un rubio impactante.', 
-                    'info' => 'Técnica clásica con papel aluminio para conseguir una distribución uniforme de reflejos claros y luminososos.', 
-                    'img' => 'img/servicios/mechas.jpeg',
-                    'img_modal' => 'img/servicios/mechas.jpeg'
-                ],
-                [
-                    'title' => 'Corte de Flequillo', 
-                    'text' => 'Un cambio rápido para enmarcar tu mirada.', 
-                    'info' => 'Diseño y texturización de flequillo (recto, cortina o desmechado) para renovar tu look sin tocar el largo general.', 
-                    'img' => 'img/servicios/flequillo.jpeg',
-                    'img_modal' => 'img/servicios/flequillo.jpeg'
-                ],
-            ];
-        @endphp
+       @php
+    $items = [
+        [
+            'title' => 'Corte', 
+            'text' => 'Diseñado para vos, tu cabello y tu estilo.', 
+            'info' => 'Cada corte comienza con una breve consulta para conocer qué buscás, tus hábitos y cómo se comporta naturalmente tu cabello. El diseño se adapta a tus facciones, textura y movimiento, buscando un resultado que puedas mantener fácilmente en casa.<br><br>Incluye lavado, corte y terminación.<br><br>Tiempo aproximado: 45 min a 1 hs.', 
+            'img' => 'img/servicios/corte.jpeg',
+            'img_modal' => 'img/servicios/corte.jpeg'
+        ],
+        [
+            'title' => 'Corte de flequillo', 
+            'text' => 'Un pequeño cambio que transforma el look.', 
+            'info' => 'Diseño o mantenimiento del flequillo teniendo en cuenta tus facciones, nacimiento del cabello, textura y caída natural. Puede realizarse para crear un flequillo nuevo o simplemente devolverle forma al que ya tenés.<br><br>Tiempo aproximado: 15 a 20 min.', 
+            'img' => 'img/servicios/flequillo.jpeg',
+            'img_modal' => 'img/servicios/flequillo.jpeg'
+        ],
+        [
+            'title' => 'Balayage', 
+            'text' => 'Luz, dimensión y un degradado naturalmente integrado.', 
+            'info' => 'Técnica de iluminación personalizada que crea una transición progresiva entre tonos más profundos y zonas de mayor luminosidad, logrando un degradado suave y armonioso, sin cortes marcados de color.<br><br>Cada diseño se adapta a la base, el largo y el movimiento del cabello. Antes de comenzar realizo un diagnóstico para definir la técnica, distribución, tonalidad y nivel de aclaración más adecuados para el resultado que buscás.<br><br>Tiempo aproximado: 2 a 4 hs, según largo, cantidad y trabajo a realizar.', 
+            'img' => 'img/servicios/balayage.jpeg',
+            'img_modal' => 'img/servicios/balayage.jpeg'
+        ],
+        [
+            'title' => 'Mechas', 
+            'text' => 'Luminosidad y dimensión creadas a medida.', 
+            'info' => 'Servicio de iluminación diseñado de forma personalizada según tu base, corte y resultado deseado. La cantidad, distribución y grosor de las mechas se adaptan a cada cabello para conseguir desde efectos delicados y naturales hasta rubios con mayor presencia.<br><br>La tonalización se selecciona especialmente para armonizar el resultado final.<br><br>Tiempo aproximado: 2 a 3 hs.', 
+            'img' => 'img/servicios/mechas balayage.jpeg',
+            'img_modal' => 'img/servicios/mechas balayage completa.jpeg'
+        ],
+        [
+            'title' => 'Color completo', 
+            'text' => 'Color uniforme, brillo y una tonalidad pensada para vos.', 
+            'info' => 'Servicio de coloración desde raíces hasta largos y puntas. La fórmula se personaliza teniendo en cuenta tu base, historial de color, porcentaje de canas, estado del cabello y resultado deseado.<br><br>Incluye diagnóstico y selección personalizada de la tonalidad.<br><br>Tiempo aproximado: 1 a 2 hs.', 
+            'img' => 'img/servicios/color completo.jpeg',
+            'img_modal' => 'img/servicios/color completo.jpeg'
+        ],
+        [
+            'title' => 'Coloración de raíces', 
+            'text' => 'Mantenimiento de tu color, cuidando cada detalle.', 
+            'info' => 'Servicio pensado para mantener el crecimiento, cubrir canas o renovar el color de raíz sin intervenir innecesariamente sobre largos y puntas.<br><br>Según el diagnóstico, el objetivo y las características del cabello, puedo trabajar con coloración permanente, coloración sin amoníaco o tono sobre tono, seleccionando la alternativa y formulación más adecuada para cada caso.<br><br>Tiempo aproximado: 1 hs 30 min.', 
+            'img' => 'img/servicios/coloracion de rices.jpeg',
+            'img_modal' => 'img/servicios/coloracion de rices.jpeg'
+        ],
+        [
+            'title' => 'Limpieza de color', 
+            'text' => 'Corregir el color para volver a construirlo.', 
+            'info' => 'Técnica destinada a remover o disminuir pigmentos artificiales cuando necesitamos modificar un color previo. Se realiza únicamente después de evaluar el historial y el estado del cabello, priorizando siempre la integridad de la fibra.<br><br>El procedimiento y el resultado posible se determinan de manera personalizada en cada caso.<br><br>Tiempo aproximado: 2 a 3 hs.', 
+            'img' => 'img/servicios/barrido.jpeg',
+            'img_modal' => 'img/servicios/barrido.jpeg'
+        ],
+        [
+            'title' => 'Nutrición & Tratamientos', 
+            'text' => 'Un tratamiento elegido especialmente para tu cabello.', 
+            'info' => 'No todos los cabellos necesitan lo mismo. Por eso, antes de realizar el servicio evalúo personalmente el estado de la fibra para elegir el tratamiento más adecuado según sus necesidades: nutrición, hidratación, reparación, fortalecimiento o cuidado post coloración.<br><br>Trabajo con líneas profesionales como L’Oréal Professionnel, Olaplex y Moroccanoil.<br><br>Tiempo aproximado: 45 min a 1½ hs, según el tratamiento.', 
+            'img' => 'img/servicios/tratamiento.jpeg',
+            'img_modal' => 'img/servicios/tratamiento.jpeg'
+        ],
+        [
+            'title' => 'Alisado', 
+            'text' => 'Suavidad, brillo y un cabello más fácil de manejar.', 
+            'info' => 'Trabajo con productos sin formol, buscando reducir el frizz, controlar el volumen y conseguir un cabello más lacio y disciplinado.<br><br>El producto y el procedimiento se eligen según el diagnóstico previo, teniendo en cuenta la textura, el estado del cabello y los procesos químicos realizados anteriormente.<br><br>Tiempo aproximado: 2 a 3 hs.', 
+            'img' => 'img/servicios/alisado.jpeg',
+            'img_modal' => 'img/servicios/alisado.jpeg'
+        ],
+        [
+            'title' => 'Lavado', 
+            'text' => 'Un momento de cuidado para tu cabello.', 
+            'info' => 'Lavado realizado con productos profesionales seleccionados según las necesidades del cuero cabelludo y del cabello.<br><br>Incluye shampoo y acondicionador, complementando la rutina cuando corresponde con productos de terminación como leave-in, protector térmico o sellador de puntas, seleccionados según las características de cada cabello.<br><br>Tiempo aproximado: 20 a 30 min.', 
+            'img' => 'img/servicios/lavado.jpeg',
+            'img_modal' => 'img/servicios/lavado.jpeg'
+        ],
+        [
+            'title' => 'Peinado', 
+            'text' => 'El toque final para resaltar tu cabello.', 
+            'info' => 'Peinado personalizado según tu estilo y la ocasión: brushing, ondas, movimiento o terminaciones más pulidas.<br><br>Siempre utilizando productos profesionales y protección térmica para cuidar la fibra durante el proceso.<br><br>Tiempo aproximado: 45 min a 1 h, según largo y cantidad.', 
+            'img' => 'img/servicios/peinado.jpeg',
+            'img_modal' => 'img/servicios/peinado.jpeg'
+        ],
+    ];
+@endphp
 
        
         @foreach($items as $item)
@@ -338,7 +347,7 @@
                     <!-- 🌟 Ahora lee la ruta de 'img_modal' que puede ser distinta a 'img' -->
                     <button type="button" class="service-link" 
                         data-service-title="{{ $item['title'] }}" 
-                        data-service-info="{{ $item['info'] }}"
+                        data-service-info="{!! $item['info'] !!}"
                         data-service-img="{{ asset($item['img_modal']) }}">
                         Ver más
                     </button>
@@ -376,7 +385,7 @@
             button.addEventListener('click', function (event) {
                 event.preventDefault();
                 title.textContent = this.dataset.serviceTitle;
-                info.textContent = this.dataset.serviceInfo;
+                info.innerHTML = this.dataset.serviceInfo;
                 img.src = this.dataset.serviceImg; 
                 
                 modal.classList.add('is-open');

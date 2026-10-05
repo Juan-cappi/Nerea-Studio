@@ -115,7 +115,7 @@
             <div style="font-size: 40px; margin-bottom: 15px;">📩</div>
             <h3 style="margin: 0 0 10px 0; color: #2a2521; font-size: 22px; font-weight: 600;">¿Enviar Solicitud?</h3>
             <p style="color: #666; font-size: 14px; margin-bottom: 25px; line-height: 1.5; text-align: left;">
-                Estás por enviar tus datos de contacto a <strong>Nerea Studio</strong> para coordinar tu turno. Nos comunicaremos con vos a la brevedad.
+                Estás por enviar tus datos de contacto a <strong>Nerea Colorista - Peluqueria Studio</strong> para coordinar tu turno. Nos comunicaremos con vos a la brevedad.
             </p>
             <div style="display: flex; gap: 12px; justify-content: center;">
                 <button type="button" onclick="cerrarConfirmacion()" style="background: #f0f0f0; color: #444; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px; flex: 1;">Revisar</button>
