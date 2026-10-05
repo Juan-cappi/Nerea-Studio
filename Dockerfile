@@ -1,12 +1,13 @@
 FROM php:8.2-apache
 
-# Instalar dependencias del sistema y extensiones de PHP necesarias
+# Instalar dependencias del sistema y extensiones de PHP necesarias (incluyendo SQLite)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libsqlite3-dev \
     zip \
     unzip
 
